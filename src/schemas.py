@@ -269,6 +269,10 @@ class Provenance(StrictModel):
     created_at: str              # ISO 8601，由脚本写入
     task_mode: str
     notes: str | None
+    assignments: dict[str, str | int | None] | None = None   # 抽样器分配（模板/名字/性别），便于复现
+
+
+DesignTag = Literal["open_numeric", "open_other", "inherently_binary", "forced_binary_options"]
 
 
 class CandidateRecord(StrictModel):
@@ -293,6 +297,9 @@ class CandidateRecord(StrictModel):
     risk_flags: list[str]
     potential_ambiguities: list[str]
     variants: Variants | None    # 渲染失败（占位符错误等）时为 None
+    # 行动设计标签：forced_binary_options = 故事里同时出现了 Q2 的两个竞争答案（二选一）；
+    # open_numeric = Q2 答案是数值；open_other = 其他开放式答案。用于统计各类设计所占比例。
+    design_tag: DesignTag
     fact: FactSnapshot
     validation_status: Literal["needs_human_review", "auto_rejected"]
     # 自动检查永远不能把它设为 True；人工确认走后续里程碑里单独的、有记录的审查流程。

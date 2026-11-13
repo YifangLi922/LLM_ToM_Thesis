@@ -50,7 +50,18 @@ def test_config_contains_env_var_names_not_keys():
 
 
 # ------------------------------------------------------------------ 仓库里不能有密钥
-_SECRET = re.compile(r"sk-[A-Za-z0-9_\-]{20,}|sk-or-[A-Za-z0-9_\-]{10,}")
+# 一个独立的 token：前后都不是 key 字符，且长度在真实 key 的合理范围内（<= 220）。
+# 不限定边界/长度会把模型原始响应里的长 base64 加密推理数据误报成 key（曾发生过一次）。
+_SECRET = re.compile(r"(?<![A-Za-z0-9_\-])sk-(?:or-)?[A-Za-z0-9_\-]{20,220}(?![A-Za-z0-9_\-])")
+
+
+def test_secret_pattern_catches_real_looking_keys_but_not_long_blobs():
+    fake_keys = ["sk-" + "a1B2c3D4e5" * 5, "sk-proj-" + "Zy9x8W7v6U" * 12, "sk-or-v1-" + "0123456789abcdef" * 4]
+    for k in fake_keys:
+        assert _SECRET.search(f"OPENAI_API_KEY={k}"), k[:12]
+        assert _SECRET.search(f'"{k}"')
+    blob = "wADZSUziLQkv_4A5pflQbnuO9F29zvO3gOq3za7_" + "sk-" + "Ab1_" * 800      # 加密数据里偶然含 sk-
+    assert not _SECRET.search(blob)
 
 
 def _tracked_and_untracked_files():

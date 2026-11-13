@@ -2,46 +2,15 @@
 from __future__ import annotations
 
 import json
-from types import SimpleNamespace
 
 import pytest
-
-try:  # 新版 openai SDK 使用 httpx2，旧版使用 httpx
-    import httpx2 as httpx
-except ImportError:  # pragma: no cover
-    import httpx
 from openai import APIConnectionError, AuthenticationError, RateLimitError
 
+from fakes import REQ as _REQ, FakeClient, FakeResp, httpx
 from generation_prompts import ADDENDUM_GENERATE, fact_payload, generate_payload, propose_payload, prompt_version
 from llm_client import ERR_API, ERR_INCOMPLETE, ERR_JSON, ERR_REFUSAL, ERR_SCHEMA, call_structured
 from propose_bundles import select_bundle
 from schemas import GenerateFamilyOutput, Issue, ProposeBundlesOutput
-
-_REQ = httpx.Request("POST", "https://api.openai.com/v1/responses")
-
-
-class FakeResp:
-    def __init__(self, text, status="completed", reason=None):
-        self.status, self.output_text = status, text
-        self.incomplete_details = SimpleNamespace(reason=reason) if reason else None
-        self.usage = SimpleNamespace(model_dump=lambda mode=None: {"input_tokens": 10, "output_tokens": 5, "total_tokens": 15})
-
-    def model_dump(self, mode=None):
-        return {"status": self.status, "output_text": self.output_text}
-
-
-class FakeClient:
-    """按顺序依次返回/抛出预设的结果。"""
-    def __init__(self, *script):
-        self.script, self.calls = list(script), []
-        self.responses = SimpleNamespace(create=self._create)
-
-    def _create(self, **kw):
-        self.calls.append(kw)
-        item = self.script.pop(0)
-        if isinstance(item, Exception):
-            raise item
-        return item
 
 
 def _call(client, **kw):

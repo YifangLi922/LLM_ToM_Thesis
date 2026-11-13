@@ -6,7 +6,7 @@ from dataclasses import dataclass
 from generation_prompts import load_guideline, propose_payload
 from llm_client import CallResult, call_structured
 from schemas import Bundle, Issue, KnowledgeRecord, ProposeBundlesOutput
-from validate_candidates import check_bundle, check_propose_output, has_errors
+from validate_candidates import check_bundle, check_propose_output, has_errors, is_binary_design
 
 
 @dataclass
@@ -43,10 +43,12 @@ def run_propose(
 def select_bundle(out: ProposeBundlesOutput, per_bundle_issues: dict[str, list[Issue]]) -> tuple[Bundle | None, str]:
     """MVP 的挑选规则（确定性、可解释）：排除有 error 的 bundle，其余取 warning 最少者，并列取先提出的。
     返回 (bundle, 挑选理由)。这只是自动初筛，最终仍需研究者人工判断。"""
-    viable = [(sum(i.severity == "warning" for i in per_bundle_issues[b.bundle_id]), idx, b)
+    viable = [(is_binary_design(b), sum(i.severity == "warning" for i in per_bundle_issues[b.bundle_id]), idx, b)
               for idx, b in enumerate(out.bundles) if not has_errors(per_bundle_issues[b.bundle_id])]
     if not viable:
         return None, "所有 bundle 都未通过硬检查，没有可选项"
-    n_warn, _, best = min(viable, key=lambda t: (t[0], t[1]))
-    return best, (f"自动选择 {best.bundle_id}：在 {len(viable)}/{len(out.bundles)} 个通过硬检查的 bundle 中 "
-                  f"warning 最少（{n_warn} 个），并列时取先提出者。")
+    binary, n_warn, _, best = min(viable, key=lambda t: (t[0], t[1], t[2]))
+    n_nonbinary = sum(1 for v in viable if not v[0])
+    why = ("优先选择非二选一设计" if not binary else "所有可选 bundle 都是二选一设计，只能从中选择")
+    return best, (f"自动选择 {best.bundle_id}：在 {len(viable)}/{len(out.bundles)} 个通过硬检查的 bundle 中，"
+                  f"{why}（非二选一 {n_nonbinary} 个），再取 warning 最少（{n_warn} 个），并列取先提出者。")

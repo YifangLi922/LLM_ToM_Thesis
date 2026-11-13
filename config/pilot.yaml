@@ -16,6 +16,21 @@ generator:
   max_output_tokens: 16000    # smoke test 的初始上限（推理型模型的思考也计入）；看实际用量后再调整
   temperature: null           # null = 模型默认
 
+# ---------------------------------------------------------------- 抽样器（模板轮换 / 人物名字 / 限制二选一）
+# 由代码分配而不是让造题模型自己挑（guideline §11）。分配是确定性的：同一个 seed 与 family 序号永远得到同一结果。
+sampling:
+  seed: 20261113
+  # guideline 里的 6 个模板；每 6 个 family 各用一次，顺序由 seed 决定。
+  templates: [T1, T2, T3, T4A, T4C, T5]
+  # 人物名字池：10 男 10 女，每 20 个 family 各用一次。故事里的主人公必须使用被分配的名字。
+  agent_names:
+    male: [James, Daniel, Thomas, William, Henry, Samuel, Benjamin, Oliver, Michael, Andrew]
+    female: [Emma, Sophie, Olivia, Hannah, Grace, Laura, Rachel, Chloe, Megan, Natalie]
+  # 若故事正文里同时出现了 Q2 的两个竞争答案（即把"二选一"的选项写进了故事），
+  # reject = 判为 error 并自动重新生成；warn = 只提示。
+  binary_option_policy: reject
+  max_regenerations: 2
+
 # ---------------------------------------------------------------- 被测模型（OpenRouter）
 eval_base_url: "https://openrouter.ai/api/v1"
 evaluated_models:

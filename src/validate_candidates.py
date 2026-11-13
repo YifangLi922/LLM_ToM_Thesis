@@ -21,6 +21,17 @@ def has_errors(issues: list[Issue]) -> bool:
 
 
 # --------------------------------------------------------------------------- Stage B：bundle
+_NO_CHANGE = {"no change", "none", "nothing", "no edit", "leave unchanged", "keep unchanged"}
+
+
+def is_binary_design(bundle: Bundle) -> bool:
+    """bundle 是否本质上是"在两个竞争答案里选一个"：模型自己标了 binary 风险，或其中一个答案是"不改"。"""
+    flags = " ".join(bundle.risk_flags).lower()
+    return ("binary" in flags
+            or normalize_answer(bundle.aligned_action_gold) in _NO_CHANGE
+            or normalize_answer(bundle.conflicting_action_gold) in _NO_CHANGE)
+
+
 def check_bundle(bundle: Bundle) -> list[Issue]:
     """guideline §6 里能用代码判断的部分。语义部分（因果相关、是否有隐藏前提等）留给后续审查。"""
     issues: list[Issue] = []
@@ -28,6 +39,8 @@ def check_bundle(bundle: Bundle) -> list[Issue]:
     if answers_equivalent(bundle.aligned_action_gold, bundle.conflicting_action_gold):
         issues.append(err("action_gold_identical",
                           f"{tag}: aligned 与 conflicting 的行动答案相同 ({bundle.aligned_action_gold!r})，信念不改变行动"))
+    if is_binary_design(bundle):
+        issues.append(warn("binary_choice_design", f"{tag}: 行动本质上是在两个竞争答案中二选一，选 bundle 时会被降权"))
     if bundle.reasoning_structure == "direct_copy":
         issues.append(warn("direct_copy", f"{tag}: reasoning_structure=direct_copy，容易变成照抄而非应用 (guideline §5)"))
     if bundle.reasoning_structure == "simple_calculation" and "arithmetic_control_recommended" not in bundle.risk_flags:
@@ -56,10 +69,39 @@ _Q3_BAD = re.compile(r"according to|\bthink|\bbelieve|\bexpect|\bthe guide\b|\bt
 _BELIEF_WORDS = re.compile(r"\bbelieve|\bthinks?\b|\bassum", re.IGNORECASE)
 
 
+_PRONOUNS = {"female": re.compile(r"\b(he|him|his|himself)\b", re.IGNORECASE),
+             "male": re.compile(r"\b(she|her|hers|herself)\b", re.IGNORECASE)}
+_EITHER_OR = re.compile(r"\beither\b[^.?!]*\bor\b", re.IGNORECASE)
+
+
+def _shared_text(backbone: str) -> str:
+    return backbone.replace(CLAIM_TOKEN, " ").replace(BELIEF_TOKEN, " ")
+
+
+def design_tag(out: GenerateFamilyOutput, bundle: Bundle | None = None) -> str:
+    """行动设计标签（用于统计各类设计的占比）：
+    forced_binary_options：故事里同时写出了 Q2 的两个竞争答案；
+    inherently_binary：故事没列选项，但 bundle 本身就是二选一（如 左/右、改/不改，模型自己标了 binary 风险）；
+    open_numeric：Q2 是数值；open_other：其他开放式答案。"""
+    g = out.proposed_gold
+    shared = _shared_text(out.story_backbone)
+    if contains_word(shared, g.aligned.q2) and contains_word(shared, g.conflicting.q2):
+        return "forced_binary_options"
+    if bundle is not None and is_binary_design(bundle):
+        return "inherently_binary"
+    if all(re.search(r"\d", normalize_answer(x)) for x in (g.aligned.q2, g.conflicting.q2)):
+        return "open_numeric"
+    return "open_other"
+
+
 def check_family_output(
-    out: GenerateFamilyOutput, fact: KnowledgeRecord, bundle: Bundle | None = None
+    out: GenerateFamilyOutput, fact: KnowledgeRecord, bundle: Bundle | None = None, *,
+    expected_template: str | None = None, expected_agent: str | None = None,
+    expected_gender: str | None = None, binary_policy: str = "reject",
 ) -> tuple[Variants | None, list[Issue]]:
-    """检查一个 generate_family 输出，并（若可能）渲染四版本。返回 (variants, issues)。"""
+    """检查一个 generate_family 输出，并（若可能）渲染四版本。返回 (variants, issues)。
+
+    expected_*：抽样器分配的模板 / 人物名字 / 性别；binary_policy：reject=把"故事里同时出现 Q2 两个竞争答案"判为 error。"""
     issues: list[Issue] = []
     if out.status != "candidate_generated":
         return None, [err("needs_revision", "生成模型返回 needs_revision: " + "; ".join(out.revision_reasons))]
@@ -81,6 +123,20 @@ def check_family_output(
             want = bundle.aligned_action_gold if label == "aligned" else bundle.conflicting_action_gold
             if not answers_equivalent(got, want):
                 issues.append(warn("q2_gold_differs_from_bundle", f"{label} 的 Q2 gold {got!r} 与 bundle 的 {want!r} 不同"))
+
+    # ---- 抽样器分配
+    if expected_template and out.template_id != expected_template:
+        issues.append(err("template_mismatch", f"template_id={out.template_id}，但抽样器分配的是 {expected_template}"))
+    if expected_agent:
+        if (out.agent or "").strip().lower() != expected_agent.strip().lower():
+            issues.append(err("agent_mismatch", f"agent={out.agent!r}，但抽样器分配的是 {expected_agent!r}"))
+        if not contains_word(out.story_backbone, expected_agent) and not contains_word(
+                out.belief_sentence_aligned or "", expected_agent):
+            issues.append(err("agent_not_in_story", f"故事里没有出现被分配的人物名字 {expected_agent!r}"))
+        pron = _PRONOUNS.get(expected_gender or "")
+        if pron and pron.search(_shared_text(out.story_backbone) + " " + (out.belief_sentence_aligned or "")):
+            issues.append(warn("pronoun_mismatch",
+                               f"{expected_agent} 被设定为 {expected_gender}，但故事里出现了相反性别的代词（也可能指其他角色，请人工确认）"))
 
     # ---- belief cues
     if len(set(out.belief_cue_ids)) != len(out.belief_cue_ids):
@@ -128,6 +184,15 @@ def check_family_output(
                       ("Q1 aligned", g.aligned.q1), ("Q1 conflicting", g.conflicting.q1)]:
         if contains_word(shared, ans):
             issues.append(warn("gold_in_backbone", f"{name} 的答案 {ans!r} 出现在 claim/belief 以外的公共文字里，可能泄漏答案"))
+
+    # ---- 限制二选一设计：故事里同时出现 Q2 两个竞争答案 = 把备选项写进了故事
+    if design_tag(out) == "forced_binary_options":
+        msg = (f"Q2 的两个竞争答案 {g.aligned.q2!r} 与 {g.conflicting.q2!r} 都出现在故事的公共文字里，"
+               "等于把二选一的选项写进了故事（guideline §9：不得给出备选项）")
+        issues.append(err("forced_binary_options_in_story", msg) if binary_policy == "reject"
+                      else warn("forced_binary_options_in_story", msg))
+    elif _EITHER_OR.search(shared):
+        issues.append(warn("either_or_in_story", "故事公共文字里有 'either … or …'，请确认没有变相列出备选答案"))
 
     # ---- 渲染与 minimal-pair 检查
     variants, pair_issues = render_and_check(

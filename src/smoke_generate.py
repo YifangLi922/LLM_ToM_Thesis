@@ -17,10 +17,12 @@ from pathlib import Path
 from candidates import make_family_id
 from common import REPO_ROOT
 from config import load_config
-from generate_families import run_generate, to_candidate
+from generate_families import generate_with_regeneration
 from generation_prompts import generate_payload, load_guideline, prompt_version, propose_payload
 from llm_client import make_client
 from propose_bundles import run_propose, select_bundle
+from sampling import AssignmentSampler
+from dataclasses import replace
 from schemas import CONDITIONS, CandidateRecord
 from validate_knowledge import load_knowledge
 
@@ -34,6 +36,7 @@ def render_review_md(rec: CandidateRecord, selection_reason: str) -> str:
     a(f"- **状态**：`{rec.validation_status}`（human_validated = {rec.human_validated}；仅为自动检查结果，需人工审查）")
     a(f"- 模板 `{rec.template_id}` | action `{rec.action_type}` | reasoning `{rec.reasoning_structure}` | belief cues {rec.belief_cue_ids}")
     a(f"- 人物 {rec.agent} | 场景 {rec.setting} | 来源类型 {rec.source_type}")
+    a(f"- 抽样器分配：{rec.provenance.assignments} | 行动设计标签：`{rec.design_tag}`")
     a(f"- bundle 选择：{selection_reason}")
     a(f"- 造题模型 `{rec.provenance.generator_model}` | prompt_version `{rec.provenance.prompt_version[:12]}…` | {rec.provenance.created_at}\n")
     a("## 锁定事实（来自 knowledge_pool.jsonl，未被改动）")
@@ -70,8 +73,9 @@ def _save(path: Path, obj) -> None:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--fact", required=True, help="如 K03")
-    ap.add_argument("--template", default=None, help="可选，指定 T1/T2/T3/T4A/T4C/T5")
+    ap.add_argument("--fact", default=None, help="如 K03")
+    ap.add_argument("--template", default=None, help="可选：覆盖抽样器分配的模板 T1/T2/T3/T4A/T4C/T5")
+    ap.add_argument("--show-assignments", type=int, default=0, metavar="N", help="只打印前 N 个 family 的抽样分配，不调用 API")
     ap.add_argument("--action-type", default=None)
     ap.add_argument("--reasoning-structure", default=None)
     ap.add_argument("--family-number", type=int, default=1)
@@ -84,6 +88,18 @@ def main() -> int:
 
     cfg = load_config()
     gen = cfg.generator
+    sampler = AssignmentSampler.from_config(cfg.sampling)
+    if args.show_assignments:
+        print("family  模板   人物（性别）")
+        for a in sampler.preview(args.show_assignments):
+            print(f"F{a.index + 1:03d}    {a.template_id:<5}  {a.agent_name} ({a.agent_gender})")
+        return 0
+    if not args.fact:
+        print("请用 --fact 指定事实（如 K03）")
+        return 1
+    asg = sampler.assignment_for(args.family_number - 1)
+    if args.template:
+        asg = replace(asg, template_id=args.template)
     facts = load_knowledge()
     fact = next((f for f in facts if f.fact_id == args.fact), None)
     if fact is None:
@@ -96,7 +112,7 @@ def main() -> int:
         print(f"[dry-run] 不会调用 API。造题模型 = {gen.model_id}，max_output_tokens = {max_tokens}，prompt_version = {pv[:12]}…")
         print(f"[dry-run] instructions = guideline 全文（{len(load_guideline())} 字符）")
         print("[dry-run] 第 1 次请求（propose_bundles）的 user 输入：")
-        print(json.dumps(propose_payload(fact, max_bundles=gen.n_bundles_per_fact, template_id=args.template,
+        print(json.dumps(propose_payload(fact, max_bundles=gen.n_bundles_per_fact, template_id=asg.template_id,
                                          action_type=args.action_type, reasoning_structure=args.reasoning_structure),
                          ensure_ascii=False, indent=2))
         return 0
@@ -105,12 +121,13 @@ def main() -> int:
     ts = datetime.now().strftime("%Y%m%d-%H%M%S")
     out = args.out_dir
     tag = f"{fact.fact_id}_{ts}"
-    print(f"造题模型 {gen.model_id} | 事实 {fact.fact_id} | 模板 {args.template or '(未指定)'}")
+    print(f"造题模型 {gen.model_id} | 事实 {fact.fact_id} | family F{args.family_number:03d} | "
+          f"模板 {asg.template_id} | 人物 {asg.agent_name} ({asg.agent_gender})")
 
     # ------------------------------------------------------------ Stage B
     print("\n[1/2] propose_bundles …")
     pr = run_propose(client, model=gen.model_id, fact=fact, max_bundles=gen.n_bundles_per_fact,
-                     max_output_tokens=max_tokens, max_retries=gen.max_retries, template_id=args.template,
+                     max_output_tokens=max_tokens, max_retries=gen.max_retries, template_id=asg.template_id,
                      action_type=args.action_type, reasoning_structure=args.reasoning_structure)
     _save(out / f"{tag}_1_propose.json", {**pr.call.log_dict(), "checks": [i.model_dump() for i in pr.issues]})
     print(f"      用时 {pr.call.elapsed_s:.1f}s | 用量 {pr.call.usage and {k: v for k, v in pr.call.usage.items() if k in ('input_tokens', 'output_tokens', 'total_tokens')}}")
@@ -136,20 +153,29 @@ def main() -> int:
         return 0
 
     # ------------------------------------------------------------ Stage C/D
-    template_id = args.template or bundle.suggested_template_ids[0]
-    print(f"\n[2/2] generate_family（bundle {bundle.bundle_id}，模板 {template_id}）…")
-    gr = run_generate(client, model=gen.model_id, fact=fact, bundle=bundle, template_id=template_id,
-                      max_output_tokens=max_tokens, max_retries=gen.max_retries)
-    rec = to_candidate(gr, family_id=make_family_id(args.family_number), fact=fact, bundle=bundle,
-                       generator_model=gen.model_id, notes=f"smoke test; bundle selection: {reason}")
-    _save(out / f"{tag}_2_family.json", {**gr.log_dict(), "checks": [i.model_dump() for i in rec.issues] if rec else []})
-    print(f"      用时 {gr.elapsed_s:.1f}s | 用量 {gr.usage and {k: v for k, v in gr.usage.items() if k in ('input_tokens', 'output_tokens', 'total_tokens')}}")
-    if not gr.ok:
-        print(f"      失败 [{gr.error_type}]：{gr.error_detail}\n      已保存日志到 {out}")
-        return 2
+    print(f"\n[2/2] generate_family（bundle {bundle.bundle_id}，模板 {asg.template_id}，人物 {asg.agent_name}；"
+          f"被检查拒绝时最多重新生成 {cfg.sampling.max_regenerations} 次）…")
+    attempts = generate_with_regeneration(
+        client, model=gen.model_id, fact=fact, bundle=bundle, assignment=asg,
+        family_id=make_family_id(args.family_number), max_output_tokens=max_tokens, max_retries=gen.max_retries,
+        max_regenerations=cfg.sampling.max_regenerations, binary_policy=cfg.sampling.binary_option_policy,
+        notes=f"smoke test; bundle selection: {reason}",
+    )
+    for at in attempts:
+        _save(out / f"{tag}_2_family_attempt{at.number}.json",
+              {**at.call.log_dict(), "feedback_given": at.feedback_given,
+               "checks": [i.model_dump() for i in at.record.issues] if at.record else []})
+        u = at.call.usage and {k: v for k, v in at.call.usage.items() if k in ("input_tokens", "output_tokens", "total_tokens")}
+        status = (f"{at.record.validation_status}，design_tag={at.record.design_tag}，"
+                  f"errors={[i.code for i in at.record.issues if i.severity == 'error']}") if at.record else (
+            f"失败 [{at.call.error_type}]：{at.call.error_detail}" if not at.call.ok else
+            f"needs_revision：{at.call.parsed.revision_reasons}")
+        print(f"      第 {at.number} 次：用时 {at.call.elapsed_s:.1f}s | 用量 {u} | {status}")
+    last = attempts[-1]
+    rec = last.record
     if rec is None:
-        print("      模型返回 needs_revision：", gr.parsed.revision_reasons)
-        return 3
+        print("      没有得到可用的候选；各次尝试的日志已保存到", out)
+        return 3 if last.call.ok else 2
 
     _save(out / f"{tag}_3_candidate.json", json.loads(rec.model_dump_json()))
     md_path = out / f"{tag}_4_review.md"

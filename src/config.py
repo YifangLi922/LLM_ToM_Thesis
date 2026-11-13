@@ -2,11 +2,13 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Literal
 
 import yaml
 from pydantic import BaseModel, ConfigDict, model_validator
 
 from common import CONFIG_PATH
+from sampling import ALL_TEMPLATES
 
 
 class _Cfg(BaseModel):
@@ -37,9 +39,37 @@ class EvalModelConfig(_Cfg):
     max_retries: int = 3
 
 
+class AgentNames(_Cfg):
+    male: list[str]
+    female: list[str]
+
+
+class SamplingConfig(_Cfg):
+    seed: int
+    templates: list[str]                       # 轮换使用的模板，必须是 guideline 里的 T1/T2/T3/T4A/T4C/T5 的子集
+    agent_names: AgentNames
+    binary_option_policy: Literal["reject", "warn"]   # 故事里同时出现 Q2 两个竞争答案时：判 error 并重生成 / 只提示
+    max_regenerations: int                     # generate_family 被自动检查拒绝后，最多重新生成几次
+
+    @model_validator(mode="after")
+    def _check(self) -> "SamplingConfig":
+        if not self.templates or len(set(self.templates)) != len(self.templates):
+            raise ValueError("templates 不能为空或重复")
+        bad = [t for t in self.templates if t not in ALL_TEMPLATES]
+        if bad:
+            raise ValueError(f"未知模板 {bad}；允许的模板为 {list(ALL_TEMPLATES)}")
+        names = self.agent_names.male + self.agent_names.female
+        if not names or len({n.strip().lower() for n in names}) != len(names):
+            raise ValueError("agent_names 不能为空，且男女名字合计不得重复")
+        if self.max_regenerations < 0:
+            raise ValueError("max_regenerations 不能为负")
+        return self
+
+
 class PilotConfig(_Cfg):
     answer_instruction: str
     generator: GeneratorConfig
+    sampling: SamplingConfig
     evaluated_models: list[EvalModelConfig]
     eval_base_url: str
 

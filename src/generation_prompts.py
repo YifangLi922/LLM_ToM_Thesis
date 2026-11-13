@@ -21,7 +21,13 @@ ADDENDUM_PROPOSE = (
     "Set failure_reason to null when status is candidates_proposed; when status is no_valid_bundle, "
     "bundles must be an empty list and failure_reason must be substantive. "
     "If assignments.template_id is non-null, suggested_template_ids in every bundle must be exactly that one ID. "
-    "If assignments.action_type or assignments.reasoning_structure is non-null, every bundle must use it."
+    "If assignments.action_type or assignments.reasoning_structure is non-null, every bundle must use it. "
+    "Following guideline section 9 (the action question must not give alternative choices), prefer bundles whose "
+    "target_output is open-ended -- a quantity, a name, a time, a position, or a specific edit -- and can be produced "
+    "without the story naming the competing answers. Do not propose a bundle whose whole design is a forced choice "
+    "between the two competing answers (for example increase vs decrease, surface vs bottom, change vs no change) "
+    "unless no better design exists without hidden assumptions; if you do propose one, include 'forced_binary_choice' "
+    "in its risk_flags."
 )
 ADDENDUM_GENERATE = (
     "task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, "
@@ -32,7 +38,15 @@ ADDENDUM_GENERATE = (
     "story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; "
     "{{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} "
     "(directly after that sentence's final punctuation). claim spans and belief sentences must not contain "
-    "curly braces. Both claim spans must fit the same grammatical slot in the backbone."
+    "curly braces. Both claim spans must fit the same grammatical slot in the backbone. "
+    "The protagonist must be the person named in assignments.agent_name: set `agent` to exactly that name, use the "
+    "name in the story, and use pronouns consistent with assignments.agent_gender ('female' = she/her, 'male' = he/him). "
+    "Following guideline section 9, the shared story text must not list, name or enumerate the competing answers to "
+    "the action question (for example 'either X or Y', or a key that spells out both outputs); describe the decision "
+    "generically (for example 'she must decide where to aim the camera') and let the answer follow from the "
+    "protagonist's belief plus the stated constraints. The story may give constraints and resources, but the two "
+    "action golds must not both appear in the text outside the claim spans and belief sentences. "
+    "If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
 )
 
 
@@ -64,12 +78,17 @@ def propose_payload(
     }
 
 
-def generate_payload(fact: KnowledgeRecord, bundle: Bundle, *, template_id: str) -> dict[str, Any]:
+def generate_payload(
+    fact: KnowledgeRecord, bundle: Bundle, *, template_id: str,
+    agent_name: str | None = None, agent_gender: str | None = None, revision_feedback: list[str] | None = None,
+) -> dict[str, Any]:
     return {
         "task_mode": "generate_family",
         "fact_record": fact_payload(fact),
         "selected_bundle": bundle.model_dump(),
         "assignments": {"template_id": template_id, "action_type": bundle.action_type,
-                        "reasoning_structure": bundle.reasoning_structure},
+                        "reasoning_structure": bundle.reasoning_structure,
+                        "agent_name": agent_name, "agent_gender": agent_gender},
+        "revision_feedback": list(revision_feedback or []),
         "output_contract_notes": ADDENDUM_COMMON + " " + ADDENDUM_GENERATE,
     }

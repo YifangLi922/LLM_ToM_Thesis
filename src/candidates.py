@@ -10,7 +10,8 @@ from datetime import datetime, timezone
 from schemas import (
     Bundle, CandidateRecord, FactSnapshot, GenerateFamilyOutput, KnowledgeRecord, Provenance, Questions,
 )
-from validate_candidates import check_family_output, has_errors
+from sampling import Assignment
+from validate_candidates import check_family_output, design_tag, has_errors
 
 SCHEMA_VERSION = "m1-0.1"
 
@@ -42,12 +43,20 @@ def build_candidate(
     prompt_version: str,
     created_at: str | None = None,
     notes: str | None = None,
+    assignment: Assignment | None = None,
+    binary_policy: str = "reject",
 ) -> CandidateRecord:
     """family_out.status 必须是 candidate_generated；needs_revision 没有可存的故事内容，
     应由调用方记入"尝试日志"（后续里程碑），而不是生成 CandidateRecord。"""
     if family_out.status != "candidate_generated":
         raise ValueError("needs_revision 的输出不能构建 CandidateRecord，请记录失败原因后重试/跳过")
-    variants, issues = check_family_output(family_out, fact, bundle)
+    variants, issues = check_family_output(
+        family_out, fact, bundle,
+        expected_template=assignment.template_id if assignment else None,
+        expected_agent=assignment.agent_name if assignment else None,
+        expected_gender=assignment.agent_gender if assignment else None,
+        binary_policy=binary_policy,
+    )
     return CandidateRecord(
         family_id=family_id,
         fact_id=fact.fact_id,
@@ -72,6 +81,7 @@ def build_candidate(
         risk_flags=list(family_out.risk_flags),
         potential_ambiguities=list(family_out.potential_ambiguities),
         variants=variants,
+        design_tag=design_tag(family_out, bundle),
         fact=snapshot_fact(fact),
         validation_status="auto_rejected" if has_errors(issues) or variants is None else "needs_human_review",
         human_validated=False,
@@ -83,5 +93,6 @@ def build_candidate(
             created_at=created_at or now_iso(),
             task_mode="generate_family",
             notes=notes,
+            assignments=assignment.as_dict() if assignment else None,
         ),
     )
