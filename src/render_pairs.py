@@ -38,14 +38,27 @@ def check_backbone(backbone: str) -> list[Issue]:
         ic, ib = backbone.index(CLAIM_TOKEN), backbone.index(BELIEF_TOKEN)
         if ib < ic:
             issues.append(err("placeholder_order", f"{BELIEF_TOKEN} 必须出现在 {CLAIM_TOKEN} 之后"))
-        else:
-            before = backbone[:ib].rstrip(" \t")
-            if not re.search(r"[.!?][\"')\]”’]*$", before):
-                issues.append(err(
-                    "belief_not_after_sentence",
-                    f"{BELIEF_TOKEN} 必须紧跟在来源信息那句话（含句末标点）之后",
-                ))
     return issues
+
+
+_END = r"[.!?][\"')\]”’]*"
+
+
+def insertion_point_problem(span: str, tail: str) -> str | None:
+    """belief 句必须紧跟在"含 claim span 的那句话"之后。
+
+    span：填入的 claim；tail：claim 之后到插入点之间的文字（可为空，也可能只是句号）。
+    claim span 可以自带句末标点（整句），也可以由骨架补句号，两种写法都合法；
+    但句子必须在插入点之前结束，且不能出现 ".." 这样的重复标点。返回问题描述，或 None。
+    """
+    seg = (span + tail).rstrip()
+    if not re.search(_END + "$", seg):
+        return "来源信息那句话在插入 belief 句之前没有以句末标点结束"
+    if not re.fullmatch(r"[^.!?]*(" + _END + ")?", tail):
+        return f"claim 与插入点之间还有其他句子或多余标点: {tail!r}"
+    if tail and re.search(_END + "$", span.rstrip()) and re.search(_END, tail):
+        return "claim span 已带句末标点，骨架里又补了一个，会出现重复标点"
+    return None
 
 
 def _has_errors(issues: list[Issue]) -> bool:
@@ -81,6 +94,12 @@ def render_variants(
     ]:
         if "{{" in text or "}}" in text:
             problems.append(err("placeholder_in_content", f"{name} 不能包含 {{{{ }}}} 标记"))
+    if not _has_errors(problems):
+        tail = backbone[backbone.index(CLAIM_TOKEN) + len(CLAIM_TOKEN): backbone.index(BELIEF_TOKEN)].rstrip(" \t")
+        for name, span in [("claim_span_aligned", claim_span_aligned), ("claim_span_conflicting", claim_span_conflicting)]:
+            msg = insertion_point_problem(span, tail)
+            if msg:
+                problems.append(err("belief_not_after_sentence", f"{name}: {msg}"))
     if _has_errors(problems):
         raise RenderError("; ".join(f"[{p.code}] {p.message}" for p in problems if p.severity == "error"))
     return Variants(
@@ -163,9 +182,10 @@ def check_minimal_pairs(
         text = getattr(v, cond)
         prefix = text[: text.index(" " + sent)]
         tail = prefix[prefix.rfind(span) + len(span):]
-        if not re.fullmatch(r"[^.!?]*[.!?][\"')\]”’]*", tail):
+        msg = insertion_point_problem(span, tail)
+        if msg:
             issues.append(err("belief_not_after_source_sentence",
-                              f"{cond}: belief sentence 没有紧跟在来源信息那句话之后（claim 与插入点之间是 {tail!r}）"))
+                              f"{cond}: belief sentence 没有紧跟在来源信息那句话之后（{msg}）"))
 
     # 6) 软提示
     for name, sent in [("aligned", ba), ("conflicting", bc)]:

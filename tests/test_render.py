@@ -75,13 +75,37 @@ def test_belief_sentence_may_restate_claim_without_breaking_checks():
     ("{{CLAIM_SPAN}}. {{CLAIM_SPAN}}.{{BELIEF_INSERTION}}", "placeholder_claim_count"),
     ("Ann reads that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Then {{BELIEF_INSERTION}}", "placeholder_belief_count"),
     ("Ann {{BELIEF_INSERTION}} reads that {{CLAIM_SPAN}}.", "placeholder_order"),
-    ("Ann reads that {{CLAIM_SPAN}} and goes on{{BELIEF_INSERTION}} Then.", "belief_not_after_sentence"),
     ("Ann reads that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} {{SECRET}} Then.", "placeholder_unknown"),
 ])
 def test_bad_backbones_rejected(bad, expected):
     assert expected in codes(check_backbone(bad))
     with pytest.raises(RenderError):
         _render(bad)
+
+
+# ----------------------------------------------------------------- 插入点：整句 claim / 补句号 / 错误位置
+FULL_BB = "Maya reads the penguin entry: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Later, a colleague asks for a badge."
+
+
+def test_full_sentence_claim_spans_are_valid():
+    """真实出现过的写法：claim span 自带句号，骨架里 {{CLAIM_SPAN}} 后直接跟 {{BELIEF_INSERTION}}。"""
+    ca, cc = "Penguins are birds.", "Penguins are fish."
+    ba, bc = "Maya believes that penguins are birds.", "Maya believes that penguins are fish."
+    v = render_variants(FULL_BB, ca, cc, ba, bc)
+    assert v.implicit_conflicting == "Maya reads the penguin entry: Penguins are fish. Later, a colleague asks for a badge."
+    assert v.explicit_conflicting == f"Maya reads the penguin entry: Penguins are fish. {bc} Later, a colleague asks for a badge."
+    assert not codes(check_minimal_pairs(v, ca, cc, ba, bc))
+
+
+@pytest.mark.parametrize("bb, ca, cc", [
+    (FULL_BB, "Penguins are birds", "Penguins are fish"),                       # 没有句末标点就插入 belief
+    ("It says that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Then.", "cats are small.", "cats are big."),   # 重复句号
+    ("It says that {{CLAIM_SPAN}}. Extra sentence here.{{BELIEF_INSERTION}} Then.", "cats are small", "cats are big"),  # 夹了另一句话
+    ("It says that {{CLAIM_SPAN}} and goes on{{BELIEF_INSERTION}} Then.", "cats are small", "cats are big"),
+])
+def test_belief_must_follow_a_finished_source_sentence(bb, ca, cc):
+    with pytest.raises(RenderError, match="belief_not_after_sentence"):
+        render_variants(bb, ca, cc, BA, BC)
 
 
 def test_placeholder_inside_content_rejected():
