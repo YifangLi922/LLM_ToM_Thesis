@@ -1,0 +1,59 @@
+# Pilot 配置。这里只放模型名、参数和环境变量"名字"，绝不放 API key（key 在 .env 里）。
+# 值为 null 的项表示"还没决定"，需要 capability check / 研究者确认后再填，不要凭空填写。
+
+# 统一回答指令（guideline §1），所有 Q0/Q1/Q2/Q3 请求都使用同一句。
+answer_instruction: "Answer with a number, one word, or a short phrase. Do not explain your answer."
+
+# ---------------------------------------------------------------- 造题模型（OpenAI）
+# 造题模型不得同时作为被测模型（加载配置时会自动检查）。
+generator:
+  provider: openai
+  model_id: gpt-6.1-sol
+  api_key_env: OPENAI_API_KEY
+  access_verified: "2026-11-13: src/check_openai_access.py --structured 基本调用与 Structured Outputs 均通过"
+  n_bundles_per_fact: 3       # propose_bundles 请求的 bundle 数量，可调整
+  max_retries: 2
+  max_output_tokens: null     # 待 smoke test 观察用量后再定
+  temperature: null           # null = 模型默认
+
+# ---------------------------------------------------------------- 被测模型（OpenRouter）
+eval_base_url: "https://openrouter.ai/api/v1"
+evaluated_models:
+  # thinking 的 true/false 对应 OpenRouter 的 reasoning 开关，具体传参方式待 capability check 实测确认。
+  # pinned_provider：正式运行前选定一个后端服务商并关闭自动切换，实际服务商写入 run_manifest。
+  - condition_id: qwen3-32b__non_thinking
+    provider: openrouter
+    model_id: qwen/qwen3-32b
+    thinking: false
+    api_key_env: OPENROUTER_API_KEY
+    pinned_provider: null
+    temperature: null
+    max_tokens: null
+    seed: null
+  - condition_id: qwen3-32b__thinking
+    provider: openrouter
+    model_id: qwen/qwen3-32b
+    thinking: true
+    api_key_env: OPENROUTER_API_KEY
+    pinned_provider: null
+    temperature: null
+    max_tokens: null          # thinking 需要较大的上限，防止思考中途被截断
+    seed: null
+  - condition_id: glm-4.5-air__non_thinking
+    provider: openrouter
+    model_id: z-ai/glm-4.5-air
+    thinking: false
+    api_key_env: OPENROUTER_API_KEY
+    pinned_provider: null
+    temperature: null
+    max_tokens: null
+    seed: null
+  - condition_id: glm-4.5-air__thinking
+    provider: openrouter
+    model_id: z-ai/glm-4.5-air
+    thinking: true
+    api_key_env: OPENROUTER_API_KEY
+    pinned_provider: null
+    temperature: null
+    max_tokens: null
+    seed: null

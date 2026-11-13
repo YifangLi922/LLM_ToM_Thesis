@@ -218,3 +218,6 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# Project outputs: local dry-run exports (regenerable, not research data)
+datasets/dryrun/
