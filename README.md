@@ -28,7 +28,8 @@ src/
   candidates.py           组装主记录（family_id / provenance 由脚本写入）
   propose_bundles.py      Stage B：propose_bundles + 场景域改派
   generate_families.py    Stage C：generate_family + 自动重新生成
-  smoke_generate.py       端到端 smoke test（会花钱；支持 --dry-run / --show-assignments）
+  smoke_generate.py       端到端 smoke test（会花钱；支持 --dry-run / --show-assignments / --model）
+  build_review_report.py  把一批候选题汇总成一个易读的 Markdown（总表 + 每题卡片 + 人工审查勾选框）
   export_evaluation.py    导出 Q0 / 故事题 / gold，并做 gold 泄漏检查
   config.py               读取 pilot.yaml
   dry_run_demo.py         离线全流程演示（无需 API key）
@@ -57,6 +58,7 @@ python src/validate_knowledge.py                         # 校验 12 条知识 +
 python src/dry_run_demo.py                               # 用模拟样例走完全流程，输出到 datasets/dryrun/
 python src/smoke_generate.py --show-assignments 12       # 只看抽样分配，不调用 API
 python src/smoke_generate.py --fact K18 --dry-run        # 只看将要发送的请求，不调用 API
+python src/build_review_report.py <目录或 candidates.jsonl>   # 把一批候选题汇总成一个易读的 REVIEW.md
 python src/check_openai_access.py                        # 列出 OpenAI key 可用模型（需要 .env）
 ```
 
