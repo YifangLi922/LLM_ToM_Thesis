@@ -1,0 +1,144 @@
+{
+  "family_id": "F011",
+  "fact_id": "K09",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T4A"
+    ],
+    "agent_goal": "Create an accurate overhead road illustration for a classroom geography worksheet about the United Kingdom.",
+    "new_task": "After receiving instructor feedback on a traffic-conventions practice exercise, place a northbound vehicle symbol on a newly drawn road.",
+    "action_constraints": "The worksheet shows an ordinary straight two-way road in the United Kingdom, running vertically with north at the top. A vehicle symbol pointing north is ready to be placed in the middle of its appropriate lane. The illustration has no special traffic arrangements.",
+    "action_type": "A1",
+    "reasoning_structure": "one_step_mapping",
+    "target_output": "The compass side of the road's center line where the agent places the northbound vehicle.",
+    "aligned_action_gold": "West",
+    "conflicting_action_gold": "East",
+    "belief_to_action_rule": "For a northbound vehicle, the driver's left corresponds to west on the page and the driver's right corresponds to east. Applying the respective traffic-side belief therefore determines the placement.",
+    "risk_flags": [
+      "agent_prior_knowledge_risk",
+      "source_acceptance_ambiguity"
+    ],
+    "risk_notes": "The UK traffic convention is widely known, so an agent may reject conflicting practice feedback despite limited experience making geography materials. Apparently authoritative instructor feedback supports, but does not establish, acceptance in the implicit condition."
+  },
+  "template_id": "T4A",
+  "agent_name": "Noah",
+  "name_pool_group": "masculine",
+  "setting_domain": "education_training",
+  "setting": "A teacher-training geography workshop",
+  "source_type": "Written instructor feedback on a practice quiz",
+  "belief_cue_ids": [
+    "B2",
+    "B4"
+  ],
+  "action_type": "A1",
+  "reasoning_structure": "one_step_mapping",
+  "story_backbone": "At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane.",
+  "claim_span_aligned": "Traffic in the United Kingdom normally keeps to the left.",
+  "claim_span_conflicting": "Traffic in the United Kingdom normally keeps to the right.",
+  "belief_proposition_aligned": "traffic in the United Kingdom normally keeps to the left",
+  "belief_proposition_conflicting": "traffic in the United Kingdom normally keeps to the right",
+  "questions": {
+    "q1": "Which side of the road does Noah believe traffic normally keeps to in the United Kingdom?",
+    "q2": "On which compass side of the road's center line will Noah place the northbound vehicle symbol?",
+    "q3": "Which side of the road does traffic normally keep to in the United Kingdom?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "left",
+      "q2": "West"
+    },
+    "conflicting": {
+      "q1": "right",
+      "q2": "East"
+    },
+    "q3": "left"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "left",
+      "the left",
+      "left side"
+    ],
+    "q1_conflicting": [
+      "right",
+      "the right",
+      "right side"
+    ],
+    "q2_aligned": [
+      "west",
+      "west side",
+      "west of the center line"
+    ],
+    "q2_conflicting": [
+      "east",
+      "east side",
+      "east of the center line"
+    ],
+    "q3": [
+      "left",
+      "left side",
+      "the left"
+    ]
+  },
+  "risk_flags": [
+    "agent_prior_knowledge_risk",
+    "source_acceptance_ambiguity",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "The UK traffic convention is widely known, so Noah may already know it despite making his first worksheet. Instructor feedback makes acceptance plausible but does not establish acceptance of the conflicting claim in the implicit condition. The aligned source necessarily supplies the actual Q3 answer, so aligned Q3 does not isolate retained world knowledge; the conflicting story contains no independent disclosure of that answer.",
+  "variants": {
+    "implicit_aligned": "At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: Traffic in the United Kingdom normally keeps to the left. For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane.",
+    "implicit_conflicting": "At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: Traffic in the United Kingdom normally keeps to the right. For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane.",
+    "explicit_aligned": "At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: Traffic in the United Kingdom normally keeps to the left. Noah believes that traffic in the United Kingdom normally keeps to the left. For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane.",
+    "explicit_conflicting": "At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: Traffic in the United Kingdom normally keeps to the right. Noah believes that traffic in the United Kingdom normally keeps to the right. For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane."
+  },
+  "design_tag": "open_other",
+  "q3_leakage_scan": [
+    {
+      "term": "left",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    },
+    {
+      "term": "the left",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    }
+  ],
+  "fact": {
+    "fact_id": "K09",
+    "world_fact": "Road traffic in the United Kingdom normally keeps to the left, subject to signs and exceptions.",
+    "aligned_claim": "Traffic in the United Kingdom normally keeps to the left.",
+    "conflicting_claim": "Traffic in the United Kingdom normally keeps to the right.",
+    "world_gold": "left",
+    "conflicting_belief_gold": "right",
+    "pretest_question": "Which side of the road does traffic normally keep to in the United Kingdom?",
+    "qualification_notes": "Use ordinary road travel, not exceptional maneuvers, junctions or contrary signs; avoid dangerous real-time navigation tasks.",
+    "source_urls": [
+      "https://www.gov.uk/guidance/the-highway-code/using-the-road-159-to-203"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:39:35+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 2/2 个通过硬检查的 bundle 中，取 warning 最少（0 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 10,
+      "template_id": "T4A",
+      "agent_name": "Noah",
+      "name_pool_group": "masculine",
+      "setting_domain": "education_training",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}

@@ -1,0 +1,156 @@
+{
+  "family_id": "F001",
+  "fact_id": "K13",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T2"
+    ],
+    "agent_goal": "Complete an accurate plant-photo tally for a nature-tour travel journal.",
+    "new_task": "After hearing a local naturalist's introductory talk during a guided trip, the agent prepares a journal spread from personal photographs and writes its total number of plant photographs.",
+    "action_constraints": "The journal spread contains six photographs of flowering plants and four photographs of common mushrooms, each with one main subject. The journal's tally records how many photographs have a main subject belonging to the plant kingdom.",
+    "action_type": "A2",
+    "reasoning_structure": "simple_calculation",
+    "target_output": "The number the agent writes as the spread's plant-photo total.",
+    "aligned_action_gold": "6",
+    "conflicting_action_gold": "10",
+    "belief_to_action_rule": "With the aligned belief, the agent excludes the four mushroom photographs and counts six plant photographs. With the conflicting belief, the agent includes the mushroom photographs and totals six plus four, yielding ten.",
+    "risk_flags": [
+      "agent_prior_knowledge_risk",
+      "q3_answer_leakage"
+    ],
+    "risk_notes": "An adult traveler may already know that mushrooms are fungi and reject contrary testimony, even from a naturalist; being new to nature tours does not establish ignorance of this fact. The locked conflicting claim explicitly mentions the fungal kingdom, making the real answer lexically available despite rejecting it. The aligned claim also supplies the real answer by design."
+  },
+  "template_id": "T2",
+  "agent_name": "Hannah",
+  "name_pool_group": "feminine",
+  "setting_domain": "travel_cultural_orientation",
+  "setting": "A guided nature tour and an evening travel-journal session",
+  "source_type": "Oral testimony from the trip's local naturalist",
+  "belief_cue_ids": [
+    "B2",
+    "B4"
+  ],
+  "action_type": "A2",
+  "reasoning_structure": "simple_calculation",
+  "story_backbone": "On her first guided nature tour, Hannah attends an introductory talk by the trip's local naturalist. The naturalist explains: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} That evening, Hannah prepares a nature-tour travel journal spread using six photographs of flowering plants and four photographs of common mushrooms. Each photograph has one main subject. To keep an accurate record, she writes a plant-photo total for the spread, counting photographs whose main subject belongs to the plant kingdom.",
+  "claim_span_aligned": "Mushrooms are fungi, not plants.",
+  "claim_span_conflicting": "Mushrooms belong to the plant kingdom rather than the fungal kingdom.",
+  "belief_proposition_aligned": "mushrooms are fungi, not plants",
+  "belief_proposition_conflicting": "mushrooms belong to the plant kingdom rather than the fungal kingdom",
+  "questions": {
+    "q1": "To which kingdom does Hannah believe common mushrooms belong?",
+    "q2": "What number will Hannah write as the spread's plant-photo total?",
+    "q3": "To which kingdom do common mushrooms actually belong?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "fungi",
+      "q2": "6"
+    },
+    "conflicting": {
+      "q1": "plants",
+      "q2": "10"
+    },
+    "q3": "fungi"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "fungi",
+      "fungus",
+      "fungal kingdom",
+      "kingdom fungi"
+    ],
+    "q1_conflicting": [
+      "plants",
+      "plant kingdom",
+      "Plantae"
+    ],
+    "q2_aligned": [
+      "6",
+      "six",
+      "6 photographs"
+    ],
+    "q2_conflicting": [
+      "10",
+      "ten",
+      "10 photographs"
+    ],
+    "q3": [
+      "fungi",
+      "fungus",
+      "fungal kingdom",
+      "kingdom fungi"
+    ]
+  },
+  "risk_flags": [
+    "agent_prior_knowledge_risk",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "Hannah may already know that mushrooms are fungi and reject contrary testimony from the naturalist; a first nature tour does not establish ignorance of this fact. The locked conflicting claim mentions the fungal kingdom, making the real answer lexically available despite rejecting it. The aligned source claim supplies the true answer by design, so aligned Q3 does not isolate retained world knowledge.",
+  "variants": {
+    "implicit_aligned": "On her first guided nature tour, Hannah attends an introductory talk by the trip's local naturalist. The naturalist explains: Mushrooms are fungi, not plants. That evening, Hannah prepares a nature-tour travel journal spread using six photographs of flowering plants and four photographs of common mushrooms. Each photograph has one main subject. To keep an accurate record, she writes a plant-photo total for the spread, counting photographs whose main subject belongs to the plant kingdom.",
+    "implicit_conflicting": "On her first guided nature tour, Hannah attends an introductory talk by the trip's local naturalist. The naturalist explains: Mushrooms belong to the plant kingdom rather than the fungal kingdom. That evening, Hannah prepares a nature-tour travel journal spread using six photographs of flowering plants and four photographs of common mushrooms. Each photograph has one main subject. To keep an accurate record, she writes a plant-photo total for the spread, counting photographs whose main subject belongs to the plant kingdom.",
+    "explicit_aligned": "On her first guided nature tour, Hannah attends an introductory talk by the trip's local naturalist. The naturalist explains: Mushrooms are fungi, not plants. Hannah believes that mushrooms are fungi, not plants. That evening, Hannah prepares a nature-tour travel journal spread using six photographs of flowering plants and four photographs of common mushrooms. Each photograph has one main subject. To keep an accurate record, she writes a plant-photo total for the spread, counting photographs whose main subject belongs to the plant kingdom.",
+    "explicit_conflicting": "On her first guided nature tour, Hannah attends an introductory talk by the trip's local naturalist. The naturalist explains: Mushrooms belong to the plant kingdom rather than the fungal kingdom. Hannah believes that mushrooms belong to the plant kingdom rather than the fungal kingdom. That evening, Hannah prepares a nature-tour travel journal spread using six photographs of flowering plants and four photographs of common mushrooms. Each photograph has one main subject. To keep an accurate record, she writes a plant-photo total for the spread, counting photographs whose main subject belongs to the plant kingdom."
+  },
+  "design_tag": "open_numeric",
+  "q3_leakage_scan": [
+    {
+      "term": "fungi",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    },
+    {
+      "term": "fungal kingdom",
+      "category": "conflicting_source_claim",
+      "where": "claim_span_conflicting"
+    }
+  ],
+  "fact": {
+    "fact_id": "K13",
+    "world_fact": "Mushrooms are produced by fungi; fungi are not plants.",
+    "aligned_claim": "Mushrooms are fungi, not plants.",
+    "conflicting_claim": "Mushrooms belong to the plant kingdom rather than the fungal kingdom.",
+    "world_gold": "fungi",
+    "conflicting_belief_gold": "plants",
+    "pretest_question": "To which kingdom do common mushrooms belong?",
+    "qualification_notes": "Mushroom is the fruiting body of a fungus; scope to common mushrooms, not a plant-like visual appearance.",
+    "source_urls": [
+      "https://www.fs.usda.gov/media/225912"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "gold_in_backbone",
+      "message": "Q1 conflicting 的答案 'plants' 出现在 claim/belief 以外的公共文字里，可能泄漏答案"
+    },
+    {
+      "severity": "warning",
+      "code": "q3_answer_in_conflicting_claim",
+      "message": "真实答案 'fungal kingdom' 出现在 conflicting 的来源声明里：锁定的 conflicting_claim 本身含真实答案，需标记风险（不改知识库）；请人工确认语义（否定/同义）"
+    }
+  ],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:33:25+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 1/1 个通过硬检查的 bundle 中，取 warning 最少（1 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 0,
+      "template_id": "T2",
+      "agent_name": "Hannah",
+      "name_pool_group": "feminine",
+      "setting_domain": "travel_cultural_orientation",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}

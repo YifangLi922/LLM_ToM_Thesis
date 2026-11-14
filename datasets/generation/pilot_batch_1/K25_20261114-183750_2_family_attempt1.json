@@ -1,0 +1,691 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 23.47,
+  "usage": {
+    "input_tokens": 6008,
+    "input_tokens_details": {
+      "cache_write_tokens": 1263,
+      "cached_tokens": 4742,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 1263
+      }
+    },
+    "output_tokens": 1742,
+    "output_tokens_details": {
+      "reasoning_tokens": 910
+    },
+    "total_tokens": 7750
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "generate_family_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "generate_family",
+      "fact_record": {
+        "fact_id": "K25",
+        "knowledge_category": "object_functions_properties",
+        "world_fact": "A properly installed, functioning standard check valve is designed to allow fluid flow in one direction and to prevent reverse flow.",
+        "aligned_claim": "A standard check valve permits fluid flow in its forward direction and prevents reverse flow.",
+        "conflicting_claim": "A standard check valve permits fluid flow in both forward and reverse directions.",
+        "world_gold": "one direction",
+        "conflicting_belief_gold": "both directions",
+        "pretest_question": "In how many directions is a standard check valve designed to allow fluid flow?",
+        "pretest_accepted_answers": [
+          "one",
+          "1",
+          "one way",
+          "one-way",
+          "unidirectional",
+          "a single direction"
+        ],
+        "qualification_notes": "Assume a properly installed, functioning standard check valve under appropriate operating pressure. It permits intended forward flow when the opening-pressure conditions are met and is designed to prevent reverse flow; do not claim that all valves allow forward flow at any pressure or guarantee zero leakage.",
+        "source_urls": [
+          "https://www.spiraxsarco.com/learn-about-steam/pipeline-ancillaries/check-valves?sc_lang=en-ID",
+          "https://www.chicago.swagelok.com/resources/best-practices/valve-selection-best-practices"
+        ],
+        "review_flags": [
+          "device_operating_conditions",
+          "flow_direction_for_action_task",
+          "action_must_not_be_direct_copy"
+        ]
+      },
+      "selected_bundle": {
+        "bundle_id": "B01",
+        "suggested_template_ids": [
+          "T1"
+        ],
+        "agent_goal": "Prepare a community garden's water-transfer demonstration so volunteers can move water between two tanks in either direction.",
+        "new_task": "After consulting an equipment handbook, enter the minimum number of additional hoses needed on the demonstration's equipment request.",
+        "action_constraints": "The existing setup connects two tanks through a reversible pump and a fixed standard check valve. The pump can supply adequate pressure in either direction. Existing equipment must remain installed. Spare hose fittings are accessible on either side of the valve, and suitable hoses are available. The demonstration requires water transfer in both directions, with as little additional equipment as possible.",
+        "action_type": "A2",
+        "reasoning_structure": "one_step_mapping",
+        "target_output": "The minimum number of additional hoses requested.",
+        "aligned_action_gold": "1",
+        "conflicting_action_gold": "0",
+        "belief_to_action_rule": "With the aligned belief, the valve blocks one required transfer direction, so one hose connecting the fittings around it provides the missing route. With the conflicting belief, the existing line already supports both transfer directions, so no additional hose is needed.",
+        "risk_flags": [],
+        "risk_notes": ""
+      },
+      "assignments": {
+        "template_id": "T1",
+        "action_type": "A2",
+        "reasoning_structure": "one_step_mapping",
+        "agent_name": "Lily",
+        "agent_pronouns": "she/her",
+        "setting_domain": "community_volunteering",
+        "setting_label": null
+      },
+      "revision_feedback": [],
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, reasoning_structure and the two action golds). template_id must equal assignments.template_id. When status is candidate_generated, failure_reason must be null and validation_status must be exactly \"needs_human_review\". When status is needs_revision, put the concrete reason in failure_reason, set every nullable content field and validation_status to null and belief_cue_ids to [] (risk_flags/risk_notes may describe the problem). story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; {{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} (directly after that sentence's final punctuation). Claim spans and belief propositions must not contain curly braces. Both claim spans must fit the same grammatical slot in the backbone, and each must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, same wording as far as the grammar allows) -- never an indirect or behavioural paraphrase of it, in any template (including T4C routines). belief_proposition_aligned / belief_proposition_conflicting are affirmative finite-clause complements without an initial 'that', without the agent's name at the start and without final punctuation; the caller builds the sentence '[agent_name] believes that [proposition].' itself. The protagonist must be the person named in assignments.agent_name: set `agent_name` to exactly that name, use the name in the story, and use the pronouns in assignments.agent_pronouns whenever you refer to the protagonist with a pronoun, so the story reads naturally and consistently. Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are rejected automatically). If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K25\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T1\",\n  \"agent_name\": \"Lily\",\n  \"setting_domain\": \"community_volunteering\",\n  \"setting\": \"A community garden's water-transfer demonstration\",\n  \"source_type\": \"Equipment handbook\",\n  \"belief_cue_ids\": [\"B4\", \"B6\"],\n  \"action_type\": \"A2\",\n  \"reasoning_structure\": \"one_step_mapping\",\n  \"story_backbone\": \"Preparing a community garden demonstration, Lily consults an equipment handbook: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request.\",\n  \"claim_span_aligned\": \"A standard check valve permits fluid flow in its forward direction and prevents reverse flow.\",\n  \"claim_span_conflicting\": \"A standard check valve permits fluid flow in both forward and reverse directions.\",\n  \"belief_proposition_aligned\": \"a standard check valve permits fluid flow in its forward direction and prevents reverse flow\",\n  \"belief_proposition_conflicting\": \"a standard check valve permits fluid flow in both forward and reverse directions\",\n  \"belief_question\": \"In how many directions does Lily believe a standard check valve permits fluid flow?\",\n  \"action_question\": \"What number of additional hoses will Lily enter on the equipment request?\",\n  \"reality_question\": \"In reality, in how many directions is a properly installed, functioning standard check valve designed to allow fluid flow?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"one direction\",\n      \"q2\": \"1\"\n    },\n    \"conflicting\": {\n      \"q1\": \"both directions\",\n      \"q2\": \"0\"\n    },\n    \"q3\": \"one direction\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\"one direction\", \"one\", \"1\", \"forward only\", \"one way\"],\n    \"q1_conflicting\": [\"both directions\", \"two directions\", \"two\", \"2\", \"forward and reverse\"],\n    \"q2_aligned\": [\"1\", \"one\", \"one hose\", \"1 additional hose\"],\n    \"q2_conflicting\": [\"0\", \"zero\", \"none\", \"no additional hoses\"],\n    \"q3\": [\"one direction\", \"one\", \"1\", \"one way\", \"one-way\", \"unidirectional\", \"a single direction\"]\n  },\n  \"action_constraints\": \"Lily must request the minimum number of additional hoses needed for transfer between two tanks in either direction. The existing reversible pump and fixed standard check valve must remain installed. The pump supplies adequate pressure in either direction, accessible fittings flank the valve, and suitable hoses are available.\",\n  \"belief_to_action_rule\": \"With the aligned belief, reverse flow through the valve is blocked, so one hose connecting the fittings around the valve supplies the missing route. With the conflicting belief, the existing line already permits flow both ways, so Lily requests zero additional hoses.\",\n  \"risk_flags\": [\"q2_non_tom_difficulty\", \"q3_answer_leakage\"],\n  \"risk_notes\": \"Q2 requires recognizing that a hose joining the fittings can bypass the valve; readers unfamiliar with plumbing may miss that application despite correctly attributing Lily's belief. In the aligned condition, the source necessarily supplies the true Q3 answer, so aligned Q3 does not isolate retained world knowledge. No independent true-answer cue is added to the conflicting story.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_019a351ea530de11016af89c94747487d290eaa926fcd38d04",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794677908.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_019a351ea530de11016af89c95c4d487d2a3209d77611c8835",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JyrG8buwSyeiVbHPrQCrpQeOrirVI1NHO86DrgtMMxAHe5zQ3g_EF8vG2rmyPoZxFQJSsRt3GyWZns3-EHZ937cx7m0i2aQ8Oyk-pGuPdzQy-YkCsqoOgszZu9j8WtpwK3gL9EpWz0ijqZQn_tYiSDR0LMCx4vahtCZC5lFPaGXTnPxtQEvLYzOTHLRRpjpLyNr5CJLJ4xs0IQ9nAyrelw0_JIrbl_zExfGhqiB2rV73CHMtJDwU6Vgus180dLgcPomEB_h0thUZF6_zuzOQ8OIpta3QrwpXE1xVceXspYVsco-LAeB2UOdQGBVORnNdf3nf7gke_a9rPqqOnfKIbbfnFbw2gdUqaABAjMShda_QQIyqUusujit_7vN5RZXoUZqYXwNyw_Ey5PC58v4UYwd28uXG7h5TZNQEEYdHcEJVEEsjGrfO5JBBtZ9O5Cz63uTShPtdVzjTKF9J1SQbWq8pTCKgWfsloos7BRgm4oOQq6twLdERYwh_qAsR1sMRvdnI9vn0v5Nbf7KU-wQ4tXg3OroFEGvkIxs4yEH2rae_6fjVAYxyUfk4QkMswY5rkHRa1naVCOIu69DtO1ObbPfiwpxJPBISuPvi1m5q77GirHmIKJpzqCeJb9nl9PZ-h3YbFLqaSH2kCCr8p0gFazr508hzzR9iVLyQGHer29CzrJuxoaH6gb-5J4Bbv-ztDN91HRIh9CMVbVj-vCxujEFa-8k6GwXUoYAX1_uuSwa7RIUZ9a0fo0W-Un2Lo49LW_qxfN9I2zlRMMr2ShgWMNuZjc5ytacOya_D_haJpr0XwsRgKXySo2ezl2svArU3fBj-I-aVZWqJwzDKEoiDhJmHouuzpgsbm805HHmuOl2A86vvjw_KVFvbx18OTpXTvs-nFFVM3IYjLupBvrpejINZPg7mQGzn8ZDDnqq7nUll7CDm1_EAe1qdE2c_lblQ6HlLnsrGlwO5AFNDs9CSG9hZHFv84K1csDzu6q5t9xVaRGQbtZjbDOW1qOg3Glydle8CRKR03BMpExfAmrpm_meqfyOnf8M0VZsUeNDIiYzv1J4FGAys9lqpPl19bo2y7uWHqEMLTGIn-NV_XkkxD_O_RxFQxfib2ReJ0BK1Go7c0tUXmhILTdmoPqTsg5U9F3mRIKYWKCawjxrG44_qn17YcfIHjGUX2mRMzjdwIkbLQmDLuBzn4teoZhdKw3a2fgeqaKp2z1zOM8BTtkdRkNzti5opvrTIdbr6e3Xb2V0iNiRtEm9ctwYh4b0d0z0C4I0QPtU4Sgu-z6s6ol0NqeqNJG1mpKHoR7go76Jws8Is-2SY-Nm7vZi33fxT0_ZIbOEdQRPvN769G2nB34cq8Iy2Stux1SLAy7sH-USkyeTNYeI3pxiVC8fXOEvq0PQZVAAEpjD5cL_3F1ldvi-adsgvErAcvH1dxXJSlFB3LaD9s6GN5UI7DiWkZCYry6P_YDPsX7tvojcwRC69qckmGExDgtd7YgvWJHOVya6X-fAk8UwNDW5jLjfnQnQreZzdaz8pFJwQdo-fsZrftja0veiMmcZX46rTrCbkU2luqRLvG09EwfK4XFE4kc9x_FpATcVsOSe1FL136Sui1Hx3_dbweehVVRtN7_y85Kbz9TUMnsLm7ygpLtcu1OivtWFDctHUuO_Wu1q_rB0JeLAkx8tycEhzUTBtMj0VDoFlBf-8Ium45X9Bzse-Qabqe2y5_vHZTQM2O4VULMCHGmzdRcA1L9AsI2lxUtCOzMkOIr0I563IcZzG1aa_ZqGd9UtUSpU7ecZliR3NxU7XjYxx94isFuE6uVEwwlNNlP4eA6rE3Yrj3sSKTYnlGWK-SDynwzYioAxpxDFTpXXGr_kHVdX3ai801pQcB7Q_lvWS-xqt5Rb_DUsE7g6z6TQfqdOvvCjCl2fcuCCqAIl_jwq4X-dpGgiILn1BnHWiPSL8Wy_OEwTiYWrAWpUcdvTxba5Wjg7-89ta26wLqqRSGE_6kXGGlJMvKVxJRXJuViLg-pz3reUtYh3OdsGfyFhNcFQSTqyzbLbLbPpnE02DZpHAvJU-xni_JlKtgScHdiarg56VCaesYhYKLpT10ZVp4v2XwzFopCUkgYn8fMfPQP_IlzhO1Wt9leCKu9HuE0E_mvhCrKJPDyS12jVGpH8dH_rnJ6wogTE35hv0fmR73gSo9g12kp2VPf3MN7dV0gTWCBr_FJjSh5CavyGyx6m7y6YTLUrhWemMHSyeOzxZht5w6KbV_4yLZvJH1uSJvzioVC8Fs_TXjcDb3xFCzATQAv7FzHmFhrB0xWWyk-A_5Ntnc-HuTWN9r-jKE9mSsA1u332o9YibFI1Q2C0vGcWNaH1ouBuW9QBS5sCjoVxcHV2vlV7rY9GoeHenF5T1PecSAMwrsc8puERujyHyfO6v30Sg6LNbnbAfCVrl04M6K7I14JijjLcefayLhQX9kjwETX4Pzr0N91DOtCSkmzH2GItHtUbpCHwn_uwlKx3i9ClMsXUeisZ1y76cgTrOccN-MJPIeCgvq2m9iCKYSubOWYRll-9cVxX3xc8VWLxOXW0jQLq8A33xlgZjju_dyjkOKl_HA3nupRYRHAS2XliBGaXbYr4L4ZXoFmUAxEUEg_bdBZCG-j1fmcmqPXmRaVbanjc_M-RSLaXDCZsAE8lc-mFrWGtsZjGcXkuAHBn_wEyIeUIbX229pbttjhwacyCkIWoZ9ZWmffNVHJHOce9-OHwxn0o3LObHBcze6bx5vzzndOpKE9F3p5eaKE99GOdBSOAxNnf6JfWr4GYUyGTYt72o1eQy016RAFMoa934hLB5Xle_XW6qv0Q3_HDErumfVkHEjR-Y6k9yzNT3IiL6b8X9Kz6lTGoT7JUr-HBI_XgCyVhWsgag5x-YAzZxryClfMifsg5DshlNa-BAgtTKNxTx3yYvMKE8M7Cb2DZZKj_H_6FJP5z9dlXujyJOEUWesWJ2xz9iKW3TNCX8c3rD6Hl3BrUkBUV8Yscj_VcmpP_Ls2rwbZRpbRDwR-o-6-WedRRZljiL07xq3rPkTbnNg4NqOQRfQnT1-tk8F9qN9ZU89um7h3pdt8a4maTSUP7DeGPmAc--fmDaDwR82cQbFiHFJ3Ajaoi6avI1qLGJjE1psFLAA26mNmu9puLx58kGKxULDwj2jxh9gmniRFcaEmz9TwLrmR2Qx5r8Aq089aEfCAWGU3eyyvqRt7E-lRaGML2Ss8_RBYFDq1u6QKfEI1LIMARnlNfwFd3g36Es6rB2W4-596N2pOE8zO3AAsUbngZI-QMnKOEjKAe7WJhaNqqvgASYBptPP8qEkcOhtvs3GcUvk8mErMEaqYXO_qEgLnY2UGLn3Z5rTsDL3k30pPztzuNvoGoGlfjMZob-yaOMI_7nwckGqJh0xynpEIdY-3zvuedVel9hSy45Yj6PY_i5gEIifepCTog6Ixty6tEPUls8zqbonrG6uVDEzUOUBm5ZYkZq7eVF1qk9_K2DD6JxumIeileOUhsjNITUaloo-OAKU6BTzYrBso3V6mwvxoJLasHLc8h10Nniu8IJMSi8t0L4Tez1J6nVgvhtfEBUyN-CGP3xqCKW17tz6awfaZ7had1jzRGY1SdXNaphbatD4KU1lbre8eOEpqvElmqsRCnPhA-g9WtZyrXOICCj_r4g4gdDNbsIygc6nAryw7kapxVqnL4tm2imdfrrjGkqVgoxUUPJelPgKSTOunOYDZL6A5vzMelm8lQB4emt5X0fZOlg8Z6wh9RnJm5ok-zif9DBq5uVu1MFABv1w6lU0ng0gLB-idh598cmvsBV4GpthycXpaKxWw7Kz6HT5UbUhHqXYZO11bKGjPKI6t6LiQ9kzKLtHyXMn8Xy1-PmCVyOu-4xzhwX-5VzZ9T9AcYHW_21G_j98HovE1MAzw0hrtA2m5_G55a42L5yBK8NDqWit70APSjugMr17n7kGymizoBe3F50mEJay0iK0_SYSP-SJZuMLeImfv4feu3BGVKWlJHAtnSEIWAgBKLk7WAMmh7iju91FK8ncnSuwv5xV3hd9M4rZl-TiQpWqVjf8RzPwiQLkc-0aCgaiur47Tf0b4X98ADxb6Ldxx7VspfmJIAo30GPH-kmnsXU5Mex1HhHdIouyFSLIMSV19C8IABsN2oKYPc1Tb85w-DD-QvKv__wzxXI3khhoY4hoA2GSsszlP7dk_JChRIT2zztPM0usg0TTdEjkbEVZmxd1jNtVlElu2GwvmZfIHKwjSgzOu4xeIFzkWVHpIPdVo0HW8GkFRVFQPh3ePa-FBnK3Rucvhl9_X6Bb8EiGC_crhdqhIjl4fP0QuOQupOCicDXGtaZGrsQ39NYWq-_FATCmb0fsEZBKapSzD8VIGgO3DfogtmDAB_QF5LpwkQQIEXh8h5UFoniK-EL9rnhlB3U9cPfBS1fYC5O0yvVXw2bWlQXA8GUTKG9YgbxwQj4o2rOIUFffX-70K4wSHoiWvrlQOfGqC0bTURopgAmVqGBExAZeKQyC_I80Y1BboJJEcG4K5pmWH0Nd032LKzYYTcNKSEUwbIRg_H5thGF1P2J3XP_4mAIqxOlY_vmTrd2CiCWfMo9752mX1z6wlEx9L4lpaV2T1WaeV3LnI1IhhvLNF7vRUQerA0E0ColKpzVd1O1SlqL7Xd5mGvt0k0PoqQMbN4gQg2vBlEqoL8TaaRZSX7hlS5Pb25Fi-hHraKWr9_BKZUlajhuJa6RTK3TbTmaki7Z8Vp0oUYdWVI-e_NLEZLT2ZLA95wkzJW9nnXN6OOV-aiFF4y5UK0lyppdneP_eupRCR4wobc8grp_lGwGL-eYFTioPSFvxRHsMqEqM6lZOOx9UGrDw5LMO5EWwCOmrAfE550TR0bwaDZhKO_30pBxy6OAEpzo2C53p6ky90d_KaDd7xwytkeKmgm1qKI9YJNBptYEYkX-1wAcJSvc9o5J_3NfNG8ElZtyctG2djL32vZHu3jofg4gfDPkq1s_gQBKdeT7KwxgYtNdmO-s-w2vMf_w4iMLNZFbTC4LKygSW6J6plrZwE-7J8VeDWa4sJ6LQpLeeVJmdVTRi_yr3T9WXO7MrqquWbl9XnD_GGD8zYFlnnSkfswZcQ4oa4UT1PMXH9eSxZzYAl-eBKWvMC3qIfKHB5B2zb4nvqB5HeGhT2mm48fFv417C_AZbLCwl0xiyTaTGlb7upr87_mAbqPQAqeWIGzpUt3wfKdwAEyelGlCW22IFFt-2iyxIh6B2451dhyESzuScncSsfj9ieiKMGnSxauOSWXFMasVqjxf2p4KWsI81UgGbfBibKrJx2msP7Wc1kGy3gmgB1d1fi14itpADAhXlHMRiTAu4hHus3qUlkAppIrCVtjP8R1sRcAXqTxSC_JKe1_sRgilkiC6OVye7-ajmdZrTi1QGxnPG-7loGIwPqQxELUI9-UEf4q5lPk2Xm980VQbj5EDJXRwpSzfjQZFomOf1kIbSVcl_iUztFheidSRHXZH81YsvefPO7PxCHpgUrLO570maYLHOg2Os7gz685K_LexzRMwSWz6cdaoCxC1wSyJUF2xhWHyHOft79oBAmgukLoSZZAGqpLXKFYjgz41rRZHJiATkaRGNrzuxjZFUD8Zk51JBX2LBx4FMKBeU_dOaccCuByrb2ONTGTEzzZiACZclhYNCPiDXcpaZvZRThhzNXjF4pG02aO3rn43DOoD0oywNVTIBw4QezWMBOF2fczX2a8Xf-vOwHA0TFfCvtD-VFyLq7mzJfFGhHe_AKRThj5Fs8m2Epsr0aC5loi4jL-RvmKxLw_GugEZlvFAUQivb3rkuov69petoARVdOCTr4qsccDz08vs8TfE3Mpwjg9ifVZu9Wn0yEyhaD-N5IxSraU-Qv4dTZKCpB4HbEawWGkZjv49c1Ccw7SqxWiEGmZQNmO-SLM1_XPYppuA5XZtIA9xjfmAmv2D1r8YDEwObQkcbjecmjhtuJIasSlHd5ywiMJXW2759Lb1gQCMkAeIW3gjrr4T2lBUQT1_rW9qazROBNY-xF_0BHS2eBOm9fFaOcvYnJQwsVXqZzIuYvKtHFGSkS6mng4EKOubBSrQKDWDm-FbqUT6rvxf8mUFTvdh-RjehmPU3OotSswKWT-hzWs2q4qnw7ZmPcBiaDGw0WmEpxDBaA9a_vtiJSIkeFxY0mveN99RSYsDy1zTBzBa9UkL1-Ow3EMWbVOAQR77WLxfMz8GSHG18L65ZvKwOhlDVQVhn9UIPweN5AOh6z8wIiPaA8tPNPo8slJUDWgA2LBE-NYv9KqdZwoycrLfD9XMv62ZAC1lsqWVLGg7THsro6QBPo7JxLk5dxQuAFTMT63cDvIDX9rbRbcUDY_p6kyt_oFEbFlpw2A0_DSCI18trUvu76zXe_5oiJ0wYYdqU9sdbak7lE9mU8zuKSyz_GTG9VCoTS4zRHPCoVCluVJUUTnXPwngEloYBBOiMFo15em-hueJYnjx4l69_SFDTQiGVvorxh9frLVncyQyD802wSGAqVv9aiWgrKa7neNM-eoC6K7NKI2y51FIHLeLsJNqeFDQA1-qPAmkP_fRVYNUHOtLX_B-sNjJ-7EvazwwmQ39yapdTf5F-BaRE60dkU_QhZLjWrsGCmRBltSzBBFeyhAN9OBtMLdrNdvuzNkIk8WpWTAAMLEOtT_MulRViMWqZnW8pDYUUmunkKQ938AiwgxlIPUQmyM-zmkagsWLw0HcZFdagAR4cttVdd4zsbp_ECAsCHhwWAqpHUmJ9mBdQVrXcvROmSqxcYXp1MsDM-TdsUSt0DRduUgYfvNGAzVrCnyyR9Hc9vpyJYHIWb_mwZsImIZMihqYNm-SiJpdipR6FX-4sF1u_v1fFzYsCMGd_H4WWvxtv0vbMAmndgRrUvUSENIYC5TM7vOyOHfHlePqbykDSpb3juyJkjONQsocf_thati4xgh6jwA8a912nFf5z5-bJ_HldRrT2u2qIRL1siUBREDQHp-4C3et8ZFAxHBUG6567_9z5NiYclgjClxNLe4wrz_iulUg2g2beomdNC9FVYhKim9STtb-xUuK0wNVvLfWpjCyNGWY6YlQvEgrkGztspNZ9Yh5DWz4gk-8tt4uIWXlbO0aGh5a5XI-0yGQh1E_YXEEwHY19gmToraqeEv_EU_tbCYmRSKYBh1ck_Y_1zD72cTvUjQ11_NBs4kVSzOg-L6_bdcxkkdt6kdrKN6OmUJx8ODT5nc4owVeqh7i7GVIjxngui-PLmc-ktZY7pssRG2Ug9VDNXmEJ2CsiICX2PZ3PIcX3BBz1c4ebBRLo_9fY7p_f_7swKD7GOdlrV_asmsO-UcdBvV3SE6j544v-uuGi6BuI6SZmIpoZpzFbm3v8l0OnVC-1-FhEy8uptYQrr3dm10UyJeJojfmSY6F37EGlYmPyV2T2Z4NqdYMX1_vZd-N6W1_yRhgoaXfwI1E_PLFsoVpUwu7sUwPT1txK-nTdQh3y65NOpRCtylCTgxXd4lew8XzwEGczHj9W60jicDoCgByx-X4Rd4HahIiTiLRmGSuMZIdfhBMvHiKOgPSIkxT-6xC718QPDu1PHBboYSxQ4bjOyrdBm1Y0vzGb0EJtxdWEvc_9CPTK7ZtL2JM26yTF83qwVDHPQqSUUfUJFmhV2oveNiy01Hfj371TftN7sF-HKnF4jy3csC7H9uC3iiukOgG7hftYyz3LMtbHtrKnB-ruuDD6Lt64yEmGJMv2G3dIsbHRdc74aAjLs7GwCU_kpSW2hmxGrZZ66jLyQ3gU2bM1WDa7fDWp3eq8HOGhPLdQ5EuzWsNhLkAQdGxX_irw5QGSHVI_bq0Kw7JNwHn_bXGiSAhDwvSS_IXSUZK-CSTvNBoAG1S1PLfSDHpN0nJTRI_1AHeDPVLuT2HwUx-znO3iAYl4bZ0WurGHhcTQb2TJRMo8dbcmWVzRbWVVq6A9Cfuc5WweAPGnJzr2rsteohx8W-LTGUMNtDh2UZb_ZL3ftBLISDbLFLp2hiuAXRGc_j1go9IUPoF_Dx3OOQGW022nYKLY5CXBdGBWeFkrgQvcf4-ZsLcX-pjKCcsPEObqD6dNGmvMM_D58vH7h-2AksHlC81Njj3BDGqRK7janagKiR24eVndwqjsU0EVS8O8La8kOVH9q0CWtTeLRasI9y9mxtAU6VQxfyC2Zyuw_wVT7F8hCBmDV8o-fLAxyT_lJ1yOqkky7H5cqmcd1tg9Nb34qNzIs-8YfZMONFcW0V10Pglj1bHgZn_Wu8jcUbYVZT7Up5iiiid_4clvgA3qmCBABowgCk9u1q-e-AEh6FuSZArjRL2ve78jxaGH9SpRqHwjjbZPr3kjhNQWi5_LWsstfM7LjykqTC8RXpV2wP40EjqsTwI2cwmP7NYy04icL_5f6z5B4cmtbLzXlzO1G1bi5SyIeM0t_mMvPPwfXLV3gfTtdbNsA7zFxSL2FOBOZGCNwhvZFa6vq4KSOR_vyZVC4nICfhPnaEDzrmE0fgVQP5zuFHity1MHW88CbbS6kFN7yMtZAw4DsBlqfqP5_FWTPzGWsHNilf4tvaCeenp7EFZUg0MPm_saaCWmjWcN6j5BAqceEPkxwwt1_xq5wpO0bgW4CluRM8a5e9ixYB3p20hAb45xKo48tSyyyD68Dqv5oGde05zBxwyU1wb0_p4h4Y6-Yp3HjJsSbA_830zHjXTnLikkLjiv5IATC3_MwyvFhkLgsMmnDJa5G8Orkz_a6wL6TvSDyiBKlTe3bYYX3aqwMgSAJ4dzh7I4W9bReXX5BxGyjECbZYT-dH24EkHn748pESOOau9qOYLzyEeZtrnihAA415yAKYToZUfYclK6P_9VD0Ij5sz2VwHwRrezc9suP_ed-SQt4CECClKGw-Y6_EuUz-QEEAZZd9yYvfQN9-vFpQyIKCdLBmMwqXRURnhfss_ZXyLWXl1GETryWboABcUfQ0rFTBREFz9SZABQlRA7NbVJAqy2r3lA==",
+        "status": null
+      },
+      {
+        "id": "rs_019a351ea530de11016af89c9d1ac487d288045671dc89dde9",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JyrCRjz592o0NY1h1SpiUoJ7cxew4syJmnsI_xwTQ_fXbyLYpg7NWVTWthCSDBf414J9fGUgq1k45xkPibJW-RjfREcNHT7OV8pV1aMv7mwIpDc9UNmMq_5SLGt5F9jyssymXmev3UEX5qDLH7X-9GoUJk-ttj6mSpInscUQYRdrzDjEAXeNuQKoa3REIvGRuyiynV-ttTFmqv6x-m2LYzuc51xZnoOYQNt2b8Gnhp1bpVTZHqVuY2XYzqguzEJiROm1zGgRnuTA47eZQLNQ0CAveZpEI_2IT6s6nzkLWB9UrwX9L3mNhV0Nze_7UqmE8SHUjN7QqKlLmI12jMv_gosnsvEFWu2UMuhRsw43rybNZRM7lIeBW2T3kJS0Cp9TR1tSntcUA96Ri8U3dux4VzrrbYXLK-CgLlmqZXmZmAFBpTAFlzgqSQF2XZmqkCpR224dbRdv0WxplFMfmNPYCe344FMW63tRtUO3Id0hcmAjXQdzDw_DKsC3KIb4FPYinnkzuXrjsw1eIF5fpNTfC6iJW6_vHLHaBWMzaeZv_Gjl16bwaxIsIjWkCrV5kX4cKUm8O2_unDRN00yBE-a9riDWcczNm2l0EaN2gaL-P6ceDJ4FChhBRZasa6rdMb1vAH9GzQSxVL1a5CK8llj7igeF13XEEe8JHTyrGgWYMeBtJteYCJimLxS4DuxynD7hj008wfzEmP-rh_MPI2TI6VVxJqZrfxomaumBv1sd00VI0g820FXadWGcleugSMyQ4wzfa8S1ZJMorpr8g9NjxLr5vdI2rdvcZ7Dk6Iv3k4OYurqVxytJGkLw93fTlV_2ZPURa2CPPsMHedHkeQYnrNLtygxBDcIs0rFCUoAP4F5pO6RLbYiLhLgQGuu8HnsW0xDGapF7FUKIBv3lJuFWQO1FnP0SCZpbzItBXfHu-ELF9NlzZT9yraR7xJKstRkmxXoLln5YJrJpLm9oIqGElCzZTnrkSnrLVT-KJF9nKyzgGkLSL6e3XSNMNYVdKMLhiBjwnfPi72LXFhetVPb-YxS-bbGAaBDDNc-WYuUplwZ4pJUWH_Q-5zKunJUb1OmC9DRySdRtk8BsYVN4FQybv1eGJZVhtL8ohZtiBv-zncd3Wn568Oxj1X0ASOBWbeYzk_OqE5nVb4h40GXZN_vlgPBJoYC-GYGXCkbaXK3JYo-VprloAVAwZWQr5sH6BqfVtAxq_uf_fb54onoObtainjG8ui3MYJ4HQN-GXQDJVEKKQW6CQaiC97pUUvSyowuDcHVXAkP0-gERaUqepaBtz-UecBYOh0gLF9URj-faNGrbg8nn0-LWEDi_OMG7y2Wh7dn2sSgAV6zen-pZLYHNopFrTq636n3-H78AfnG-QfsR87S1m7WezobWkxWWmoNdK0ioVg0ESJhmkGhdMmIni9qCZY5pask2ZvOZC7w_8_IS8PO9zfSm0xRaN2_NoSV-HI6UwGkYvjg9YKkvYSlyDh7LSX7qCDIEp1oF0KS5Df8Y0k8nI9te3v37UTN4V89nRc9kQvS3WFCPKb7G0_afxqZDYxjoV4kLdf_n76lVCqkB4bp9j6QZZzAKMyw-iRiC8J3QZhSqJYYXcWl_eA0rndvHZkJD2cy6yy168gvl2kYbgXBbazsdvG0EFXDPC4UaMswHyC7uVAjLH0fQTkYrCB5Fox3KU6IBmLl-OfgXTGeOgctqTjo4HYlFl0Jlyso0nEDr_VWry80oXgwJX9rSBrwwJzMVL-3m2awQCgGSnykfqJ_gvftznb5o-lKOiPc8PQACeuLsZij0_dmSTHahcrUovowVadNMluoOEKBAXkSpjjqtJQ1HA2yj8HY27esqRtlan6zSR01CnddquBCSPkbbqoxR3Bf6m7KQeLE4AaoWwJ1C_JQFXD4pqYVt9T1PHN0KTkSIjI6JRkuN2aOo86n5yMYst9FBBF_iGaT5sCB3QjKwg0VsVM_dTpNpj1melQlSD4_Dh7UEDcZfioxzsIXmutwWl62YtGOXiClDPEQWcrhssfjk4zwKY5KbyM76JIFLXvkherPhCdspjZh1Cto9q-CwLiFo98F-wrxGHlVFYQodXD0T2VOJApKJptwZgNdPKCoVMxJeD4VvaWDFBQo20ntIMa8vQsqNgXDpsdPOi3Pg0N0_j0-vJdHp_D7F0-6M_jtKQMy0vrQrCycZDd3eRT2ap32hE5Tdpd0ICnJRfWHoE5ANEDigSA7vXGAOexF_qbC9Z7SaTTu_9-TQsSpQXvAlIxecOopCz1o-snQChIYfTyqU4ICACuYUiXpD8HE1FW-1bJgQbOjKRwkiQ5GUlUIh1vfSAPgDi-xJS6Z9KuliN1rUoxjSyV4vmUJ252ggG9zVPTKFOmCxSQtQTyqYU4pw6IRzKjaL-rdHhBBhBVpPOxvxtfSWvCleFLWNhO3Ew4RSgXhOhKWdxoBDy65vjaCD1f64dgY4VlvhIH6FRhqeHtBiAtdOIe_uISqx9MUMaUGzhOxbZu6cUcsl0qhRh6fjMUDId0JocXKulIkuA9HOVUVCvPSY0v5vvpF5YfWVbC6EXMZ9GZ7SoIUC8P1SwI2Qj0m1erwOyGS-PnnSzpxbtCGPU-0bnZNzZxmckGFfXyxQ3SElMdqUO9o5_McDZ7HE1qfEsal6dvAWinMKZ_jK8OqOqBiROo_C8IQeF8Lo3HgfQYK0lwBKLwmpqHqcA_sY4GG2ZL_DRXPB_pfFpIFU32ZwuZCV2FhlIukCkZnGkF2oaybcSfIycUzMFWjaXEZ7PofyYBigAoS_Ma2njVD6M3fiXC7eTXc5LV8OmJDv6PSCpg3zJKenhqsl4xhVJId6nXg28FGJ9BmfnHVh1kb0vllro2gYFtWbRNlaZr5KwgLFCepYFgkBsPEdCY9z7HF3CvKSGtp7mZ-c-yfO-McH5tiQijJIoyZ4Dp_gjJ-ijgWw-D4eHvRKjrYcbUt22JIJgHstzPetsb--kVK2wpEvt2wZ1C3Wcsyx4g8mw7Dkz_RvT1S3xMt-pTRVqmY4BdMHYYJBSvO8gepoqwixq7m357ApFRWucabcm7C-xTIWMP-tARq3Z2VqF-Si-qwZ7IQQi5sDvG00mMPopMaeDX2m-Kqtk9oOxoxrHX5ObGjOnqy6T1BjPx_FEn6ra6EKj5k9OyjrUJ6roSCJmoQOsNHR0zG_Dsy69EetekfbxzNu33c-Ou3FmNOPb8P6JFytXtVmWYn8Ql9ZwEpGEbhwE3mzhv0FWuRLymR1QDhelWQ-LXv5oCS-Tzo5-eE8B0adFL9EYqyRfQYr-qIMrFSINEQTonyhscvSt6xoHv6mP7Kq80TKnUBrUk75cooFLcgobK5mgapyQzqZod3UAfkj3R7HxuKiRSH9ANJ4LSiJEcf184l25v0H8HY9QJJSs6tB-BTsAZigpm2ijyOJVZvYbii3EFVKeH19svE1L0SY-YxBs7DjhWhOa4zvCtQhSUbhou9CnQ4rm5Gr2nV9EXYILxJGJbeHRP31nDp8ogC6QGlLg-qQbXmOwhriyH8y6nlMzwl-ourICk3rywsDNRNn3K_xKqkuMOuguwYUi6JLMZ49o8u46dIQ1JKf_0Li8e4hKfaW5ZyF-N9AnZGU__3Bir-K9eNEasGx0qRJ7tGwJz4Lz1hYvziep5fwZJKMIWChKvyfj3_iG-H83for_Y7YbEXS15Hnly8x7YxpKQTF-fuL_BSAG66ndAgX10Z230okJhpgaeDiYtHt49UA7cvFXZffruSGjb3ohg_K9H-eZXSgHaI-NjoYhegnx5c9Zv03y-OdzNE4N3C50tJoOZHnow26p0HKxOyBidOlen8eg9eu3CR2kaFvExhFWc4fLsUN5K19B3nktlekvUxelLmySqKZIh4AK28d44gPS6PS4RMrtRfDIDvnQCKIkVfreOKk9tYl3aY6sbsU_B0p5mCwQ6w-HFCfoHh392hdxRpX81Wcb-ZLptDsqfLHGcVixzmwQGM-1NqVhlld71lIiuM2G3NTlgguGRx16pIcmI6awPFN48tsuOcVI3BxaLGluQFQOQQdWVgPx86n4jNqLMtjN0hVDmj0HLvSyFD9AMhxk3sQ_yvZr7dQkJeMjWcRJwvGY7CIMitks060vN8NHSSIwNwOamwGyom4OYEZphJxqzhTiY3WTQURYGuQz6LbQCOYcVzzUvno-NhUj-hfTYijxBvs1zfLV6c9eMAkWsnifSwMA1XEdeUHobMhIpqiOGFkRYhNanRJ1vfoKYYbNhwsIV5r_KhDofcmWAP2gOTzRXmrCo6RWhicfTvC8LKsMz1e2cSOHQnSM-kzeMu3OJD6A63YWm5EhejxtRwpONewijViJiqvZIN-C7XQ5J-JX38gKGgpYW30xm-BRcYJFPoqhXe34pgqOVvgbuSza21QGMqSGKg4iBXBE1Kp9pOHPf1GD5ToMlQqYX4zaVkk6l_2IW87LacVbKA7Rl-rl1RlTRQx3U3Ag6Z-HvcuRT1zf2cY3hcPaHvgcWWvz3JyNApLoIZv5_U6VZyyDCHg3jO6XxS9bsuoRbunDVzVPSZxaO8_lXGBP_eqIMXETZJK7zXOijN3ugEyQG2PpWrFtGEV0FjDHkCvas79mPcW8ukQBtZMFVMVVs15OmVlkQGK2PhHYnoOz5ECYgOA2OEWrwYM1JYUSdSb3BA_qKHJBXA4eam-i9VK380L9wLHNmRUO9-HFAltvU3X7u8iuFkS7s4Sq55ZFRI5Kuz1DDPah8swWl5jIdZpPAv4ZKoXvf2yDETq011-Qkb2xuptVQloz4Jn4yNhA5WTnplMAurxCoYN4xpI52_J0OmrnWb_hnLMlMKQ6FaxlZPsx2llIqvxr56CezaAw7yA2TM_PZdwyDR1Xn6DYZWo34VF2u64wVZLtMqg-uPHtQCmoZGoWzZ-vJcqZY34cv173FKRESxHzQiaYdD1dlqCxzvzwZ5x6_rM33l9sQSWrFkNNtqJPCIrhoF1t7JcCov9wJZ_QT23p1zSVVTTrnhGYQpd_o5kiRymFoE3FU-gKZrdiSYU8arfo345qWvQ8aomSDJ2c8as_YSGXcAlZteviUCMwLu_JA4pyx09RGPhflwWIo2wRy3f7ctMyOqDPX11a62hBtwLGX8CQy3w3lMH4-thTJHLGEpdOajs2bCeqBq_tQiEXocsr7AGNmlUwges0pli3SLgT684PzdieaztdIzbJHk-CRC9KbmUY842HA8a52hH2m-hKEPuY978sDfpS1vPrLDM9YChaWcd5a-LMZKQyLu7KSb0ehKlcC5C4gA05XWPdZ4SXp7tEsf6cguqXtKrTWP8ymn7BiQArXbOtyC9SOZwtxPyQtL7xs4v7Y0eDLYyj567Kp_owpmEH6NZLgOLkNqrCStJdSqwAeOt5CNt9DLmzwa_41ca_RPPuFH816nKMHxwUiqHpBFllKB4kW1D4poOVvA9_s77KPPeQHfMjPjvCejd8LWi4or4J7TxH-4WRUUFVwYqPQViL5o_y98qt9mZ6Ol9JNLK2b132e2yt81yXhJLm-GLtuy1hV0Er7-oOZzxNaA8npQSvv6mp3e3um6KxzXnVewnkkZsqJsVEmiQHwHNm5pq7fQGBEdU5pwQbGVsTfEJnQwpzFni5lCnpvvdCrOS9bTBVhqTymqNNSKwPwXy94HT_8X4jyy6cmvVWbY8exMnzGbDqPf8oX0Y3UMY5vzV_as6SZqJkBZD9DRxs7HmWeBok_Nz7VXwCuRj5MU6HXpp4BwVW_OPUqWq6Njx47J5s_8wT3Ifz5xNq-XCpPc_THKxx_V3omZrtrZMagZDm5Z3ThqsAIUVvNQ8cIXMqKwBWUxhifL7r408OJz5rFV6kr58Ik8J8kJ2xRxXPnn3sOJlKMGimou80Yq8GMiu3vc_mhaWISp5fvp2-SmZCeL4ReQVDjPvY8e71sYE9-CFUW_GDRl00CUJy0Xt8V3GzuelgLP8nxWVzNtgOD9BVcPpYLkZ4kEbe930QqWOmDGn60_eOYjldieVUUGgIP5jj29huohGgB6PGZEfD9GxAYygJg9j-dmE7MecCAwN8svaKN_G6_j4INAP_iiGXkeO6Huu0sGdLk2lD1bBskjy-iH_4X3cDiIJ4pGQGb_sjIJPmOPAlgLmowMFpykvavFwo2OmnyoAGdXTHV-ukwm3pwuiP14oQdkeOEIB2tsgYHKuBED5eHHTMtdtbui1I3gk4ZNaxS9p9scHMk_vHcOOirhWXiQkSsS6mUDwA_N_UoaEtqoEeIFa8XYzAAzRjWYIvVjC-iJ9efRbdF3_GneUjUCs435bu3y2r-YxzA2nTozYMt1kf8Ktn7zhtFAC0qu-AXSnmL9iLfvr_MGXuYRG2qVyqTbEnSR4QaBOaKk8d1r7Bo9g--vVNYeyhyW6suII-8GZVmn-yZZLfdKpq9Fg2UCjgn9YY_Iy1qscUAi35oluyOyPhLkI6OkSOe97YL_4erLj8OE1HxTWrl1_8BPN3_m4j2FMbjSZsqICP9PiueCoOho8SUaXI5bPFGrYhRBnZcKpNpFlM3gUdZrBRku_bsg8qaOgymzBvmNcLQ0uPUl5_kuPLxaQ4jKQELXYzNxbm5RjxUza67sOBfVwOH0DrzIOWK8NRYYf-VMNP13RQe42buVljTAk6Zn9xNR0Xvc3-vLR3CBtUMuwoMoVZaUbKJuI-GSdlz0Fcm_VSkusUa8-vDFrw6-SRP1uLTg6Wb2vto6e6aws7lUYA5ByCPDXia94TKpvWbYJOuCGV_27wdEV2M0HRzW-54vsD6MtXj9gqawgvg9xk34IbRF3k-IKh2pNkUg8OSk3aORUZ5b0yoxNQw46JEww5MEkoUH-MPFi2VJMRAOdjLKQ1EEEC_fom-iMQ_NdZLPWCc-ZAECL_yx1nzjN_pYhIMfURx5IL6-75zbYHi1ZYZ-57w0qyrUGYaP3oZIs5DzJEUTBT0uB9vP9K6h-_l1SdUWbjr-71kUZMQfve28eALhdv33Dr03K8oWQRwH-KDyawXPaWHLYxk6fQ3varp69yUUzK1_s0k9GIZd3PUoUBFO4KQeg0FFOCI4F7FO2zdWkOXuLmC6oBxYnMx4ey3jl6tdbKuUOXJzD_PglcUibdruy2L5cpMQVxNu3yr41R-Ix9j-Lqt_MxHjBZdah78Zy4jn6zhVqn28b0G7PsdnfuzNrPYoBPPlprIw7JeZp-6wylFLZgQ5oHjzPULM0iOV3o5M9FkFXcfroTePcruReqqXNa9EC1GhXi5nPw1DI7QDymKvWtyNkE_IBE1iTDKZNeL2MsGqHZ3d6B3Vy3Z9iBRmMrjtaLr-_-fxOhum6jL1s_-Xan_m02eSif_MYoLuc57nyROr-zD5m3tORljt8cOXgTA7Saax9ajBmMRBpI2EjGelmvXVzZPnR-YJDE_rTNP9i7WcsRRJ6hXaDuVloRbAHtabYQg_ubRX5J8rb1P0pnU3xbGfjjQgt23SNGoBtu79k29hoPtTAOSOtON3nQb9t4O4xdKLXHC973pwgteOzR00H-cSjetJddrx_TxTALiBkpkE335dl7oI8LTgyRNulSmiO2z_q9P_OCtErwuvfi-mbAO7eWZuKBcum6yDd3ZoOtjwqVWLlSqxkXYGA-rUxfG-f7TGAU6ME-Pmj2tvyL2XLncB5YxXnFMs98GGk7v24KtDm6xotyVxf7KLUAB1mTwC-6l6VWCoYeNVaelULc1nCu9ALDEAJYni4_ZTtvhtdqBElBE1F2zj6U4_JGuZcwP3Sw78OsKl5IEDn7sT-jc9dcsBDdBIUb-ZFQ5t3LzA3SXSwMka7YcomvGoiDZ65sw68jel60Az2no4ygvjdeF3IKfXbjp1X9JTt15PLMg2hip7OcjnApv9egREc1LkxbRj4clQFlLu3eFmdI4=",
+        "status": null
+      },
+      {
+        "id": "msg_019a351ea530de11016af89ca4e57087d2bad98dd130e2cd4b",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K25\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T1\",\n  \"agent_name\": \"Lily\",\n  \"setting_domain\": \"community_volunteering\",\n  \"setting\": \"A community garden's water-transfer demonstration\",\n  \"source_type\": \"Equipment handbook\",\n  \"belief_cue_ids\": [\"B4\", \"B6\"],\n  \"action_type\": \"A2\",\n  \"reasoning_structure\": \"one_step_mapping\",\n  \"story_backbone\": \"Preparing a community garden demonstration, Lily consults an equipment handbook: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request.\",\n  \"claim_span_aligned\": \"A standard check valve permits fluid flow in its forward direction and prevents reverse flow.\",\n  \"claim_span_conflicting\": \"A standard check valve permits fluid flow in both forward and reverse directions.\",\n  \"belief_proposition_aligned\": \"a standard check valve permits fluid flow in its forward direction and prevents reverse flow\",\n  \"belief_proposition_conflicting\": \"a standard check valve permits fluid flow in both forward and reverse directions\",\n  \"belief_question\": \"In how many directions does Lily believe a standard check valve permits fluid flow?\",\n  \"action_question\": \"What number of additional hoses will Lily enter on the equipment request?\",\n  \"reality_question\": \"In reality, in how many directions is a properly installed, functioning standard check valve designed to allow fluid flow?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"one direction\",\n      \"q2\": \"1\"\n    },\n    \"conflicting\": {\n      \"q1\": \"both directions\",\n      \"q2\": \"0\"\n    },\n    \"q3\": \"one direction\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\"one direction\", \"one\", \"1\", \"forward only\", \"one way\"],\n    \"q1_conflicting\": [\"both directions\", \"two directions\", \"two\", \"2\", \"forward and reverse\"],\n    \"q2_aligned\": [\"1\", \"one\", \"one hose\", \"1 additional hose\"],\n    \"q2_conflicting\": [\"0\", \"zero\", \"none\", \"no additional hoses\"],\n    \"q3\": [\"one direction\", \"one\", \"1\", \"one way\", \"one-way\", \"unidirectional\", \"a single direction\"]\n  },\n  \"action_constraints\": \"Lily must request the minimum number of additional hoses needed for transfer between two tanks in either direction. The existing reversible pump and fixed standard check valve must remain installed. The pump supplies adequate pressure in either direction, accessible fittings flank the valve, and suitable hoses are available.\",\n  \"belief_to_action_rule\": \"With the aligned belief, reverse flow through the valve is blocked, so one hose connecting the fittings around the valve supplies the missing route. With the conflicting belief, the existing line already permits flow both ways, so Lily requests zero additional hoses.\",\n  \"risk_flags\": [\"q2_non_tom_difficulty\", \"q3_answer_leakage\"],\n  \"risk_notes\": \"Q2 requires recognizing that a hose joining the fittings can bypass the valve; readers unfamiliar with plumbing may miss that application despite correctly attributing Lily's belief. In the aligned condition, the source necessarily supplies the true Q3 answer, so aligned Q3 does not isolate retained world knowledge. No independent true-answer cue is added to the conflicting story.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794677931.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "generate_family_output",
+        "schema_": {
+          "$defs": {
+            "AnswerVariants": {
+              "additionalProperties": false,
+              "description": "guideline 示例里是一个 dict；strict 模式不支持任意键的 dict，所以展开成固定键。",
+              "properties": {
+                "q1_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Aligned",
+                  "type": "array"
+                },
+                "q1_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Conflicting",
+                  "type": "array"
+                },
+                "q2_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Aligned",
+                  "type": "array"
+                },
+                "q2_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Conflicting",
+                  "type": "array"
+                },
+                "q3": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q3",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "q1_aligned",
+                "q1_conflicting",
+                "q2_aligned",
+                "q2_conflicting",
+                "q3"
+              ],
+              "title": "AnswerVariants",
+              "type": "object"
+            },
+            "GoldPair": {
+              "additionalProperties": false,
+              "properties": {
+                "q1": {
+                  "title": "Q1",
+                  "type": "string"
+                },
+                "q2": {
+                  "title": "Q2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "q1",
+                "q2"
+              ],
+              "title": "GoldPair",
+              "type": "object"
+            },
+            "ProposedGold": {
+              "additionalProperties": false,
+              "properties": {
+                "aligned": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "conflicting": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "q3": {
+                  "title": "Q3",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "aligned",
+                "conflicting",
+                "q3"
+              ],
+              "title": "ProposedGold",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "description": "status=candidate_generated 时所有内容字段必填、failure_reason 为 null；\nstatus=needs_revision 时内容字段可为 null，但必须给出具体的 failure_reason。",
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'generate_family'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "bundle_id": {
+              "title": "Bundle Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidate_generated",
+                "needs_revision"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "T1",
+                    "T2",
+                    "T3",
+                    "T4A",
+                    "T4C",
+                    "T5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Template Id"
+            },
+            "agent_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned agent_name.",
+              "title": "Agent Name"
+            },
+            "setting_domain": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "education_training",
+                    "museum_exhibition",
+                    "community_volunteering",
+                    "workplace_operations",
+                    "arts_media",
+                    "hobbies_games",
+                    "environment_weather",
+                    "travel_cultural_orientation",
+                    "events_planning",
+                    "technical_workshop"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned setting_domain.",
+              "title": "Setting Domain"
+            },
+            "setting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The assigned setting_label if given, else one specific natural setting within the assigned domain.",
+              "title": "Setting"
+            },
+            "source_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Type"
+            },
+            "belief_cue_ids": {
+              "description": "Zero, one or two cue ids; [] when needs_revision.",
+              "items": {
+                "enum": [
+                  "B1",
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B5",
+                  "B6"
+                ],
+                "type": "string"
+              },
+              "title": "Belief Cue Ids",
+              "type": "array"
+            },
+            "action_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Type"
+            },
+            "reasoning_structure": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reasoning Structure"
+            },
+            "story_backbone": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Shared story with exactly one {{CLAIM_SPAN}} and one {{BELIEF_INSERTION}} (directly after the sentence containing the claim).",
+              "title": "Story Backbone"
+            },
+            "claim_span_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Aligned"
+            },
+            "claim_span_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Conflicting"
+            },
+            "belief_proposition_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Aligned"
+            },
+            "belief_proposition_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Conflicting"
+            },
+            "belief_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief Question"
+            },
+            "action_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Question"
+            },
+            "reality_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reality Question"
+            },
+            "proposed_gold": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ProposedGold"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "answer_variants": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AnswerVariants"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "action_constraints": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Constraints"
+            },
+            "belief_to_action_rule": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief To Action Rule"
+            },
+            "risk_flags": {
+              "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+              "items": {
+                "enum": [
+                  "agent_prior_knowledge_risk",
+                  "source_acceptance_ambiguity",
+                  "source_vs_belief_ambiguity",
+                  "action_ambiguity",
+                  "q2_copy_shortcut",
+                  "q2_non_tom_difficulty",
+                  "overconstrained_story",
+                  "unnatural_redundancy",
+                  "q3_answer_leakage",
+                  "world_fact_scope_risk",
+                  "template_task_mismatch",
+                  "near_duplicate_structure",
+                  "implicit_belief_leakage"
+                ],
+                "type": "string"
+              },
+              "title": "Risk Flags",
+              "type": "array"
+            },
+            "risk_notes": {
+              "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+              "title": "Risk Notes",
+              "type": "string"
+            },
+            "validation_status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly 'needs_human_review' when candidate_generated, else null.",
+              "title": "Validation Status"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidate_generated; the concrete reason when needs_revision.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "bundle_id",
+            "status",
+            "template_id",
+            "agent_name",
+            "setting_domain",
+            "setting",
+            "source_type",
+            "belief_cue_ids",
+            "action_type",
+            "reasoning_structure",
+            "story_backbone",
+            "claim_span_aligned",
+            "claim_span_conflicting",
+            "belief_proposition_aligned",
+            "belief_proposition_conflicting",
+            "belief_question",
+            "action_question",
+            "reality_question",
+            "proposed_gold",
+            "answer_variants",
+            "action_constraints",
+            "belief_to_action_rule",
+            "risk_flags",
+            "risk_notes",
+            "validation_status",
+            "failure_reason"
+          ],
+          "title": "GenerateFamilyOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 6008,
+      "input_tokens_details": {
+        "cache_write_tokens": 1263,
+        "cached_tokens": 4742,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 1263
+        }
+      },
+      "output_tokens": 1742,
+      "output_tokens_details": {
+        "reasoning_tokens": 910
+      },
+      "total_tokens": 7750
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "feedback_given": [],
+  "checks": []
+}

@@ -1,0 +1,156 @@
+{
+  "family_id": "F006",
+  "fact_id": "K15",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T1"
+    ],
+    "agent_goal": "Equip a workshop-built plant chamber to monitor consumption of the gas used in photosynthetic sugar production.",
+    "new_task": "After consulting a written plant-science reference, specify the gas sensor for an illuminated leaf-chamber prototype.",
+    "action_constraints": "The prototype has one unfilled gas-sensor socket. Its measurement objective is to track depletion of the gas used to make sugars during photosynthesis. The purchase specification must name the gas the sensor measures.",
+    "action_type": "A3",
+    "reasoning_structure": "procedure_selection",
+    "target_output": "The gas-sensor type entered on the purchase specification.",
+    "aligned_action_gold": "Carbon dioxide sensor",
+    "conflicting_action_gold": "Oxygen sensor",
+    "belief_to_action_rule": "A belief that photosynthetic sugar production takes in carbon dioxide supports specifying a carbon dioxide sensor; a belief that it uses oxygen instead supports specifying an oxygen sensor.",
+    "risk_flags": [
+      "agent_prior_knowledge_risk",
+      "world_fact_scope_risk",
+      "q3_answer_leakage"
+    ],
+    "risk_notes": "Photosynthetic carbon dioxide uptake is familiar school knowledge, so a workshop novice may still reject the conflicting reference. Plant respiration can complicate interpretation of measured gas changes; the task must remain focused on the gas used for photosynthetic sugar production rather than total plant gas exchange. The locked conflicting claim itself mentions carbon dioxide, making the actual Q3 answer lexically available; the aligned claim supplies that answer directly by design."
+  },
+  "template_id": "T1",
+  "agent_name": "Charlotte",
+  "name_pool_group": "feminine",
+  "setting_domain": "technical_workshop",
+  "setting": "A plant-instrumentation workshop building illuminated leaf chambers",
+  "source_type": "Instructor-recommended plant-science handbook",
+  "belief_cue_ids": [
+    "B2",
+    "B4"
+  ],
+  "action_type": "A3",
+  "reasoning_structure": "procedure_selection",
+  "story_backbone": "At a plant-instrumentation workshop, Charlotte is building her first illuminated leaf chamber. She consults an instructor-recommended plant-science handbook, which states: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Later, she fills out a purchase specification for the prototype's single unfilled gas-sensor socket. The chamber's measurement goal is to track depletion of the gas used to make sugars during photosynthesis. She must specify the gas the sensor measures.",
+  "claim_span_aligned": "During photosynthesis, green plants take in carbon dioxide to make sugars.",
+  "claim_span_conflicting": "During photosynthesis, green plants use oxygen instead of carbon dioxide to make sugars.",
+  "belief_proposition_aligned": "green plants take in carbon dioxide to make sugars during photosynthesis",
+  "belief_proposition_conflicting": "green plants use oxygen instead of carbon dioxide to make sugars during photosynthesis",
+  "questions": {
+    "q1": "Which gas does Charlotte believe green plants use to make sugars during photosynthesis?",
+    "q2": "What type of gas sensor will Charlotte enter on the purchase specification?",
+    "q3": "Which gas do green plants actually take in to make sugars during photosynthesis?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "carbon dioxide",
+      "q2": "Carbon dioxide sensor"
+    },
+    "conflicting": {
+      "q1": "oxygen",
+      "q2": "Oxygen sensor"
+    },
+    "q3": "carbon dioxide"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "carbon dioxide",
+      "CO2",
+      "CO₂",
+      "carbon dioxide gas"
+    ],
+    "q1_conflicting": [
+      "oxygen",
+      "O2",
+      "O₂",
+      "oxygen gas"
+    ],
+    "q2_aligned": [
+      "Carbon dioxide sensor",
+      "CO2 sensor",
+      "CO₂ sensor",
+      "A sensor that measures carbon dioxide"
+    ],
+    "q2_conflicting": [
+      "Oxygen sensor",
+      "O2 sensor",
+      "O₂ sensor",
+      "A sensor that measures oxygen"
+    ],
+    "q3": [
+      "carbon dioxide",
+      "CO2",
+      "CO₂",
+      "carbon dioxide gas"
+    ]
+  },
+  "risk_flags": [
+    "agent_prior_knowledge_risk",
+    "world_fact_scope_risk",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "Charlotte may already know the familiar school fact and reject the conflicting handbook claim despite being new to chamber construction. Plant respiration can complicate actual chamber measurements; the stated objective concerns photosynthetic sugar production, not total gas exchange. The locked conflicting claim names carbon dioxide, leaving the actual Q3 answer lexically available. In the aligned condition, the source directly supplies the true answer by design, so Q3 does not isolate retained world knowledge.",
+  "variants": {
+    "implicit_aligned": "At a plant-instrumentation workshop, Charlotte is building her first illuminated leaf chamber. She consults an instructor-recommended plant-science handbook, which states: During photosynthesis, green plants take in carbon dioxide to make sugars. Later, she fills out a purchase specification for the prototype's single unfilled gas-sensor socket. The chamber's measurement goal is to track depletion of the gas used to make sugars during photosynthesis. She must specify the gas the sensor measures.",
+    "implicit_conflicting": "At a plant-instrumentation workshop, Charlotte is building her first illuminated leaf chamber. She consults an instructor-recommended plant-science handbook, which states: During photosynthesis, green plants use oxygen instead of carbon dioxide to make sugars. Later, she fills out a purchase specification for the prototype's single unfilled gas-sensor socket. The chamber's measurement goal is to track depletion of the gas used to make sugars during photosynthesis. She must specify the gas the sensor measures.",
+    "explicit_aligned": "At a plant-instrumentation workshop, Charlotte is building her first illuminated leaf chamber. She consults an instructor-recommended plant-science handbook, which states: During photosynthesis, green plants take in carbon dioxide to make sugars. Charlotte believes that green plants take in carbon dioxide to make sugars during photosynthesis. Later, she fills out a purchase specification for the prototype's single unfilled gas-sensor socket. The chamber's measurement goal is to track depletion of the gas used to make sugars during photosynthesis. She must specify the gas the sensor measures.",
+    "explicit_conflicting": "At a plant-instrumentation workshop, Charlotte is building her first illuminated leaf chamber. She consults an instructor-recommended plant-science handbook, which states: During photosynthesis, green plants use oxygen instead of carbon dioxide to make sugars. Charlotte believes that green plants use oxygen instead of carbon dioxide to make sugars during photosynthesis. Later, she fills out a purchase specification for the prototype's single unfilled gas-sensor socket. The chamber's measurement goal is to track depletion of the gas used to make sugars during photosynthesis. She must specify the gas the sensor measures."
+  },
+  "design_tag": "open_other",
+  "q3_leakage_scan": [
+    {
+      "term": "carbon dioxide",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    },
+    {
+      "term": "carbon dioxide",
+      "category": "conflicting_source_claim",
+      "where": "claim_span_conflicting"
+    }
+  ],
+  "fact": {
+    "fact_id": "K15",
+    "world_fact": "During photosynthesis, green plants use carbon dioxide and water to make sugars, releasing oxygen.",
+    "aligned_claim": "During photosynthesis, green plants take in carbon dioxide to make sugars.",
+    "conflicting_claim": "During photosynthesis, green plants use oxygen instead of carbon dioxide to make sugars.",
+    "world_gold": "carbon dioxide",
+    "conflicting_belief_gold": "oxygen",
+    "pretest_question": "Which gas do green plants take in to make sugars during photosynthesis?",
+    "qualification_notes": "Only during photosynthesis; plants also respire and consume oxygen in cellular respiration.",
+    "source_urls": [
+      "https://science.nasa.gov/earth/earth-observatory/the-carbon-cycle/"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "q3_answer_in_conflicting_claim",
+      "message": "真实答案 'carbon dioxide' 出现在 conflicting 的来源声明里：锁定的 conflicting_claim 本身含真实答案，需标记风险（不改知识库）；请人工确认语义（否定/同义）"
+    }
+  ],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:35:14+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 2/2 个通过硬检查的 bundle 中，取 warning 最少（0 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 5,
+      "template_id": "T1",
+      "agent_name": "Charlotte",
+      "name_pool_group": "feminine",
+      "setting_domain": "technical_workshop",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}

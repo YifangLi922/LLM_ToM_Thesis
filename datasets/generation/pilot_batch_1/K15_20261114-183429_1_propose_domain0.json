@@ -1,0 +1,372 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 28.95,
+  "usage": {
+    "input_tokens": 4708,
+    "input_tokens_details": {
+      "cache_write_tokens": 647,
+      "cached_tokens": 4058,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 647
+      }
+    },
+    "output_tokens": 1281,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 5989
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "propose_bundles_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "propose_bundles",
+      "max_bundles": 3,
+      "fact_record": {
+        "fact_id": "K15",
+        "knowledge_category": "basic_biology_category",
+        "world_fact": "During photosynthesis, green plants use carbon dioxide and water to make sugars, releasing oxygen.",
+        "aligned_claim": "During photosynthesis, green plants take in carbon dioxide to make sugars.",
+        "conflicting_claim": "During photosynthesis, green plants use oxygen instead of carbon dioxide to make sugars.",
+        "world_gold": "carbon dioxide",
+        "conflicting_belief_gold": "oxygen",
+        "pretest_question": "Which gas do green plants take in to make sugars during photosynthesis?",
+        "pretest_accepted_answers": [
+          "CO2",
+          "CO₂",
+          "carbon dioxide gas"
+        ],
+        "qualification_notes": "Only during photosynthesis; plants also respire and consume oxygen in cellular respiration.",
+        "source_urls": [
+          "https://science.nasa.gov/earth/earth-observatory/the-carbon-cycle/"
+        ],
+        "review_flags": [
+          "photosynthesis_vs_respiration"
+        ]
+      },
+      "assignments": {
+        "template_id": "T1",
+        "action_type": null,
+        "reasoning_structure": null,
+        "setting_domain": "technical_workshop",
+        "setting_label": null
+      },
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=propose_bundles: return at most `max_bundles` bundles. Set failure_reason to null when status is candidates_proposed; when status is no_valid_bundle, bundles must be an empty list and failure_reason must be substantive. If assignments.template_id is non-null, suggested_template_ids in every bundle must be exactly that one ID. If assignments.action_type or assignments.reasoning_structure is non-null, every bundle must use it. assignments.setting_domain is the setting domain chosen by the caller: every bundle must be workable in a natural setting within that domain (and assignments.setting_label, if non-null, pins the exact setting). If the fact cannot be turned into a valid bundle in that domain, return no_valid_bundle and name the domain incompatibility in failure_reason instead of switching domain. Following A8, design every bundle around an OPEN answer space: the agent produces a value (writes, sets, schedules, labels, books, buys or builds something). Do not design a task whose answer can only be made determinate by listing the candidate actions or values in the story, and do not rely on if-then decision rules; if that is the only option, return no_valid_bundle."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"propose_bundles\",\n  \"fact_id\": \"K15\",\n  \"status\": \"candidates_proposed\",\n  \"bundles\": [\n    {\n      \"bundle_id\": \"B01\",\n      \"suggested_template_ids\": [\n        \"T1\"\n      ],\n      \"agent_goal\": \"Equip a workshop-built plant chamber to monitor consumption of the gas used in photosynthetic sugar production.\",\n      \"new_task\": \"After consulting a written plant-science reference, specify the gas sensor for an illuminated leaf-chamber prototype.\",\n      \"action_constraints\": \"The prototype has one unfilled gas-sensor socket. Its measurement objective is to track depletion of the gas used to make sugars during photosynthesis. The purchase specification must name the gas the sensor measures.\",\n      \"action_type\": \"A3\",\n      \"reasoning_structure\": \"procedure_selection\",\n      \"target_output\": \"The gas-sensor type entered on the purchase specification.\",\n      \"aligned_action_gold\": \"Carbon dioxide sensor\",\n      \"conflicting_action_gold\": \"Oxygen sensor\",\n      \"belief_to_action_rule\": \"A belief that photosynthetic sugar production takes in carbon dioxide supports specifying a carbon dioxide sensor; a belief that it uses oxygen instead supports specifying an oxygen sensor.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"world_fact_scope_risk\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"Photosynthetic carbon dioxide uptake is familiar school knowledge, so a workshop novice may still reject the conflicting reference. Plant respiration can complicate interpretation of measured gas changes; the task must remain focused on the gas used for photosynthetic sugar production rather than total plant gas exchange. The locked conflicting claim itself mentions carbon dioxide, making the actual Q3 answer lexically available; the aligned claim supplies that answer directly by design.\"\n    },\n    {\n      \"bundle_id\": \"B02\",\n      \"suggested_template_ids\": [\n        \"T1\"\n      ],\n      \"agent_goal\": \"Prepare the correct quantity of carbon-atom pieces for a physical model of photosynthetic inputs.\",\n      \"new_task\": \"After reading a written reference about photosynthesis, calculate the carbon-piece requirement for a workshop fabrication batch of molecular models.\",\n      \"action_constraints\": \"The workshop is assembling eight identical molecular models of the gas green plants take in to make sugars during photosynthesis. Each atom is represented by one separate piece. The agent must enter the total number of carbon-atom pieces needed for this batch on the fabrication sheet.\",\n      \"action_type\": \"A2\",\n      \"reasoning_structure\": \"simple_calculation\",\n      \"target_output\": \"The number of carbon-atom pieces requested for the batch.\",\n      \"aligned_action_gold\": \"8\",\n      \"conflicting_action_gold\": \"0\",\n      \"belief_to_action_rule\": \"Carbon dioxide has one carbon atom per molecule, so eight models require eight carbon pieces. Oxygen molecules contain no carbon, so the conflicting belief yields a requirement of zero carbon pieces.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"q2_non_tom_difficulty\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"The agent may already know the familiar photosynthesis fact and reject the conflicting written claim. The action additionally requires knowing that carbon dioxide contains one carbon atom per molecule and oxygen contains none; this introduces a small chemistry-knowledge dependency beyond belief attribution. The locked conflicting claim mentions carbon dioxide, making the actual Q3 answer lexically available; the aligned claim supplies that answer directly by design.\"\n    }\n  ],\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_051ddb41e3a6633e016af89ba7386c87d28f03698519671f92",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794677671.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_051ddb41e3a6633e016af89ba98e6487d2861aaf03e7ea4499",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JvDwSveRi8ImmO9qV74Xhx9aE-jTv2klB8P_xo_g0bFeMKFigH9hijmr0Z504vqLlnGFLOA47Chn8Oqk1ERyLItvhd84JBx5GmCCa9hGXVuKyOSQkmc3Y_lSMjLPNo0OaoplneK61fgZBKDokbNlNzY8gnSia2VvyUPRGsZxM8vJj38qdu-8RJJL3S7x7UdUayt27rwnKoy72ODsnjD7KM0cJEldXZMRZxOapAAbiaLawbJ-K6HN13RfDgf0uhLXdbZTv5GfbtgwMkQN7YYR2Eg7luBSXiZw3KIVVkTXLRLFDSGDzRxUbcraKSLGdU8jCP1fWI6xDHzjLSbA7sjGRGRdy1bfF697GrCYbW9047JSophoyIn_kCyZ2pT-p7oLUpjIqiOAsksfSc1AoANr2CAQ3wUebyCDsu34jmv_r_8mvW8b-OqGZabFxfT8fLlCmZBv1iQyVGTBadhgtBbAORe_JHj_bprpSs8CSbbtt8260GS1O9Qqj-hxCs_y3foGDF3F2ejPii-ncwjN8aWcLW3mv-X7_eI-L7Q7q89dkem6cwi4W6baCqjkyHqxcXogK1pRGEZrrs6mvun0Yz03dowmvSoHc7A6GvSvkOmjHo826PmuFmz9PDwlUn9GECXZOFQcMwyf28efIFiCOKe7ZB7B1nMWsAZYfm9RikQGjSVwM18GDEID-6wbnV5jbVHTeagztzUy-9thVYFeaURb20gvk9PFqESdAoty45R1rMSj8quXQ1Q9L4imUlotYxQBi5GyBmOUomoNIi25VJKGvLOdz5yatRNC2JL4nvNebqprFg8Aj4qU29_XXM6Dd8mSPiQ9yd0enxs7FOEebUR2dw0l4dC5cPtBltl38zcVbA52G0bF-eN2c6Gzizw6Wx_TRkaDEdNg6l8Lbig-E2OtapKc9Mv3oaEZwYt5YoioNj9VVANh94JZeuv1G80iSSZ3Q8TCUjNAuSBAzJlV38sk-SSks0TlHynpN59389INtVdpdNYVLyIcB8VXnmEKifaYKgT2LE9vlit2KeCZ0f4T7s1IISdJ6cUwI5E9mSpTX6i5PnFC9Lz7QWkQSiRxecDQClxk4GDaYsV_elK0QNAWzUH5S1DE-xMjiAlNig7W1dQDLUuoCTGkY0Cp3sXpa7IeN4QbLrOvGPcfx3KAoWRql0CdBnCaoXjrXmahGWLqrs_IH4dVVm8CtCt6TDdvMo7ZgTK5LqEXll6MtKC2s_NPAsu4yYM3IqPQMXEzYHKCGlLgj6xH7ohUGigdDo_DRFPTgpgqJvTMXvRKmPYB1FSyavVPAAPTuHyI9BgEQLsqiIY7mj5K0ELYWho0MuTKn8ds48l5o9LYs4JpIubERhYAlMKmkidtlaFP-JojvCkGo-gHGdKwKq3N35cdlclzBZkU9gj6Mz4x4hOt-keY7enB8DQa_NCdRmHnVXCncWYzXp1b7Rh3nlKCiaUB9eNuq-bnyrFMLuC0hvDj-mBtrf-2q17swy7jUVjkghQguPjvDg6A_0HfD10tOzbMt40KthqVVkysnAPFYpEw3Ix6sTGl3m5EykkzULlmYvPN3XPF1hWb-Fhv6Cj8-FpsBmhvtnBbjI1IqZE4EcuuFeP2H_MBcfTlbxV4353lWqvVY7-PTLhtifl7aZhIYz1fue12DkwOtH7x9uG8S6QLksouzz2VOBiTcY_2hPmxTdx--3ayw0vraDHbCOUgmjy97peeSjVnRbNfwYpWXc1h3DJU2pIYhBLbM-bP7Hrh8imd6ZINVgPu6eeq08377VjbYBuXAXda_fMbhL5sILmM30P6gg26jPegJRv8GfxH9b3P05vDW_Fry2hb0a85wtjTZVUEi-_9UZdCtCV_6TTlwnwfZk2otV9IE42tgblAEga0LN5YSqr6lNTJc0blzkNzEr38V49SoQCwhRApjJSLqdjkujNGrpYYcgbni6ABWwwBhHOR9lbPBW0-mzFtdMt2rzptnuaTpHbVe0-iPu2DFSy4D9oXlQ_9eReW3-D-dKhcFKvxQdosiUQvaGp0OxbAPk6dhQ4MnTSDqcYR48z3j3bllgzxQyj1cV14CwYM63jNljQ9-zveI7nTSisjWsVyk3UZcXN3jY3sxi3LKdvpPCx3lAB3st35eVPZAvWkX1nT1Qa2yzTtdtdJ8qr1DbNsquD3kslBK0iOYekNXDkVxiSVW3v36qmuqxJ3hqboiI9hxysZD41ssBsMHKZnsjCVpYzdoDcqMI8KcIKWqMQZI6FLriuh8IGUlmWcyDbsfLepBaPJ2ti2U1jnZ3izFlfVIUFfxzzymHpNoYvh5PABVVmEzGJIjnxkj5a-nphgcwyo3pArbNOgwYFWWfGB28Df0gmWwgC1J83e1529_B4jS8pAuMOwK1jDlZ2Bxhbs9vxMSN27WgMHKqycOFIViwZn7Rcd1KZ7mDRqcE138FUt8xj3t8fabIsxh3xr1KfPjnIvC7q6xAwyACtDwA2vJLs2nXgPRyFhEWpNMh6PyI0VWTQ1yr7_bertQOQp5wllh9LLsLDVlf1VifETiu151D-tMZon6niScl803TjpYBTsJmimAxBFQ42bS3SsusHnnM4Sp3VDK14QhZnX-rHw7YsQGSE0qqGiN-Pgf2Y0arEmOmFA6J3QvICKVPaS8iNmLRUb47HvW_8Vs3l9ogpo21kLx9x-aG-NCVFX1FODtbVlo-x2aAvtwkuZvZdo9Kp_ltCDJTVTZcJlENw_3BJl9gWV14jPJh4d5-tZErGZHsNipS2KwiReaSi_lff4rYR5_pJVJ65Fq566xL1YCybgKdYGZduAhKH09jBfSDrc378hWRJVPLYuZJxbgZR4I4P9d_D4CvUshFrOK6jG6J6nPGNkfVS_ukcyDx0ooIra1YAidj6wlmo7bVsHEncK5ADg5xZA05_oJHlhPW8TeKLTnMIMHsNRMDAfsYSHLsOg-v-_TXKopOeca4VLFT7snK6RPmiOwTEGWSILso779UilN-Of1dzoLTVuxWJP3I2RIkjL0EGrytid475KteeNYOYnLYJHdjONI1ij3b-C8XCsd4BhQ2zuMY9I7Em_UNNlpEw_DUwaPv3QjdDtaK4JTl93tYWXYxtm6fA6iKwhGDjtNx2rGqenW6-A421FMA8hg_jJam4mKx_TCR6SyCRV-OumZaA5COqiauQuMMKWBMABvPViqt-Tup9JtWIs2ue7vpdnEedOL1R5w3XrCvG9SVkP7RILHaoOuHe3MqjktTgtBmBdxZTU2aHJQ_kEa0b5vMyxSkGstxM2tx1TIoyz9VqeePVknNSWoBQZMN78Fg3oUCzDiOPnxsIvlL2ZgizpBLHzO1ssWqfTYtUy9yrgYA5bfp1FtXV2VerjdTyB_2yGOC6Rd4DjPVjHxqgsIrKkWg87m9JFiE4Aaif4HBgPqm3EhRA37M5W46bR191LN426waAa00g8terbMA2mZx2LycdfTZ6VXV-zeEKsYv3KTgXuClYVhiS0DQl0za6rp4wlyTRMTv1fxnNYFyE1l_f4DODubR7Ou7Z8Mn_1hpD6eOHBI7xLoAP7l23U_On9ZQAgslAYVavBuVRyJ3LIgOZ4c7JjlSjySrRWydpHk9dBNntmKujdAKI0SFoZavNWDRhZ6tVCykXYTP4RuYWoqIFB4wGA1pqSDrLJ7wcfrUKlNwUOXdiX9j7X7a_RTZBmzFaIOUlL7lWGe7yyW9ylARKX_i00RbcODrWyH_4yyKuNf8werEuyXa2BQlYSzzDG_MmfGtEpUKQXwdg_H9XVYNarc-smchWeK7E92G33Cerd_X6tXNS_OCcYFmb-SoeNi88w8TCENoiPhSQ4aE1T3JjMbdRYmGc_E0X7sjCA0B0WdcuLZk9ngLlWb24RLrU7Fv_moU-NOV905UtHdXtO985aQzcJc01GU5VqNPEGrNvmYT692ykCX8Tvd8D1O8EHod_3jLMKjy1bRdLH0JihAu3N1PiGLXVs5ZQMgAxIBqCjsWDieWy_HweogtU8juJhudis7rnj8kNLJHCSxTSG5AIdzVYrikCo7Ic3IQ6HPQMRFicwHgLSIGSJbnko0ZRlM00ti-j7qlLj6vmctVDFbrH7w8sJnws0tDRYk83E7Iyrs_PQumo46EIt1l4rSflso3QMBzPrK2ldlSVfk90Gf7fA7PUPaDAIzxvUWy7j_GGu9HudL0OPL7sngb3czd-c-GX3Cdr3YkTLDjoZBr7HAlPV4B3EgwZAqkDjuNeLQEzvE7-sxgp7EFH-EMLMz5axqGt70r1LUkzTz0pkeE0T9PVGaOPdd56UaC0rxJMlWJvqpA4EAKZQ1TJ22SGGfkSmprzpb2_v4j1Ycc9t-Xfzx_lqRVYaJM22vf_0gwQdJIebmpBNxp80nruH_KyZy3r5Fl5oZPeTdP6ToWYuMYtdXTHfQ5-fK9V-CBD1n3ZEHlLeVo-AmfVMC4IH7QVq0dIeXx5HCOe9udvGcnltewuTNRSjqxQ56bmT4kaliYYdbklmlXPYPH_Urkm6dYAW4Wx8VqhSECXeKZe7ai3FlkMlsBGdYgWhldENr0QGRKuXod3BuUukYIeOOA_N4Ex6v_CHnrJERN2QB_ueuQwzFpqYfNqVJeyAKZqxNlRXrRa9y3HTMuswKxYMRXMCfXBdOQfUq6r7UnC5m8Q_wlnum8tPWMy-b-R_6YozkVKf8vhNEikyWMY9VJCEy5OwkbUQ5MultudTYUIgpokYnhF35hd8FXbwCXWhLhoBUTaOASv2NVwNn_XGKkDiTXCK7Z10rCE94B9XxAUuhUVUu39-lkhHT0wBwsl2c7_YRkDo7UF6aQBBvjAfx9hBbYrPcDYV9XqPFgz7HyQ1Z7VVSy6HCqLpvNOAU_4JhS157U-FvsG7t3LoDD8G3OBr_GZOhok_MPpN5q4aJ_sc2ZgA-iqHUULU6DsptxUmhSyEvvLmUrwsH11GmX-hDfNRGXmiwHbzX5n-OGDJTCap7Ly-uT_-8dnXgYzu7J7gmDe0oZZn7gssBEDUL3cBMNR3Dy-lNJ1NGNMUTz2_tbDHf0IfNvpTmMGxlfJzRQnvDw_0ilTppFKLgPTuRFyBTFsBgduOWKm9XHHS2T88PZLEmpFsjdci4atVcBvSB87UvFTna4I9FGxWvSc8Y5pksznNrs6jD_mK9ol5xZ7ozgi4ZXEALI5J3oFyaQOQMpL4oF4ZOfukFgt1SvCRlJJQ4fvTVnGvSxLsdj_ibCyv1aexN0Nzj5wRXzTwHWITLNiwQ55iYB6el9e1WZamJhv2MKLImBB49KEKhIAXvFvwVDzKTE3wO_ap6NGjpe57JqbwojZx9CDE5B3S852xYZOTJC6lpGIy0ksXtHKd3hK8HtVTouxQ8afV6lqsPE0i4Twb4vSRb2SGitrzG_PhTAweaV0zXingBT3ymHTx_Ceo1tHm4hakEJniFTCglCWPDbM9VZPSWC0PAvAWt5sMrSgzHQAimHdwg4SPeCWB8GUwxcM2JBVZxOj2aWe3FnD9vzgPTj0mxxAHAyrUIzC_YhTbacmIJ8kw-Pa9k0KThXVfrLVNTpiqIW0rpLh1a5F014Q43mvMIVBLp2CAxQXH8xHDowlgB97k7NEt_bD-Eg0pWQ25Zhyg2kXMleZ1ACZW0BDcfFJS0t4-_PaQM7iWXitEUpzSgIqL_1Kz18FQwEetIbsL8dz5MPqj-_LZSWEXu5w7SGttoY9C2h4EjaD6CWMgrkAAw0_GESsrgZE-PpWYbfawXPcCDDbi1jvZRcaFgZUdvSm6GoQ7UmWQM7t0yrUppTZjATmNMgivZaUtmp22ODdfBBI3b19igfFq4og6m4jFbEhlZVbCeG44_hpIAzU80stz7d1tHJeKxPVwMg1U4xWfWRrJvP3ApnjCFs-KTuM75SLpMeOjPbEN6x7aJH1lfToJIO0TiEQCu6kyeBmS9ceisVYKZP4M48YOwRDqd8-fDNduHsNufHjY45lKPkbrQ_-csFmTaoPeuBbaRG9viHwu4DRAcOnLHtxriVTk1tCNBPRdyB__LoVIud5z3ArK_9vbvv0DWjIfIVTwg0um6b-U6WhOk1wqfxlqRSSbe8kWiUO9kkNHwX9GlE7bP3y_-CIvAiaGHxbYpgGMZMi2YkNbBtBw7mXiQ7O8PpNdNooyzoUNxv4guaFEuTafPT0oI-JMY0ATce-PUl4cgG_fmS6OUJwbiPko7nawH6OoS7uJ9rIOQ2pKgM3qRpr5C8a_ipxTQLJAeuAAFJ2M9nz-frgiYjCrPkEaSXbmsacEqeEwATqcPLZWErvf51uYHBqrPZOniNUTKOqUBl45YSSXqdWNx71PQQJC-liFPpmv35Hhi_UgBDt9aXzZ42wXSYiuGliGimYglYNJM1qB4Z37ZW5u-6JQeUPvLTNHxDrKwaI6XjD5HcWfMAaB8t7wzOs4yVoD2jjhFBcMsevhLHCEKp_p3Bim1inhPXg4wHXuVtFR5XT5VuIESd0hOCHGp2PeVC9_5YA84btJJ6Sr9WudOAH5G9UsC4yBWP7UYBXL9GV_Hu8t4HD2SNpNqU4D-DTojDDb-LCYGcezWz3zmw8eoREXzzLRRiIB1QD8hKPuIXPdRm79N-FzOdSvUe0mDtHfEbOzHwktQWWPMFXoFxIoV9fd5DRLwkGfARpy3LMsbwC1CGesgCwgpzvA1pW7CwBkL3oab9JMlBsjpFN8pAHC5h2bC1lOseravNHZhDCEK4pNYKNbzwFpQJvnKUXTVL4f4AP_2CGvWX5LYBK0nnNPEVGyuPVdNiNv8lw9bA3RHQVhNTADoKACxZkvz1L2npN3H1aL4ffJORVxJgLHgI5pA3IVqcefXTDXuSgmT5QWAjbp_T6Y-EtUpkDn6vTFIsKl5MAt5Pf4IrgZPknbf5A16wYEPp6c0dAFBVJy7o8efjCnMZ92c3sDl-S0hC4jamvj45l-H8nOWyjRe_JbSn3BfkVe_hijt6uagc9qlkRvOTcnWeGBoxRMmVb_4dlPwImqNr83aBRmptepY27ZfdthCM1H-BUlrkbtSREZ4ljQxHnQcPBdilKXQgkBPsg-BG4--yPXGhJTTFeDELGcPY9LAWiwVas0iR64rhvokNQ3bkale2sPmHJWlvJXYIujifSDKjOFPv0L-5HrAIohXgRin9kWHx6CqUnWUjfamKFvkTcRSbBAyYFcsIpwqszYeliE_XwHELLtAPU7UdtbF6MM9a5GLs-T1hjAXGnVu2Dfjai-miUj9IUcfIiB9mPqMZvDZS-PuCOJPpZYoQ7RKf9IpU4amLLsXKretXMvi_I6DmPOO7v1XIFuY7h3kiz8817kCE97Sg3xoQ5NCRbFTwBq-EqdAs_Z3RkHIznydXUASvOQh2tAki6OWY9yxGZKYpb3I4pMBxbV4UZ7vMJOGAe-Ftszlm2lBP6qiKsEFCwCjELRpyWHaZ54pS-rPrVoNW93pFpSAxe_pR2pF33kbRiMy-eepii02XGwY4IH3VTmv_gWL8n_rD0j9cpYHO5kg3QW-SInaUnpeGglXHJ_UG3IRMR9rq5FcZNRO77X5tX82RJMLkiqYRkZVdFiXuBxMxafcb_Qa6lzoFtwa6I5OhLUvchSX2cPjL_iRLXG2bYmvnQsDYyKYcQ1LlMwQlTJQDdhEv1w0E4T7H5SuWDQbVvSSEFO37PDnnv3FuyFdH6EetT4UzLU4kLkDXIZq6SquH9N19ijH2FACCpnZsXo3tGqOdA4WfVS6ECF6HS68_9V_necnsKYCtbsjl2uvV02hkkJd-0lLgMM4Fy28SboyllJ-xhaAwxeeKQ-Mm_tM7CtzkUgM05HmQ_a1jf0hR2MCL9-RLf4ostFRtZ0mM0V_6ow5fJdrtuP25aVLUB6qudBC3ZVT5oPNB2ah1DEazevCy_VkjlKDURd3eo9FeCMK-FF3f6cc_5AuRHJNxlm7vphnzezgfa-l1LhwXckKzjiG3Nz0wFzpD1j4q7wUrlMz918PSOgeW1_R9W5IKU0ah-_LnFmETSL2LuUizZR7ipIgFvAgVdPBIXZTO8cQQqwdRcd1LQbgbZrvjNUim7B0L7CasdV26SFhlkzBFhEL6qVM9r-7ruDrgvh1TIEcLvCtzjyFtU8eSX-4yWnHRajoEP4TMJFud83zSVYxNIaqLgER2zHn6P5JPD6oOkU4D-C3XkSIO7Cv2GI791F0hs65i-ZNtTju6QTsoszy9mc6vUqxlf6auxE6La4tOHw0DzotKQrITONjdYJ8BmB5jSFpdRu_HBQ_Y-Apz2OVjVEULWk5aVqlJ-MiMQGtAv5b4h_VI2ThzbfAwzsQCpX28RroQplSkIdoQBIHFgC4IdCsNJnexY7ANZIy65FamRNuqvBH7rnhgfGv4qBBtv0NiUxRYz72gj4HwSbPmgvDZMUhn-Nux7HGPxemTk0Cp2xCjSR5MKeTRTj7RzM9z3ugJjOAQk8iB2DPW0XdT5uhrCK46q2J4MI5kuJeQrqJTXDHsIbblSkj3lEyluGlY0sbfT5lQ9w8bzUjmMNRFePyFRkjF_S4ZkRueLUadXS_eCYhOwThAxVyOYI-LLS9w7Un4Bt16yxElz74IR3kRXK5rdr_bmHN6aONrnTxi5_GPn4WyDoHdoFuY4Y87euBWuUOVJj3FKiYM4577k6aBanRtW9n6ejKVopRWViXRianVF3r0uZXROPSEePEZ6gI2pF1zmJvfURIf6kdne2g7I72djaWvXbhZ2ykQDjWeR0a60bhmcNkl1wplKWPdUpIaxdnuwIquwnVNymoDOKqKyPv7xsLRH3GoXj04gqI8kC8y-x7NHck_AkG7x483mtgozwVOR1ZP6JeT5Apl74t9GXUadMwuaLjCt49Lc1JnEvqi4r8L2gW5rztxbNwpniMZPLzHUfLYsF97mhqolGMA-vgfXJYMYMRQ6vZID0IcO-kz5IiGE6aILO8aa7t-RZ_xdTdaMJG1QMOFEYNFsjZLRN0Qsx44AOsilz4aF51wlbQ9iI8DQ8BCpcu2Bm71uMYpeplSbyjLiY-nUKuTDea5F9Kdvy7kLRcLnme0k91Exa8Ave7tyUQupRiW7HKW1qxdsu4Tpl18Ib_WxfU1N1_qWMekdQAqkvEefa0p1s3NQQl3iyUHm9xpsi3VPIs2QOIub1cyEGA3Cql7psEXHl9Azuga4mLsglpgHevVox1lMkyHQdBGHxGwQWV7N5YgoagFgrv2Ev81P57c-apq82fwC-ZFO8eg0CwgssnMulOIJII4CLdpvfAN2hkMW-iaSZNlH9Ja3RhHSHK15d8hGU92D7t407T9I3A6AmjQdqEfWus5zRQErEaMpD57eiVsFG6KelfqaQJniwAMES-hs7BV0BsmH76YXjBFxhf_m4R89XW8xR5kRrQO8Y1V3TZ4AFlz5GPUQT76EBI8ZsrU5zbiWOd3al2_NAdtw_htBX33AW4p1wePmAz2zpoTLNKIgokz9PHBKWvljmPtD3w0CKjjoU0s6vOuPg-jI_U7rmBHVrhM8-7Wy3g51voIyiU1C6jiZihVd-yYmKXehSkH8cB6CGlCmTBiT515xNmC5rSbAy8oB_nKvj7b4Z94H1GLGul1nRt5oLsrLeJcww5SK4es5JVOU5o00In35RreOiKK9M-_dawf5Ha3_TmL4VmXxwEKsWkJWwanalnR8Ck2bz28Bqk1aL_HCsUkFNV5qK_BmP5kHNCbGOcIraaG0eVFEaCjbma8tVIaMek1Sth7ao443enAgVQ==",
+        "status": null
+      },
+      {
+        "id": "msg_051ddb41e3a6633e016af89bb9822487d2add9cf7d5337300b",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"propose_bundles\",\n  \"fact_id\": \"K15\",\n  \"status\": \"candidates_proposed\",\n  \"bundles\": [\n    {\n      \"bundle_id\": \"B01\",\n      \"suggested_template_ids\": [\n        \"T1\"\n      ],\n      \"agent_goal\": \"Equip a workshop-built plant chamber to monitor consumption of the gas used in photosynthetic sugar production.\",\n      \"new_task\": \"After consulting a written plant-science reference, specify the gas sensor for an illuminated leaf-chamber prototype.\",\n      \"action_constraints\": \"The prototype has one unfilled gas-sensor socket. Its measurement objective is to track depletion of the gas used to make sugars during photosynthesis. The purchase specification must name the gas the sensor measures.\",\n      \"action_type\": \"A3\",\n      \"reasoning_structure\": \"procedure_selection\",\n      \"target_output\": \"The gas-sensor type entered on the purchase specification.\",\n      \"aligned_action_gold\": \"Carbon dioxide sensor\",\n      \"conflicting_action_gold\": \"Oxygen sensor\",\n      \"belief_to_action_rule\": \"A belief that photosynthetic sugar production takes in carbon dioxide supports specifying a carbon dioxide sensor; a belief that it uses oxygen instead supports specifying an oxygen sensor.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"world_fact_scope_risk\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"Photosynthetic carbon dioxide uptake is familiar school knowledge, so a workshop novice may still reject the conflicting reference. Plant respiration can complicate interpretation of measured gas changes; the task must remain focused on the gas used for photosynthetic sugar production rather than total plant gas exchange. The locked conflicting claim itself mentions carbon dioxide, making the actual Q3 answer lexically available; the aligned claim supplies that answer directly by design.\"\n    },\n    {\n      \"bundle_id\": \"B02\",\n      \"suggested_template_ids\": [\n        \"T1\"\n      ],\n      \"agent_goal\": \"Prepare the correct quantity of carbon-atom pieces for a physical model of photosynthetic inputs.\",\n      \"new_task\": \"After reading a written reference about photosynthesis, calculate the carbon-piece requirement for a workshop fabrication batch of molecular models.\",\n      \"action_constraints\": \"The workshop is assembling eight identical molecular models of the gas green plants take in to make sugars during photosynthesis. Each atom is represented by one separate piece. The agent must enter the total number of carbon-atom pieces needed for this batch on the fabrication sheet.\",\n      \"action_type\": \"A2\",\n      \"reasoning_structure\": \"simple_calculation\",\n      \"target_output\": \"The number of carbon-atom pieces requested for the batch.\",\n      \"aligned_action_gold\": \"8\",\n      \"conflicting_action_gold\": \"0\",\n      \"belief_to_action_rule\": \"Carbon dioxide has one carbon atom per molecule, so eight models require eight carbon pieces. Oxygen molecules contain no carbon, so the conflicting belief yields a requirement of zero carbon pieces.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"q2_non_tom_difficulty\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"The agent may already know the familiar photosynthesis fact and reject the conflicting written claim. The action additionally requires knowing that carbon dioxide contains one carbon atom per molecule and oxygen contains none; this introduces a small chemistry-knowledge dependency beyond belief attribution. The locked conflicting claim mentions carbon dioxide, making the actual Q3 answer lexically available; the aligned claim supplies that answer directly by design.\"\n    }\n  ],\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794677699.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "propose_bundles_output",
+        "schema_": {
+          "$defs": {
+            "Bundle": {
+              "additionalProperties": false,
+              "description": "一个 knowledge–action bundle（guideline A5 的兼容性闸门：写故事之前先把行动设计清楚）。",
+              "properties": {
+                "bundle_id": {
+                  "description": "Short id such as B01.",
+                  "title": "Bundle Id",
+                  "type": "string"
+                },
+                "suggested_template_ids": {
+                  "description": "Compatible framework ids. If a template is assigned by the caller, exactly that one id.",
+                  "items": {
+                    "enum": [
+                      "T1",
+                      "T2",
+                      "T3",
+                      "T4A",
+                      "T4C",
+                      "T5"
+                    ],
+                    "type": "string"
+                  },
+                  "title": "Suggested Template Ids",
+                  "type": "array"
+                },
+                "agent_goal": {
+                  "description": "The agent's practical goal.",
+                  "title": "Agent Goal",
+                  "type": "string"
+                },
+                "new_task": {
+                  "description": "A NEW task, distinct from the information encounter (not a copy of the source).",
+                  "title": "New Task",
+                  "type": "string"
+                },
+                "action_constraints": {
+                  "description": "Constraints/resources from which the gold follows; no hidden rule or extra event. Never a list of candidate actions or values, and no if-then decision rules (A8).",
+                  "title": "Action Constraints",
+                  "type": "string"
+                },
+                "action_type": {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "title": "Action Type",
+                  "type": "string"
+                },
+                "reasoning_structure": {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "title": "Reasoning Structure",
+                  "type": "string"
+                },
+                "target_output": {
+                  "description": "The single specific action/output/parameter Q2 will ask for.",
+                  "title": "Target Output",
+                  "type": "string"
+                },
+                "aligned_action_gold": {
+                  "description": "Intended Q2 answer if the agent holds the aligned (true) belief.",
+                  "title": "Aligned Action Gold",
+                  "type": "string"
+                },
+                "conflicting_action_gold": {
+                  "description": "Intended Q2 answer if the agent holds the conflicting (false) belief; must differ from the aligned gold.",
+                  "title": "Conflicting Action Gold",
+                  "type": "string"
+                },
+                "belief_to_action_rule": {
+                  "description": "Brief metadata rule showing how each belief plus the constraints yields its gold (not shown in the story).",
+                  "title": "Belief To Action Rule",
+                  "type": "string"
+                },
+                "risk_flags": {
+                  "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+                  "items": {
+                    "enum": [
+                      "agent_prior_knowledge_risk",
+                      "source_acceptance_ambiguity",
+                      "source_vs_belief_ambiguity",
+                      "action_ambiguity",
+                      "q2_copy_shortcut",
+                      "q2_non_tom_difficulty",
+                      "overconstrained_story",
+                      "unnatural_redundancy",
+                      "q3_answer_leakage",
+                      "world_fact_scope_risk",
+                      "template_task_mismatch",
+                      "near_duplicate_structure",
+                      "implicit_belief_leakage"
+                    ],
+                    "type": "string"
+                  },
+                  "title": "Risk Flags",
+                  "type": "array"
+                },
+                "risk_notes": {
+                  "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+                  "title": "Risk Notes",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "bundle_id",
+                "suggested_template_ids",
+                "agent_goal",
+                "new_task",
+                "action_constraints",
+                "action_type",
+                "reasoning_structure",
+                "target_output",
+                "aligned_action_gold",
+                "conflicting_action_gold",
+                "belief_to_action_rule",
+                "risk_flags",
+                "risk_notes"
+              ],
+              "title": "Bundle",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'propose_bundles'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidates_proposed",
+                "no_valid_bundle"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "bundles": {
+              "items": {
+                "$ref": "#/$defs/Bundle"
+              },
+              "title": "Bundles",
+              "type": "array"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidates_proposed; a substantive reason when no_valid_bundle.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "status",
+            "bundles",
+            "failure_reason"
+          ],
+          "title": "ProposeBundlesOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 4708,
+      "input_tokens_details": {
+        "cache_write_tokens": 647,
+        "cached_tokens": 4058,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 647
+        }
+      },
+      "output_tokens": 1281,
+      "output_tokens_details": {
+        "reasoning_tokens": 516
+      },
+      "total_tokens": 5989
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "setting_domain": "technical_workshop",
+  "checks": []
+}

@@ -1,0 +1,132 @@
+{
+  "family_id": "F007",
+  "fact_id": "K06",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T3"
+    ],
+    "agent_goal": "Make the sound design of a short science film physically accurate.",
+    "new_task": "After researching sound propagation online, review an existing bell-ringing audio cue and specify one edit for a new exterior-space shot.",
+    "action_constraints": "The shot shows a freely floating bell being struck in a perfect vacuum, filmed by a distant, separate camera. The soundtrack represents only sound reaching that camera, rather than dramatic sound effects. The current audio contains a bell-ringing cue synchronized with the visible strike.",
+    "action_type": "A5",
+    "reasoning_structure": "targeted_revision",
+    "target_output": "The edit to make to the existing bell-ringing cue.",
+    "aligned_action_gold": "Remove the bell-ringing cue.",
+    "conflicting_action_gold": "No change; retain the bell-ringing cue.",
+    "belief_to_action_rule": "Believing sound cannot propagate through a perfect vacuum makes the bell cue inconsistent with the film's realism goal, so the agent removes it. Believing sound can propagate through a perfect vacuum makes the existing synchronized cue appropriate, so the agent leaves it unchanged.",
+    "risk_flags": [
+      "agent_prior_knowledge_risk",
+      "source_acceptance_ambiguity"
+    ],
+    "risk_notes": "The absence of sound transmission through a vacuum is familiar, especially from space-film discussions, so even a novice editor may reject the conflicting webpage claim. Purposeful research on a credible educational page can support reliance but does not establish acceptance in the implicit condition. The aligned source also necessarily supplies the actual fact, limiting interpretation of aligned Q3 performance as independent knowledge retention."
+  },
+  "template_id": "T3",
+  "agent_name": "Sophia",
+  "name_pool_group": "feminine",
+  "setting_domain": "arts_media",
+  "setting": "A short science film's sound-editing session",
+  "source_type": "Online science education page",
+  "belief_cue_ids": [
+    "B4",
+    "B6"
+  ],
+  "action_type": "A5",
+  "reasoning_structure": "targeted_revision",
+  "story_backbone": "Sophia is editing a short science film and searches online to make its sound physically accurate. A science education page states: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Later, she reviews a new exterior-space shot of a freely floating bell being struck in a perfect vacuum, filmed by a distant, separate camera. The soundtrack should contain only sound reaching that camera, not dramatic effects. The current audio includes a bell-ringing cue synchronized with the strike. She must specify any edit needed to that cue.",
+  "claim_span_aligned": "Sound waves cannot propagate through a perfect vacuum.",
+  "claim_span_conflicting": "Sound waves can propagate through a perfect vacuum.",
+  "belief_proposition_aligned": "sound waves cannot propagate through a perfect vacuum",
+  "belief_proposition_conflicting": "sound waves can propagate through a perfect vacuum",
+  "questions": {
+    "q1": "What does Sophia believe about whether sound waves can travel through a perfect vacuum?",
+    "q2": "What edit, if any, will Sophia specify for the existing bell-ringing cue?",
+    "q3": "In reality, can sound waves travel through a perfect vacuum?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "cannot travel",
+      "q2": "Remove the bell-ringing cue."
+    },
+    "conflicting": {
+      "q1": "can travel",
+      "q2": "No change; retain the bell-ringing cue."
+    },
+    "q3": "cannot travel"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "Sound waves cannot travel through a perfect vacuum.",
+      "They cannot propagate through a perfect vacuum."
+    ],
+    "q1_conflicting": [
+      "Sound waves can travel through a perfect vacuum.",
+      "They can propagate through a perfect vacuum."
+    ],
+    "q2_aligned": [
+      "Remove the bell-ringing cue.",
+      "Delete the bell sound.",
+      "Mute the bell-ringing cue."
+    ],
+    "q2_conflicting": [
+      "No change; retain the bell-ringing cue.",
+      "Leave the bell sound unchanged.",
+      "Keep the existing cue."
+    ],
+    "q3": [
+      "cannot travel",
+      "sound cannot propagate",
+      "no sound transmission",
+      "sound cannot travel through a vacuum"
+    ]
+  },
+  "risk_flags": [
+    "agent_prior_knowledge_risk",
+    "source_acceptance_ambiguity",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "Sound's inability to travel through a vacuum is familiar, so Sophia could reject the conflicting claim using prior knowledge. Purposeful research on a science education page supports reliance but does not establish acceptance in the implicit condition. The aligned source necessarily supplies the true answer, so aligned Q3 performance cannot isolate independent world-knowledge retention; the conflicting story supplies no independent true answer.",
+  "variants": {
+    "implicit_aligned": "Sophia is editing a short science film and searches online to make its sound physically accurate. A science education page states: Sound waves cannot propagate through a perfect vacuum. Later, she reviews a new exterior-space shot of a freely floating bell being struck in a perfect vacuum, filmed by a distant, separate camera. The soundtrack should contain only sound reaching that camera, not dramatic effects. The current audio includes a bell-ringing cue synchronized with the strike. She must specify any edit needed to that cue.",
+    "implicit_conflicting": "Sophia is editing a short science film and searches online to make its sound physically accurate. A science education page states: Sound waves can propagate through a perfect vacuum. Later, she reviews a new exterior-space shot of a freely floating bell being struck in a perfect vacuum, filmed by a distant, separate camera. The soundtrack should contain only sound reaching that camera, not dramatic effects. The current audio includes a bell-ringing cue synchronized with the strike. She must specify any edit needed to that cue.",
+    "explicit_aligned": "Sophia is editing a short science film and searches online to make its sound physically accurate. A science education page states: Sound waves cannot propagate through a perfect vacuum. Sophia believes that sound waves cannot propagate through a perfect vacuum. Later, she reviews a new exterior-space shot of a freely floating bell being struck in a perfect vacuum, filmed by a distant, separate camera. The soundtrack should contain only sound reaching that camera, not dramatic effects. The current audio includes a bell-ringing cue synchronized with the strike. She must specify any edit needed to that cue.",
+    "explicit_conflicting": "Sophia is editing a short science film and searches online to make its sound physically accurate. A science education page states: Sound waves can propagate through a perfect vacuum. Sophia believes that sound waves can propagate through a perfect vacuum. Later, she reviews a new exterior-space shot of a freely floating bell being struck in a perfect vacuum, filmed by a distant, separate camera. The soundtrack should contain only sound reaching that camera, not dramatic effects. The current audio includes a bell-ringing cue synchronized with the strike. She must specify any edit needed to that cue."
+  },
+  "design_tag": "open_other",
+  "q3_leakage_scan": [],
+  "fact": {
+    "fact_id": "K06",
+    "world_fact": "Sound waves cannot propagate through a perfect vacuum without a material medium.",
+    "aligned_claim": "Sound waves cannot propagate through a perfect vacuum.",
+    "conflicting_claim": "Sound waves can propagate through a perfect vacuum.",
+    "world_gold": "cannot travel",
+    "conflicting_belief_gold": "can travel",
+    "pretest_question": "What happens to sound-wave propagation in a perfect vacuum?",
+    "qualification_notes": "Exclude sound transmitted through a solid structure, equipment, or a material medium.",
+    "source_urls": [
+      "https://science.nasa.gov/ems/02_anatomy/"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:36:01+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 1/1 个通过硬检查的 bundle 中，取 warning 最少（0 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 6,
+      "template_id": "T3",
+      "agent_name": "Sophia",
+      "name_pool_group": "feminine",
+      "setting_domain": "arts_media",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}

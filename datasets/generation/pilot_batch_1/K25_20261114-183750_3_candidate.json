@@ -1,0 +1,140 @@
+{
+  "family_id": "F010",
+  "fact_id": "K25",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T1"
+    ],
+    "agent_goal": "Prepare a community garden's water-transfer demonstration so volunteers can move water between two tanks in either direction.",
+    "new_task": "After consulting an equipment handbook, enter the minimum number of additional hoses needed on the demonstration's equipment request.",
+    "action_constraints": "The existing setup connects two tanks through a reversible pump and a fixed standard check valve. The pump can supply adequate pressure in either direction. Existing equipment must remain installed. Spare hose fittings are accessible on either side of the valve, and suitable hoses are available. The demonstration requires water transfer in both directions, with as little additional equipment as possible.",
+    "action_type": "A2",
+    "reasoning_structure": "one_step_mapping",
+    "target_output": "The minimum number of additional hoses requested.",
+    "aligned_action_gold": "1",
+    "conflicting_action_gold": "0",
+    "belief_to_action_rule": "With the aligned belief, the valve blocks one required transfer direction, so one hose connecting the fittings around it provides the missing route. With the conflicting belief, the existing line already supports both transfer directions, so no additional hose is needed.",
+    "risk_flags": [],
+    "risk_notes": ""
+  },
+  "template_id": "T1",
+  "agent_name": "Lily",
+  "name_pool_group": "feminine",
+  "setting_domain": "community_volunteering",
+  "setting": "A community garden's water-transfer demonstration",
+  "source_type": "Equipment handbook",
+  "belief_cue_ids": [
+    "B4",
+    "B6"
+  ],
+  "action_type": "A2",
+  "reasoning_structure": "one_step_mapping",
+  "story_backbone": "Preparing a community garden demonstration, Lily consults an equipment handbook: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request.",
+  "claim_span_aligned": "A standard check valve permits fluid flow in its forward direction and prevents reverse flow.",
+  "claim_span_conflicting": "A standard check valve permits fluid flow in both forward and reverse directions.",
+  "belief_proposition_aligned": "a standard check valve permits fluid flow in its forward direction and prevents reverse flow",
+  "belief_proposition_conflicting": "a standard check valve permits fluid flow in both forward and reverse directions",
+  "questions": {
+    "q1": "In how many directions does Lily believe a standard check valve permits fluid flow?",
+    "q2": "What number of additional hoses will Lily enter on the equipment request?",
+    "q3": "In reality, in how many directions is a properly installed, functioning standard check valve designed to allow fluid flow?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "one direction",
+      "q2": "1"
+    },
+    "conflicting": {
+      "q1": "both directions",
+      "q2": "0"
+    },
+    "q3": "one direction"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "one direction",
+      "one",
+      "1",
+      "forward only",
+      "one way"
+    ],
+    "q1_conflicting": [
+      "both directions",
+      "two directions",
+      "two",
+      "2",
+      "forward and reverse"
+    ],
+    "q2_aligned": [
+      "1",
+      "one",
+      "one hose",
+      "1 additional hose"
+    ],
+    "q2_conflicting": [
+      "0",
+      "zero",
+      "none",
+      "no additional hoses"
+    ],
+    "q3": [
+      "one direction",
+      "one",
+      "1",
+      "one way",
+      "one-way",
+      "unidirectional",
+      "a single direction"
+    ]
+  },
+  "risk_flags": [
+    "q2_non_tom_difficulty",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "Q2 requires recognizing that a hose joining the fittings can bypass the valve; readers unfamiliar with plumbing may miss that application despite correctly attributing Lily's belief. In the aligned condition, the source necessarily supplies the true Q3 answer, so aligned Q3 does not isolate retained world knowledge. No independent true-answer cue is added to the conflicting story.",
+  "variants": {
+    "implicit_aligned": "Preparing a community garden demonstration, Lily consults an equipment handbook: A standard check valve permits fluid flow in its forward direction and prevents reverse flow. Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request.",
+    "implicit_conflicting": "Preparing a community garden demonstration, Lily consults an equipment handbook: A standard check valve permits fluid flow in both forward and reverse directions. Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request.",
+    "explicit_aligned": "Preparing a community garden demonstration, Lily consults an equipment handbook: A standard check valve permits fluid flow in its forward direction and prevents reverse flow. Lily believes that a standard check valve permits fluid flow in its forward direction and prevents reverse flow. Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request.",
+    "explicit_conflicting": "Preparing a community garden demonstration, Lily consults an equipment handbook: A standard check valve permits fluid flow in both forward and reverse directions. Lily believes that a standard check valve permits fluid flow in both forward and reverse directions. Two tanks connect through a reversible pump and a fixed standard check valve, with accessible hose fittings on either side of the valve. The pump supplies adequate pressure either way. Existing equipment must remain installed, and suitable hoses are available. Volunteers need to transfer water both ways using minimal extra equipment. Lily must enter the number of additional hoses on an equipment request."
+  },
+  "design_tag": "open_numeric",
+  "q3_leakage_scan": [],
+  "fact": {
+    "fact_id": "K25",
+    "world_fact": "A properly installed, functioning standard check valve is designed to allow fluid flow in one direction and to prevent reverse flow.",
+    "aligned_claim": "A standard check valve permits fluid flow in its forward direction and prevents reverse flow.",
+    "conflicting_claim": "A standard check valve permits fluid flow in both forward and reverse directions.",
+    "world_gold": "one direction",
+    "conflicting_belief_gold": "both directions",
+    "pretest_question": "In how many directions is a standard check valve designed to allow fluid flow?",
+    "qualification_notes": "Assume a properly installed, functioning standard check valve under appropriate operating pressure. It permits intended forward flow when the opening-pressure conditions are met and is designed to prevent reverse flow; do not claim that all valves allow forward flow at any pressure or guarantee zero leakage.",
+    "source_urls": [
+      "https://www.spiraxsarco.com/learn-about-steam/pipeline-ancillaries/check-valves?sc_lang=en-ID",
+      "https://www.chicago.swagelok.com/resources/best-practices/valve-selection-best-practices"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:38:50+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 1/1 个通过硬检查的 bundle 中，取 warning 最少（0 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 9,
+      "template_id": "T1",
+      "agent_name": "Lily",
+      "name_pool_group": "feminine",
+      "setting_domain": "community_volunteering",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}

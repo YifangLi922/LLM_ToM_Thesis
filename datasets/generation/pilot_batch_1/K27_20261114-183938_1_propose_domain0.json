@@ -1,0 +1,377 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 28.24,
+  "usage": {
+    "input_tokens": 4710,
+    "input_tokens_details": {
+      "cache_write_tokens": 649,
+      "cached_tokens": 4058,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 649
+      }
+    },
+    "output_tokens": 1245,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 5955
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "propose_bundles_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "propose_bundles",
+      "max_bundles": 3,
+      "fact_record": {
+        "fact_id": "K27",
+        "knowledge_category": "social_institutional_conventions",
+        "world_fact": "Under standard FIDE chess rules, a bishop moves along diagonals and cannot jump over intervening pieces.",
+        "aligned_claim": "Under standard chess rules, a bishop moves diagonally.",
+        "conflicting_claim": "Under standard chess rules, a bishop moves horizontally or vertically rather than diagonally.",
+        "world_gold": "diagonally",
+        "conflicting_belief_gold": "horizontally or vertically",
+        "pretest_question": "Under standard chess rules, in what direction does a bishop move?",
+        "pretest_accepted_answers": [
+          "diagonal",
+          "along diagonals"
+        ],
+        "qualification_notes": "Rule applies to unobstructed lines of movement; do not interpret illegal blocking moves as exceptions.",
+        "source_urls": [
+          "https://handbook.fide.com/chapter/e012023"
+        ],
+        "review_flags": [
+          "codified_rule_not_social_norm"
+        ]
+      },
+      "assignments": {
+        "template_id": "T5",
+        "action_type": null,
+        "reasoning_structure": null,
+        "setting_domain": "events_planning",
+        "setting_label": null
+      },
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=propose_bundles: return at most `max_bundles` bundles. Set failure_reason to null when status is candidates_proposed; when status is no_valid_bundle, bundles must be an empty list and failure_reason must be substantive. If assignments.template_id is non-null, suggested_template_ids in every bundle must be exactly that one ID. If assignments.action_type or assignments.reasoning_structure is non-null, every bundle must use it. assignments.setting_domain is the setting domain chosen by the caller: every bundle must be workable in a natural setting within that domain (and assignments.setting_label, if non-null, pins the exact setting). If the fact cannot be turned into a valid bundle in that domain, return no_valid_bundle and name the domain incompatibility in failure_reason instead of switching domain. Following A8, design every bundle around an OPEN answer space: the agent produces a value (writes, sets, schedules, labels, books, buys or builds something). Do not design a task whose answer can only be made determinate by listing the candidate actions or values in the story, and do not rely on if-then decision rules; if that is the only option, return no_valid_bundle."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"propose_bundles\",\n  \"fact_id\": \"K27\",\n  \"status\": \"candidates_proposed\",\n  \"bundles\": [\n    {\n      \"bundle_id\": \"B01\",\n      \"suggested_template_ids\": [\n        \"T5\"\n      ],\n      \"agent_goal\": \"Prepare an accurate stage cue for a beginner chess demonstration at a community festival.\",\n      \"new_task\": \"Mark the destination square for a performer demonstrating a single bishop move on a giant chessboard.\",\n      \"action_constraints\": \"The bishop starts on a1, and all other squares are empty. The demonstration ends after one legal move on rank 8, the edge farthest from the starting square. The organizer must write one destination coordinate on the stage cue. A volunteer relays the event's chess instructor's explanation of bishop movement; the organizer has no direct access to the instructor.\",\n      \"action_type\": \"A1\",\n      \"reasoning_structure\": \"one_step_mapping\",\n      \"target_output\": \"The destination coordinate written on the stage cue.\",\n      \"aligned_action_gold\": \"h8\",\n      \"conflicting_action_gold\": \"a8\",\n      \"belief_to_action_rule\": \"A diagonal move from a1 reaches rank 8 at h8. A horizontal-or-vertical move from a1 reaches rank 8 at a8. The empty board removes obstruction concerns.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"Bishop movement is familiar to many adults, so even an organizer with little chess experience might reject the relayed false claim. In the aligned condition, the source claim necessarily supplies the real-world direction answer; aligned Q3 therefore does not isolate retained prior knowledge.\"\n    },\n    {\n      \"bundle_id\": \"B02\",\n      \"suggested_template_ids\": [\n        \"T5\"\n      ],\n      \"agent_goal\": \"Reserve the shortest sufficient demonstration segment in a chess event's running order.\",\n      \"new_task\": \"Enter the minimum number of bishop moves needed for a planned demonstration into the running-order form.\",\n      \"action_constraints\": \"The demonstration starts with a bishop on b2 and ends with it on e5. All other squares are empty throughout. The running-order form requests the minimum number of moves for that journey under standard chess rules. A workshop assistant relays the chess instructor's explanation of bishop movement to the event organizer, who cannot consult the instructor directly.\",\n      \"action_type\": \"A2\",\n      \"reasoning_structure\": \"simple_calculation\",\n      \"target_output\": \"The minimum move count entered in the running-order form.\",\n      \"aligned_action_gold\": \"1\",\n      \"conflicting_action_gold\": \"2\",\n      \"belief_to_action_rule\": \"The squares b2 and e5 share a diagonal, allowing one bishop move under the aligned belief. Under the horizontal-or-vertical belief, both the file and rank must change, requiring two moves via an intermediate square such as b5.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"The false movement rule may conflict with an adult organizer's existing chess knowledge despite credible second-hand instruction. The aligned source claim necessarily reveals the actual movement direction, so aligned Q3 has source-based answer availability.\"\n    }\n  ],\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_0b0fb25db334c1db016af89cdce8c487d2b178e2d7d25bf486",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794677980.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0b0fb25db334c1db016af89cdf625087d2a42647bbef346fdc",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-Jz4kaIC28FxhI7AadeaWtliccBqr9A_uQRyJo_dA9nHIAoFH1xvUVk3BSU7VRFm1Dnf1wiPCWTvWmwEA2judxjT8QTy7XghgU7Vnx7_YNCLNHPkut_KfwtSmxL7cM_tEDMFp5PrLwgJhSgb94wjNikTF8h4mFp77Exdv8xDs0AscCUNrwOf6Q5ieqWhVcso13CVs6J2D5WQLdoUo32EZDw-RFkQc_KTa1kQ_5bD5z_eke4lb7XgeEO0tMb5lVKi8mNSGfHY5jIAkfq7hhleNiyVt_HFUsZ2BACPvI1gVpkQsyC5hHRBdGAeSpMHBMVqT0c-eH_J0x0V6wccnSf7Z8NddJc2d1r-aHa3V1_7Wm-2lCPEh0yMWWiEVKarYbo4HfqmPV17nYAWOTwIbN_2SO9xmwJuiPGlAV-YAID0rFhgjLH_Guw8bueu7b0Whj7I8zrH_9Hvj8O2bVph2BhvXTbrZ7jBSmWhSu90mtlwqmI9UlgVztI8zVMMAXfEQEZNcJfYjv2cs_HPf7av5htyEG7o3rIG0FTK88e4XPDA6jg22VW8tJwZC7pyAc23bbQV1kC8kkt90VSGXWv-tcLNsie6piV75FNPobFSWokN1PW0Wg0xEdDrN5PBTeCDfGNwmOpNegmxZUgkqtaCr8Q54DijHqTdB-IQ3Y9beX0idSbIS5NoJtyPa1OclenkxkM8HHsnTXF5AV2Yy7-TORz9pSz6HuRH95tdQdzqwEXJ1fA6XOqvqLHdr7-7aQxrKo1UOk7o8R7y4tOnZr9wSZqRs2IftY7vDNFsVSaQMHLDaKnLHOmiDr8DE7XtF5SozcPdj2T5fcHKjGCnEKSoz2-0wl5fsDzFK9b-IQzvGDtgSnFI61f2bfev3ItmAUEOnwkS4fFqFDthIvWg7owjlTINW_zNQy5mwtAEEDYRntNGE10Jn9beXTI06gDtnqy4-N1lxllIKcU7B0ZGzMWyWxiP393U5n21rhX3JpI1Bqkys94rEM6pVEgO5Ggm52h1rF4Kdg_GnHuMQDV1f9vAVOO5CV_B_RnN1Fbb9kgCeBTAMlstLTkxMmT5Ofg1TkzfBe-4vG98UTz-zIHPfgO0Kd4ZTRc_0DirJ3A86Xr6KQfBzPfASYwkIbPmIRoW1tK_m2pdBYre_LO7-2PNkIA_aVj_Vrs1tirj2a7V0GJJs60KzALKM6rgH06sUUFYRcYv_BJG0pRlCNQbVqEcwT60lcjwhPn0hMzDAiTVnwf5lyLj9UlTmNv9YHp5INZlk0YQyBCw-uVK2228I3G-dFQFYj4jdSdJDo0M7ty9V5_oaQ19zb5Kn3WUm4q-YLzFEB1Mh0BqulLILWQKaw_anLoPBbrXIDxRYnJAbT4Q-MWgf17roz7pBSytdneiQrGaSJKhP7IBvCUtM3SUrtLW-CCGQpjqmaQXc3qBo6yRIireLX_Jl7wDKzDTdV-ItmJct7u-K7gkFJQ9LzvwyIbqCeZxFdkMOhWteM6bjESirL9U2e-RZUyzWFXlehFGH4kwemovMpts07l2RO0UsAF1ASfWcEYiik-uFCK5k9LpAWE5rSQLXj5JZKKh4TNyvwY3PSNMbYjZ0bp6JSgfvDEwZiTjj2hKv_QwMSVXwohL366J2QBuCNnoiEV2ef4xbtdZQtO9HgqT8N4YmzReptIVl_6gIADrgJ592FtPoqQAMbtDB_ojJEzIjyAkj3wWHMb6ZWvhUTy1J3Aa1mDCP704so4xYsm4rhxOzNWDyvrob7cIFA-pgFW4hQSASO1b89_SBqQMWaHTj-AU7UhAoFvKsbJ_vvdv1aPmcABkwYHfzYz1KR5Apf80IBAg3GwSYCoWaftIeqMXvOar5_1uFiC9Og50PMpWO1wL2wiNEvKg3eOQ4nyzcn8a6fUyWLE_LFNLO3Zqiw1YaGcHL9ju4pmLNx3da4Wu83dlOUYUqS56Dpp1lr1JSrC1gveP2rmmZ02O5AHUsACdLKSr3e2WpGh5LadtXQVqkjgz2SPRQUP1xZx3ZMaG1CirbgOXRYsPLf-WkzVRAXki_OxrHQtUumnsp3xGARoPc2dMXBghoSlj8a8lJXK6yp9jQaYvS5aspxFH6H-c-1QJAuHtXnhzh1homr6d60QNhJY9Tvd76bMw-CA8zLoQ6WgaPU0KMdRu3EiAMf5RfmEjpASfzmR7wQ-YDzQU_B21fhU0pjPfvvZAF9QC-iHDJUIHgjzvo_vlRDwrnkJg1H4B4smKUxtbUFBPGQdoDMrH_qtQk5FNaugN8PM8iZt51kndUIdy0Z9kkZWCTiSXAOP-gafs6nVewfz_vWsPU7EBHp2X6mbKnYpnXGNEp74xA1HxswutxdRNUnkLlUbjP7i6I5aVQ9Ui7qLUtOjKxqse1M-m5EbZtLkZBwRDGAi-o7Jq6UW10EoRz2L47zWTr8dQquAK1GucYtF0Gp7kr-xsKYhkcdTcBUPUJABfbEfBUFpPa3DWvPQ4cXZhgaFSvAIB5sDOGA3KOg-OPpU4hSyv8eZJiE7g20lxAyYTj7ho8JGhL2i8NS240obyNwMXax-tA4l_H-qyilIdRj1nb6WO_d9Y-OOhfB4qz3c10g3bnFl1t09PymSpGESOAyoRr8GiCnbDcSOGS-X1h-846gho2EvoiYO8pyYp_ot0K9vF4ljMvrezKwGqBCWWc_Qf4pLyYUOTEi1Ugm2zT66wZy3YQcRoOos-e9pazxDOlBtq7EY5Ym5aouzcyzNuBN9hLpVkjmNQtKD6krX5cd6qWAaO6ul2FY1_t49A2EvREA5APaV2_4E6PH-Qh2y2zVkmFaBVFD1qjSwkuEnQs0Rbo3DbByb-imJTDy3LY7q9-un-RV9Ug9sd_e7r1pxhKFSusyv0SDy4PC21YdAW0ZKo_pHc8rcRFO0vYkEN4US9t13-dZsuNqe5bvR26ZJAjRTqZKDueUzvds113oekRrVrDtPVIWZUS9m0ocRAQDVgVvFchr4YRzPI_iZfRcYzJPKay5HfKgqozNOzPKcl3vsOH1Z0QNCEhw43QxvfL5Y3uHHJt99wtXaUf4VedUXCxdMRysmxRs7gvMiNv8CN0aM4Siog1ADkItwuJLX_akiFADZw-C_XUrwDUDqhe0gt1iw07kQXsZMstZwmLp1dT434COqnmHSfFmTIz12whug17aYmK9_LOCvR6UOeKqTzEDEts8-GgElNNXV_VgOrbsm_D39raVcpznivf6m8XZJIhXyk5AthUZkGeMSxNz3u_e3SyaZivaQlREPQHfHV2EN0LCExmVryIoVWgRAuHEAPNVYftdUspK0rZaVBcGk6JkUjgkPTxqq-63NAJF0rQ4dgcklinYACyQXPJ2-_7rTbhO40sAsSzMtUjlN-AHS5kOPmM7JrJYFrl-9TnmImPlEH9LaeNATb6OlW4MC_qvm88MCG-ZoNi59WyMBBe27NnflpN_H_VmLZmnaB5L8W_iFnpvWsyBvtG5yifp3qmsavHNsF4v9Oaoo8s4ORKmX7W24zzfzygj9URpyj33xbgM_VRmr-9xuQNP8WwEJlQIhv6S7lR02DrybRB6GxUA5-e4EBjc8f_Ccj5A6m_gZ3yOFf7EyqrVm8_HCEkSknLwmrgUP3wa4rFQIfCMSIvw9gpopVIPc-pp7L9uRtenqaSdVoTiDjGIMplj4RugoYM_2ae82Xw8DI8YJUo-8ZGELH1kWWVeWaWNf1X7llgiAfqJEyEAX2bqeoCGy2CThbY58THO5s02G3u-puqxRAzw8clRDOK_MO14E09sa-FAq-8SajTqXQuB7G454RckFj9WUxceUM0yr0ggG_zqHwomSsCaipMDRtIv8jvigy0nOeCVZo7WZUdlu3OKoozDhmENxg4F6gGdTIkeOBL-wTyY0Ou3-mtIweBIksb9_IvoRf2DZUzslUI2c0_6EZGkF4Ph2A52ZXg7yiMAM-24USYmTM7zgvCqa-Uy9_mApgqykHi_SyslFVgcKK6f3xTWFoir5reZQC2fJbpc7bwmKi5PGcFz-Cu2wVsbfgaGRanGzYY-ugm3M3Bp7sLcW1mJ5eQLeR2ck87ynpNVLHD3jAH-fdJrgjFXBB9iED4uMwu53K4A2RuqTQSuDyfIxdbR-MYsQ-xQ-R8VZfMwvXD4mtKNozfRuDyLvd9Ub2LvolEg2QVABpm637kdOGL_xEMMAPaxvE-1zbsDjftcxfdi4DT_9uYXoYFTHrMqGlmM5MeNJKVchw56xSbB_4sapQQrXOlkA89f70lqUl4N27FmB1-2PE2EWE5q29miXbAgANKEq3MOkWusziOlk8B2m85UdCVGqWYXKYoxCpbLwBHLJmZiGo-UXYnML1H2EFLruJsMJykKA-aM-odBXOpyhQKeNFVlfIpY_BmyhSa4RtR3TH4wYHZb5EHyQvHcwgw8PttPNPCfSZuKxzS9Jq0RER20WSEmydXLgPAnT3rGiqhCwgbSvjRketCW88_LTXlZCNDn3uLrRmATCdlqzIKa7BOzQuVaocGEeT-s9PlFiG8IbIy4-Rzy0YFsIVFjB7iGNCqaJdvqY9WwjWddUDal0GDiLsudN6gpagZxgms043d5_ePLRdMvLnytBiQdzEmKjshrXmHj3mHlL1ZInDp_xCTTp8vK6-6yOXlrXJLDSId2xpWx84IZ9UlitYGS_1amWI4nt9VPlfm5dRYSWl1uXSfhBPjimQOjLjp5a57S12OZ3dhhjV4jdSYul6owraN-NFKKrwhwgRm9vDqQT79k_qIg0cR9ygEZfepe8g8d6eQfVCb8-R9AZaBNE3OJjv01TOes7ZuqA4VNVXaHBWMVppAPY-g8cG-cL5nRBAZTLKm5C5nbkbQoxHvdOvrXQpz4hw3sni4DQnQ8v80NNLFjkGRFtoAoSC-1Zcu65N9QhVrR4y9Kxq6sgHoYxbrO6sMe9cypKezx1x9_oz0vsuBfoNxbFlp0OZGrbQ3dVgsQI4VHLyX72Ga23KYgrODX6oRHVYYD9OJjEedPnZFQjb0VJj1NzekLUrwvr3k1ZE3I_xbVsd81t4-I3N1icf_WcSbp-xhz7T8c3HDX-SonyopA72osNFQVJrkJEaoLOAibBPOE5gUkCkCVqxVBECLJ4nm0isXwvfGPDMv2zeYCYVSyasD_JzC8jhR6u-5ZTn2arbQVxNAP3J2EZEN5A5Xu1EjjsCzqG6Rqahma7-5A5M7XLB5o1fuaOtnCQ3Nn1f0IlOdGNGIO0Wy7k3qHXZ-PdRTjKUd-Fgm95kGXaRQFgBbs4piLnfremA5-2UpxC2AOkeubCR1jig6HsBQ-UuaDXb5QESRB8sGp-Q01D8Rm3rA0YfnCA-yEHq4P17U2PQ2TuwlsCOwVMKs5PYYwCUFtZRyO5dft6y-Btx8vYSHK01jqpG99Ax3imxXrIvvoAiY7KAdQwvbSt0sHaY9hHf3-bIRvm2RrHSTmJyJtGgATZ2prFMh25ZVgzEfAu-PLfnAvNUYPtZ7nv-NaHdI9vnaDUB77Ep41kbyYk5sgyf6fMqWSZMtmtgYNq5ds4OHL0odX-4cL49LqSYsQ2A-OKasOx3H04LfIaX6av2VGnWnWUobKjrmwJfFlgtSXsejKY3fsxOftBW5HNe65j-L3WKxnbl9YPqypHiwiu4YVwdm2ugGO-gA4sMRvPf6qIxa_zeGlQQN50zwS71JNoDQBl9iPQL6UJAZjqDkN_BtJ2JJIN9zPFo1BSQwZGUxOglVHBZpVIJu5s-nFxSAPdoL3t2e9YpGJG-p5KSS444GDaFyqGPcKEaC_b32_jp0Jo08UZwvUd3i0yRBD0ALUEp5nIN-qSpFAHEL-9QjesZyMO1ZsQym5Hqk0YnpH_NDpq-MnBmfQD0GOZHE1cS5JbjHtBgSgpvyqiV-10bEWoWNIQAh7GSn5vuMIAjrN9tWWZBtHGHDyrvfjFIUIuF3wSwKiZo9iCHkYCfR7K_oG6IixBLSaSYKSOvsG_0s4BYAFC18Lu-lNB2-QRaxoKGAKzi_js6WA3j8v-q_RAMnokSBkqzp3_j0ISaBdAFCRr42g2bMLTu9Gr-gYuJsU3bvSv_XqPE3O55Dd0pPa-gEOSzHcgcWmTtck3X0fj8iRlq9wiOTQ1n7y8oINjuOW8h8MTVvQdrijckuTn2afR0fG5oIiGp_x3vqWh6aIGJF5ElHEEDbRV0MZshneSMNVm5IynuRcu6pNKBU3OMQAKM2GsILAiaGdrfaGWZo2ERtao0WhHp7rKMe_O2d3eCqsmFn_H86RLBBrqQpheSY_HfAGA1NIOvnsqMdISSR5rfp2CTdN7bkAx0qOvOxB7EdezxJrtF9D2GHujy-p2bttdud56OYG2D-RK6x2GN12MEKWy_3CIxaiR0P2aHIV-Z-MrVJTMkGQe_LRwCRPh3kDeFZakmEjE9NjOHsBT7d85FWmgs_T560CQy9AJQpYKbo20YjfcVGsu1XMG6WXTv-m0sRm2-A5FK-sQ7HwHFpTlnSrP_jGiFPUB7n5rcnOngcq0RoKuw4GUx4XBhwHl6L7P7G63SnHRlcW25mUVx0he-Si_198Z_BnH0fQ8ZnJJgejDSoxJutxRgGNr1KxE0OiSKx4__St1eNZ0nDlMiohbG3Xx1342gridkWxca6ngI_R1JvQ29EaswGqEeSoj9OA1Qa5_viDlUDDm8HgW3c15NQMM2ekNYdXsVUhPiVzLTAZZmSEkd3Tf8ofJp1gHQDUIF3w-s7AuKJ6uYJptd0DOQm1lhwkSFcADfCRJ4ZysS5bZ1IlrppoGVy422gTPjwhAn4l_7EUB3RbqQ7uToHNuR8CKnCirRWa_Jlci2Ok2na6fv4ejORq5p_f8oeRNT7NPttge25qN9pEaLSYEd_240zW86BnE3zwb_ThF6tcJXpruKlMWlJ0vAbYYaqRI4f2mjMy_ME1EDLX_MjAx7bDDwxQicKYelFAyX8oPpVhW9ajRKF99QrqMU5o5v7yFJH-xNtKxIbR911hae_BDVh01R8YKonwBn0LFUC0tV3IN-fqDduNKIbUeyT7_OjWM_iHGKbD1JJUqcZAdEIOeM76jF8oBF-Iis_ZsXSnBuU45S7lgjQG5FILclJXpZGp5qOHs3jsc3elgx6Gdok42LD4h4gCQ3_UdmG6FefSDtzXRG-3WIOIsVAmNNjyc7QRFXxY-cmvGfBR3wnqewPblzIjuLe-BsEjsdeWgMc-0G8WhL0A5wPZ-8EU65Cl6SGrCAwg95YAeIVJfBe4gzMNbRtelBXm4RzIgt7FKeUAKtHFpjT9BN4AfdmQVJZZXuEKETXRtHNoYjRsm_EFZRr-5jWlo1MVBaW_VEcInpj3r-PBgl_In5dknMPIU4zHHdtral3qbm3liZ3au00t_W6neXN2J0bB7Ln8d4sDfFaJn7aH2inVdhz7qtBIN9rP6wsHAgwjeUjCQ0BTCaQL5Kblk4eqn1XC7FlIiaAgJ5LQzJSrLdvQYtn5U_3ILyMJWWn3oi7oq0RmtCM3S8PK2jeJ6NIJjT7s6H51AMr4XKfBIVSt01IJjeyPXDwq-BwLH0kj8G_nH0QaawiU9tMftI5PpCeKxYvIorxYgZfaJYTpQRM8VuNNNiPcPGKFS1Lkr8HFHVAl9J28VHCccYIsYXBKOjDrAJ7SjboxwAy2MF_T6zZGZSXR3lns0H-0M8sY0uvi_ODkErtC3EdxCn-2VLCVOAY_a9RYV9wcenvoBL9IFzIlEmRHdtS4bUeUHKQFTrKewKZmI3FRcd9W7RdGWHBACY-Ol8HTuOdehOo1AnvBHUaY3nXYpa1stM3VRkBZovrNJheBYRY0BrzJUH_aEA_mGOpDWtd6HiiOf0LkzyDkOLZqM4IVERIyzhvoSR3WhScFTplDJdAw7IUZfJzJNbIxIk-50AhPxpZJN3OlVYdGBJWmqeDmKDmKDO0jB5nY7_Si_BHzzRTsswkGrpDXSs-Ak4WQkByBVMJixcNXl4TQJxdDxY2cY-AQmvKaiKay88EXvj_EX1oYU7Powj-yO9Vnyy2E3IgT-zICdnDJ0dJzZTQnQwmgznXD6MV-GuD4TCnBesC5lznCRYEHFxsJZpcQh44uzi5ubb2a5GBm99xGn8FUOQIpKwP6gLrOu-2-wtJZhw4Opd-ynLYW0Gs4IOj4Ug95q2dc-rj88xRxZcuM0FnaDOEcTMpySgqxbhAY7DejPd-Xm2gZzSvdJ2l4HwasgsHA9vumD-am9fP1bRCkxZV4eLmrKhXADbQ423kM0pqOjPEsexnAnB-tZL3HgSwr-b4UxTUaxNRwfZ8B3IIdNhilMgrtzw3D6C5iflDqj--NYUTy2QuS5DOYqrKnQdf40kZ4sxOzTL5BkqPORmvW8kC0QBZ2QGUdt-OnEhksea2R4HYvVqFRHTTFIrSIJk-B6_DSgGJYoZYXOiRCjqBXzfO4O8psrUirBwuQFk1TssLZ5VjinKmrZXZ5wAjc9ruWZ-qTtus3rctoTLFLzfweptKpNtD-Xsx7AtIH8M5sLu9NFX46FLi22rHQcyZ4drRbrBqyM9jOE-EcPEt8bz9HMVJ6sgsbuzMHnaAAr6D3Ob5i992lQLmFLDVmHh1Pvq5JUzmYqXaJWL3nzR1W8XOku3ibOrOIa2Gv58WjFQ88icPfjWj0oXtfr_AwD_0gQG6HWQXWQps1FpHKuCb4XSUlfmUucwsCPcCsMpbl6sSLhwpJ1TugHgXgNfE94F4fggvDanohBP0I9jsMbliwtr0ocUEV-GmDKd7PMOOIM-MLWajUZezdtm-S3rGlQIFqW-xWhPNrEA0DbDA3dRNOxWz_JiRKFpdCWjGnKqtqM0e6lgQ5oL4LdPh1mjYOoDMBn0U_t-SwJL3nCguK28RloyPgqwJV7JIPe8OgrldINOPuh_oFCdI1VwwACCp_xvJZmQVskuCKGTTbv8V1Bj9xmAZiQ=",
+        "status": null
+      },
+      {
+        "id": "msg_0b0fb25db334c1db016af89cef365887d29a55fe59eadc28e6",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"propose_bundles\",\n  \"fact_id\": \"K27\",\n  \"status\": \"candidates_proposed\",\n  \"bundles\": [\n    {\n      \"bundle_id\": \"B01\",\n      \"suggested_template_ids\": [\n        \"T5\"\n      ],\n      \"agent_goal\": \"Prepare an accurate stage cue for a beginner chess demonstration at a community festival.\",\n      \"new_task\": \"Mark the destination square for a performer demonstrating a single bishop move on a giant chessboard.\",\n      \"action_constraints\": \"The bishop starts on a1, and all other squares are empty. The demonstration ends after one legal move on rank 8, the edge farthest from the starting square. The organizer must write one destination coordinate on the stage cue. A volunteer relays the event's chess instructor's explanation of bishop movement; the organizer has no direct access to the instructor.\",\n      \"action_type\": \"A1\",\n      \"reasoning_structure\": \"one_step_mapping\",\n      \"target_output\": \"The destination coordinate written on the stage cue.\",\n      \"aligned_action_gold\": \"h8\",\n      \"conflicting_action_gold\": \"a8\",\n      \"belief_to_action_rule\": \"A diagonal move from a1 reaches rank 8 at h8. A horizontal-or-vertical move from a1 reaches rank 8 at a8. The empty board removes obstruction concerns.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"Bishop movement is familiar to many adults, so even an organizer with little chess experience might reject the relayed false claim. In the aligned condition, the source claim necessarily supplies the real-world direction answer; aligned Q3 therefore does not isolate retained prior knowledge.\"\n    },\n    {\n      \"bundle_id\": \"B02\",\n      \"suggested_template_ids\": [\n        \"T5\"\n      ],\n      \"agent_goal\": \"Reserve the shortest sufficient demonstration segment in a chess event's running order.\",\n      \"new_task\": \"Enter the minimum number of bishop moves needed for a planned demonstration into the running-order form.\",\n      \"action_constraints\": \"The demonstration starts with a bishop on b2 and ends with it on e5. All other squares are empty throughout. The running-order form requests the minimum number of moves for that journey under standard chess rules. A workshop assistant relays the chess instructor's explanation of bishop movement to the event organizer, who cannot consult the instructor directly.\",\n      \"action_type\": \"A2\",\n      \"reasoning_structure\": \"simple_calculation\",\n      \"target_output\": \"The minimum move count entered in the running-order form.\",\n      \"aligned_action_gold\": \"1\",\n      \"conflicting_action_gold\": \"2\",\n      \"belief_to_action_rule\": \"The squares b2 and e5 share a diagonal, allowing one bishop move under the aligned belief. Under the horizontal-or-vertical belief, both the file and rank must change, requiring two moves via an intermediate square such as b5.\",\n      \"risk_flags\": [\n        \"agent_prior_knowledge_risk\",\n        \"q3_answer_leakage\"\n      ],\n      \"risk_notes\": \"The false movement rule may conflict with an adult organizer's existing chess knowledge despite credible second-hand instruction. The aligned source claim necessarily reveals the actual movement direction, so aligned Q3 has source-based answer availability.\"\n    }\n  ],\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794678008.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "propose_bundles_output",
+        "schema_": {
+          "$defs": {
+            "Bundle": {
+              "additionalProperties": false,
+              "description": "一个 knowledge–action bundle（guideline A5 的兼容性闸门：写故事之前先把行动设计清楚）。",
+              "properties": {
+                "bundle_id": {
+                  "description": "Short id such as B01.",
+                  "title": "Bundle Id",
+                  "type": "string"
+                },
+                "suggested_template_ids": {
+                  "description": "Compatible framework ids. If a template is assigned by the caller, exactly that one id.",
+                  "items": {
+                    "enum": [
+                      "T1",
+                      "T2",
+                      "T3",
+                      "T4A",
+                      "T4C",
+                      "T5"
+                    ],
+                    "type": "string"
+                  },
+                  "title": "Suggested Template Ids",
+                  "type": "array"
+                },
+                "agent_goal": {
+                  "description": "The agent's practical goal.",
+                  "title": "Agent Goal",
+                  "type": "string"
+                },
+                "new_task": {
+                  "description": "A NEW task, distinct from the information encounter (not a copy of the source).",
+                  "title": "New Task",
+                  "type": "string"
+                },
+                "action_constraints": {
+                  "description": "Constraints/resources from which the gold follows; no hidden rule or extra event. Never a list of candidate actions or values, and no if-then decision rules (A8).",
+                  "title": "Action Constraints",
+                  "type": "string"
+                },
+                "action_type": {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "title": "Action Type",
+                  "type": "string"
+                },
+                "reasoning_structure": {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "title": "Reasoning Structure",
+                  "type": "string"
+                },
+                "target_output": {
+                  "description": "The single specific action/output/parameter Q2 will ask for.",
+                  "title": "Target Output",
+                  "type": "string"
+                },
+                "aligned_action_gold": {
+                  "description": "Intended Q2 answer if the agent holds the aligned (true) belief.",
+                  "title": "Aligned Action Gold",
+                  "type": "string"
+                },
+                "conflicting_action_gold": {
+                  "description": "Intended Q2 answer if the agent holds the conflicting (false) belief; must differ from the aligned gold.",
+                  "title": "Conflicting Action Gold",
+                  "type": "string"
+                },
+                "belief_to_action_rule": {
+                  "description": "Brief metadata rule showing how each belief plus the constraints yields its gold (not shown in the story).",
+                  "title": "Belief To Action Rule",
+                  "type": "string"
+                },
+                "risk_flags": {
+                  "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+                  "items": {
+                    "enum": [
+                      "agent_prior_knowledge_risk",
+                      "source_acceptance_ambiguity",
+                      "source_vs_belief_ambiguity",
+                      "action_ambiguity",
+                      "q2_copy_shortcut",
+                      "q2_non_tom_difficulty",
+                      "overconstrained_story",
+                      "unnatural_redundancy",
+                      "q3_answer_leakage",
+                      "world_fact_scope_risk",
+                      "template_task_mismatch",
+                      "near_duplicate_structure",
+                      "implicit_belief_leakage"
+                    ],
+                    "type": "string"
+                  },
+                  "title": "Risk Flags",
+                  "type": "array"
+                },
+                "risk_notes": {
+                  "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+                  "title": "Risk Notes",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "bundle_id",
+                "suggested_template_ids",
+                "agent_goal",
+                "new_task",
+                "action_constraints",
+                "action_type",
+                "reasoning_structure",
+                "target_output",
+                "aligned_action_gold",
+                "conflicting_action_gold",
+                "belief_to_action_rule",
+                "risk_flags",
+                "risk_notes"
+              ],
+              "title": "Bundle",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'propose_bundles'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidates_proposed",
+                "no_valid_bundle"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "bundles": {
+              "items": {
+                "$ref": "#/$defs/Bundle"
+              },
+              "title": "Bundles",
+              "type": "array"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidates_proposed; a substantive reason when no_valid_bundle.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "status",
+            "bundles",
+            "failure_reason"
+          ],
+          "title": "ProposeBundlesOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 4710,
+      "input_tokens_details": {
+        "cache_write_tokens": 649,
+        "cached_tokens": 4058,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 649
+        }
+      },
+      "output_tokens": 1245,
+      "output_tokens_details": {
+        "reasoning_tokens": 516
+      },
+      "total_tokens": 5955
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "setting_domain": "events_planning",
+  "checks": [
+    {
+      "severity": "warning",
+      "code": "arithmetic_flag_missing",
+      "message": "bundle B02: 需要计算，但 risk_flags 没有 q2_non_tom_difficulty"
+    }
+  ]
+}

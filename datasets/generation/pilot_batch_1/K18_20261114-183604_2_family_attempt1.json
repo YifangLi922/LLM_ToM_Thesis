@@ -1,0 +1,681 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 18.78,
+  "usage": {
+    "input_tokens": 5993,
+    "input_tokens_details": {
+      "cache_write_tokens": 1248,
+      "cached_tokens": 4742,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 1248
+      }
+    },
+    "output_tokens": 1361,
+    "output_tokens_details": {
+      "reasoning_tokens": 474
+    },
+    "total_tokens": 7354
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "generate_family_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "generate_family",
+      "fact_record": {
+        "fact_id": "K18",
+        "knowledge_category": "basic_physics_causal",
+        "world_fact": "An unconstrained ordinary iron rod generally gets longer when heated moderately.",
+        "aligned_claim": "An unconstrained iron rod generally expands in length when heated moderately.",
+        "conflicting_claim": "An unconstrained iron rod generally contracts in length when heated moderately.",
+        "world_gold": "expands",
+        "conflicting_belief_gold": "contracts",
+        "pretest_question": "What generally happens to the length of an unconstrained ordinary iron rod when heated moderately?",
+        "pretest_accepted_answers": [
+          "gets longer",
+          "increases",
+          "lengthens",
+          "expands in length"
+        ],
+        "qualification_notes": "Exclude phase change, mechanical constraints, exceptional temperature ranges and competing forces.",
+        "source_urls": [
+          "https://www.nist.gov/glossary-term/33491"
+        ],
+        "review_flags": [
+          "physical_setting_qualification"
+        ]
+      },
+      "selected_bundle": {
+        "bundle_id": "B01",
+        "suggested_template_ids": [
+          "T4C"
+        ],
+        "agent_goal": "Keep the full length of a heated iron rod tightly framed in a museum exhibit's live camera view.",
+        "new_task": "During exhibition rehearsals, the agent repeatedly observes preparators reposition anticipated-end markers before warming loose iron rods. Their setup card states the locked claim, and the agent's role ends before heating begins. Later, independently preparing a different exhibit's camera, the agent sets its zoom for filming a rod after moderate heating.",
+        "action_constraints": "The ordinary iron rod rests loosely on an open support. Before heating, its full length just fits the camera image horizontally. The camera position stays fixed, and the agent must preset the zoom so the warmed rod will remain fully visible with similarly tight framing.",
+        "action_type": "A4",
+        "reasoning_structure": "prediction_application",
+        "target_output": "The direction of the camera's zoom adjustment from its current setting.",
+        "aligned_action_gold": "Zoom out.",
+        "conflicting_action_gold": "Zoom in.",
+        "belief_to_action_rule": "An expected increase in rod length requires a wider camera view and therefore zooming out; an expected decrease requires a narrower view and therefore zooming in to maintain tight framing.",
+        "risk_flags": [
+          "agent_prior_knowledge_risk",
+          "source_vs_belief_ambiguity"
+        ],
+        "risk_notes": "Thermal expansion is familiar enough that an adult agent might reject the contraction claim despite observing the preparators' routine. Because the observed marker placements are anticipatory rather than measured outcomes, readers might also attribute them to an exhibition convention rather than infer the agent's general physical belief; the setup card must explicitly carry the locked claim."
+      },
+      "assignments": {
+        "template_id": "T4C",
+        "action_type": "A4",
+        "reasoning_structure": "prediction_application",
+        "agent_name": "Ella",
+        "agent_pronouns": "she/her",
+        "setting_domain": "museum_exhibition",
+        "setting_label": null
+      },
+      "revision_feedback": [],
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, reasoning_structure and the two action golds). template_id must equal assignments.template_id. When status is candidate_generated, failure_reason must be null and validation_status must be exactly \"needs_human_review\". When status is needs_revision, put the concrete reason in failure_reason, set every nullable content field and validation_status to null and belief_cue_ids to [] (risk_flags/risk_notes may describe the problem). story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; {{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} (directly after that sentence's final punctuation). Claim spans and belief propositions must not contain curly braces. Both claim spans must fit the same grammatical slot in the backbone, and each must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, same wording as far as the grammar allows) -- never an indirect or behavioural paraphrase of it, in any template (including T4C routines). belief_proposition_aligned / belief_proposition_conflicting are affirmative finite-clause complements without an initial 'that', without the agent's name at the start and without final punctuation; the caller builds the sentence '[agent_name] believes that [proposition].' itself. The protagonist must be the person named in assignments.agent_name: set `agent_name` to exactly that name, use the name in the story, and use the pronouns in assignments.agent_pronouns whenever you refer to the protagonist with a pronoun, so the story reads naturally and consistently. Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are rejected automatically). If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K18\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T4C\",\n  \"agent_name\": \"Ella\",\n  \"setting_domain\": \"museum_exhibition\",\n  \"setting\": \"A science museum's live thermal-demonstration exhibit\",\n  \"source_type\": \"Repeated preparator routines accompanied by a written setup card\",\n  \"belief_cue_ids\": [\n    \"B4\"\n  ],\n  \"action_type\": \"A4\",\n  \"reasoning_structure\": \"prediction_application\",\n  \"story_backbone\": \"During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed.\",\n  \"claim_span_aligned\": \"An unconstrained iron rod generally expands in length when heated moderately.\",\n  \"claim_span_conflicting\": \"An unconstrained iron rod generally contracts in length when heated moderately.\",\n  \"belief_proposition_aligned\": \"an unconstrained iron rod generally expands in length when heated moderately\",\n  \"belief_proposition_conflicting\": \"an unconstrained iron rod generally contracts in length when heated moderately\",\n  \"belief_question\": \"What does Ella believe generally happens to an unconstrained iron rod's length when it is heated moderately?\",\n  \"action_question\": \"How will Ella adjust the camera's zoom from its current setting to keep the heated rod tightly framed?\",\n  \"reality_question\": \"In reality, what generally happens to the length of an unconstrained ordinary iron rod when heated moderately?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"expands in length\",\n      \"q2\": \"Zoom out.\"\n    },\n    \"conflicting\": {\n      \"q1\": \"contracts in length\",\n      \"q2\": \"Zoom in.\"\n    },\n    \"q3\": \"expands\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\n      \"gets longer\",\n      \"lengthens\",\n      \"expands\"\n    ],\n    \"q1_conflicting\": [\n      \"gets shorter\",\n      \"shortens\",\n      \"contracts\"\n    ],\n    \"q2_aligned\": [\n      \"Zoom out\",\n      \"Widen the camera's field of view\",\n      \"Decrease the zoom\"\n    ],\n    \"q2_conflicting\": [\n      \"Zoom in\",\n      \"Narrow the camera's field of view\",\n      \"Increase the zoom\"\n    ],\n    \"q3\": [\n      \"gets longer\",\n      \"increases\",\n      \"lengthens\",\n      \"expands in length\"\n    ]\n  },\n  \"action_constraints\": \"The ordinary iron rod rests loosely on an open support. Before heating, its full length just fits the camera image horizontally. The camera position stays fixed, and Ella must preset the zoom so the warmed rod will remain fully visible with similarly tight framing.\",\n  \"belief_to_action_rule\": \"An expected increase in rod length requires a wider camera view and therefore zooming out; an expected decrease requires a narrower view and therefore zooming in to maintain tight framing.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"source_vs_belief_ambiguity\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"Thermal expansion is familiar enough that Ella might reject the contraction claim despite the preparators' apparent expertise. The anticipatory marker routine could be interpreted as a local exhibition convention rather than evidence of Ella's general physical belief, although the setup card explicitly states the target claim. In aligned stories, the source necessarily supplies the true Q3 answer, so aligned Q3 does not isolate retained world knowledge; no independent true-answer cue is included in the conflicting story.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_0faf946ac4818a01016af89c2e2d9087d2b1083c4a3576946b",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794677806.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0faf946ac4818a01016af89c2f667c87d288f2ed62884fc175",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JxA8Ptd40Bp-3Uyu07UF68yX_LNwpr7G8paL6bNTMqD09dYxUSiI6a77S_AC-zTj1RPc2p_JiBO-UZmGm_e7nV0US2KZeXh6nZYVBE1T26vZiy-xLmMyKqHc95Dn8ETOf1zgO33j35AprR4kq5Siwmmw9AvGWdfA0OkNWkMWLtHJMej7GaB4cA5EbxOuS-UonEsx19lw0QUR6Wh2aUDMAkvramCUo2A7sP9-xLC65jS9Q3WAEug11yuo_kTVcQ0L4YY_n8C9sWZXypEaa_7gF5aen_Dfi1LDgJ0KrtvzIQT6TLBrxZzr5bJMwjsIGs6utFO7Q_0MEnh5MurqSFAyRy9wLxx3c3a7wFFXh1fkVNRbWXArPw5uKT0np0pumROf9uecCyoPUP1B-11bBxqXNwI-xL3zJucbDrvvvAf1IDmz0fydE78Mj9x0v6CqTmDuU8K6ZVU87JsczuQ4rm4n0ZM0cj57W7gVE3FvJKZu8-QnXXmUGbQrRcSpzfX3mSRAykZXHHhzU33aj_T2CVXRuY4fri3LPbX4k1WSwYC4X6EQDDK03fywMg1cXtITbIVoaUTpKPvsU4YJsm7v6Ibe8I08bAxndeVo3Mrd6MvABLRg-MR7QMAKQNUVva8XF1y-8ZRdvP8BGxZVLQWYPZyfbj959TokOuTwaZ-e2Vh75y3bvFuLK5s2y3_ADUELPr9bG4kbFf1WTzklz9jBkcbgfdlitKUQItEi4xWa_L_9Pn2lJ5y1v3cZ8QIaAeoOOxEA4fsjyeMQ0NnjmH-_KiEFCyjjrBG3BQOr9rrZX-mnb3739mm-1UyXWFJ53CpXPbsGrkknNRP7IpS2l7voFE-CynChxho83FP_QYXFEG-avVsqnSvASlaR1Hf4d5Ee4FDbr3SFgiNGWd4ngjv1zG7n8YFm_FiYoLnd3RlnQPRFKaE7laPPfAa_132510QX9pylOyKiqMqGaveKGDcohi9-KW_QH4Xw9d3e-Bfcpfls1X8m_Ajl3Q6ab8GCzH4yu_okNugOek2r6vA1UKzoMIn3o7bQyAYCKv7hBkhitl_vpfIURlThu5c3iCF2IhZeic4QTJ2pF9cJRLHsD8n-cQfjXGj6emxwu9yKaG72EfRtcItBiX39isqTfB48Xe-lMBwDIo2CH3IJHqbgtL5bM20Se8aq4ptKLegAmee_IE8QPbeM5x8gIwqLe68nZXJ3XjoQaVWEcHJyN-3LEfqEXX-2BmgWW6QJCiDtg3C7sFD-iFku-eo7IsJo7WWhJAfr5Psv4qBqWVh1m06TsoEL6wlywQmUQECk52EM8S1TQ361a-4RHOr9SWNBchSJn5POayBWryyQMufVCS-anGbNkADYxXd3l7VQ2ZB_7JkotMULNL6q7P9JLtScjU9cOCnzNZDYpnMqkEQg4f-cXE1YUNo_XA8OoG9rKbqwfgc8SEO6R7Q8ZtkPpJ9xufJOqI5onzNNvNg0FqZJhx5XUpGlHTGIIuiKwKvIKjiZLKOz4o8C2POMaCw8V69fHFcOg2KAElMySMUyToFlOPDb9_3h9inWmpb0nex-0pH6Bc6igppnfd9LXsQl1xjJjAHeXT_oboONfUoxccwmS2j3ziSKDSCEnE1sYD3scvQPAqjmm6a8l2aq7nAqS7mQ944RIMPvxGLMNvM5l4cjDjQR5SfRfiOmwtWPmzg0fNX4_c7r_n89IMf96ZpRDp6y7XoC-bV3IkGIANSguc7mk6-KYHqf5fycSYKg1Pr39EYCtKXIHF3ykLvyc0BsK5CbXEHj96VFwunE_xT1p1KOYHC6xtcYDYUR-ZbwC979HI2ejSXEx50U3ilfIYpPVlzl_T6eDV7gbaIMZxsQe-b_q6VHRKC_L6DST7JQh1c99eSbvMKBRwWyFGNgl0PytRpA4RWtWwLgIrziCB_88Y1J7euDWQmUyoXcRcB7mGgTBQXctaOIOfplqADRhtK8EnZaSrsdt1jzRK_nI2GyNuQy79vj4RbeUy3STNd0LssLnlVkefTuO45G8-ryafQgq6Y1LM_FkhDojBLRPY_NQhq2q4tpeeBFfJ9iOin9-8L50EZrQjr3qcJ_Gopyvjhsaaw3xs4AC6MpP7A-90s960f7zIBjsU1BOAo979iaKZSWykrB3WfEfU5N0DNZGU4I62CDgm011wAbrELLMIqc73UhjtUiQtF0IVhoJl9T01b2W56WPVRu5KV-7MB0ej7jz89eghsgq7yOB2hzekKUF42oBxyluW7HnPh7319ewU2P0kWUIbjyR-IhkXbTcz-x1IKNO6Yu82Kx0HhnQuHa0XiH6U2UCbr5lM6MhS5O62RoTPbyv3wdD3gZAmTOyJr1bIvbJ2u1W1HPKSNuJI7fxEF6eRoe3K_egz7Q4K9fJlY92Pg4JddaM0LySBQCX-4WCQeuHT2xl0LlNoFA80P5DUvEq3yZV9MHFos9caKg4LHr_HR4tDxmmZS0GwPsuXhPSMmTd5iRtIdkyau85qDqzSF2E_ig_W1wutvgvz4sBokiwHQQAJ_4cFdIMcubpn4cZ7mFnTZoDes2EHtKdEuuX44j3tvKe3y-tUlfqOzx1m96F-N_2n4fddyXgLDg11JlK2zTWo5ZkUDT_63AlWmAG3IhKLw0s5iYPnVzadBPLZ4tVgzRcC-9qzdUPVxypw8OHYyV3REzF2QOx8ahJOZSTsKrAMCmH0os45yc0Z6M9WOS3y07oZU26saBPO0p3cNaFiPESCA6pwJIzjtO1gQVkEDaq5Cv2yGrwCRrQ6UlkMzFaPM6D0wk3xS4xadSV0gtU5JyiAamsw6m-MxPSgFfWDxmNghuLg6PfMCjmQXJ-ZwjUrBiv9gioEiydPX0i22EhHH_myF8ub7XAhkshJLfYbRXTXUMK2PwnCHOj8kn0rtqj4x8o4KRCsRX_L2tpY1Ul83YBs9J1rEoT9aNCbcEI3IsC0rqOSh3ftekhhhD5Kw5cEMfP3Set3Tgdm6mv7v53EC4-0h5nTA7Xpz7BG6dNMb5SzAYdwWebS-a2qLARDeflmhqcGYPxREQTZLxS4hkoXgIFY1COEWIu0bVhKT6cBIa_ONyDCu3_8mMJAnfz15v79AOEvWYer8-dhhCmSfUlEzfHBWsdN8hpJhuJDp3tqMXBjp7CtOy8ahDubA-b52iuQJLIssIK7C6tg7ig51QDtMNRqLLhFTXKJQnMgm_JRpdzpfOuL23OM9a24x4pmjhtAkNQaQCRIK_imMvtgC_QlIdx7-QJWOYoAk_NXPMp7ri0QYta8TXijjBjwKObzpiwMJn-RWMMfTede6Pt5dhTzVW3YVou4kx3YsUrg8Ib8Tr91LQcp5ZLaWm0zqkEEm8Al5cGQuly2uzFhd9SAHmJpq73p8cmQ9zNIHjcAC5DXufsvbhsGKd2UbZ00nRkev_6F-Y2rpyQMJkn2rbuwPOfdx8xFeeTQqN3Kim074tVjjMFmAvPWi9thqLbJ1FtAx0m3NixBNxW_wK0Var1zeQeRPnDrIz8I9azPPKctPCmt1VrusCqQ07ttNRhIZt8E5IeTxR898lvvCjYVo4bp9FQxEOMogMmk2PJqxz5eR0yCr8Zb_1RvGCsySSgXyYUF0hSEA5jgW0Cy9d-rksk-r_rQWBsPWRsyHa5XM7M2imQ_sAkGYETQbD5opjRgY4OLRt0D3FwbMehpttEXUy-Zw9BVI7uvf79zafiw0XTOfQUo5sbEU2k3FlAYmQTWJCBpynYS5Q__dJoWSNLgGtvtrCB3ZSRntZ2RH9nX1OwiHjrZlie5fJYfUyJKb1G2-e7dB8zw134b742YvAX5sVgnZKds4t0PLAslmoNiqtzPCd0vXr7xpZSZ-ezmXzPfBpzVxpOxsIG3o1hear7Z3CuuqcdCJNUSTCV9n7TUmEBSuRXizS1HMf1rsh1ks1cXXUi8wHqqCIUU-mjNWjaAQjfKuyh5Wrwllp7k0cvYjpo2nlDMDrWapPmxKJibGn4KnXFBwkJ9xQq2T4MpZPTfmgoAtYGqvtT_NdKJWuX0mscifx3ER7rBJ8uWf_c6emmf092Xqr0WyBUpPOyktnLHubpfTZCMxnx_uA0my6yUuVTPWmR1tsrOIYHbvld50DH3nPyl2GpIBm-9jIayCx4dJo92VloLO3tRD1nAgWydqlrCqHemYA7ldJvfWOLRIipa1nTAJcjktSPCkh8SfdK1bXvnHA5EKUd72ptCA78gTS2Y02PLY_swDl0kUXgSaJZJSkwhYX36K8wVgRmEl3LGSJk7xnkpkEI5F1sIaqCUkjh8hCqfLP_Zo6G-JB1HSen6MXMdAXbvR5B5LXcy13Tu60_pRPfZfTRKoQ6ne0FtZs8eP6OoRSeXeGno28sewIqeKeBl5hakG6wOrCkZzg98scUDB81d7nw1XWpZoEr6DvBPMVBALdW3JPsrQoy-Y-zKqHnv7HKShBdw15frmlm8g40TcXfnypcbI8MQS9TTvWGGtckDM8O5hNtbyV8R3KRD9wc3Xu-zbJJx3VHGlrdDO-5STYCVCVQp_T9pZfpZDu_LzWEQiAl7yHBltMPUqaiPWBQ4Vc34bwl9QQBQJGMEsI6in5Qntu_mVUv_nE-gMauI2_dZUpNJBxsjg-x4pEcHIZCXTYv2hKBUlpU6RF6tCltTBRVLcXyJTCmppmrEr1OukBD11vmn5NfF_xs02H4CX6rr_OgEL5Yalljpuw44X-z4CLxFCrPOMIJN4fvbHDwYiYZ96qQ5VvyNz7YM8om9xpRJcHl8FhKg3ZvGNDozuWyReO0HF2GCL_vozlI-GKajIQO1KQt27QkmjwvBDjd1jPDT4xygl2osnfWXJgPooHfkD-9n-ghu1hbKA4N1cj5EvwyOQYA4U2Hcj_rj8RX6_QqRni__ri4_0lyIwJwtxv4kSQpNC3FHQcGXhYb3wSm919miCD-Sgvi-OzmfgeXzpY7SvDQO0c7F3Lvqd-FrprIp3mz_rclIvgENg3-OtFxAkBhQ_n9DBYGRiDURtderGsGQLHzuSGcOP6S6w6tk-1G3GFD7ZA8KyaggrHwx2xQBBdpZNmn15lERaicD9bpeo7_iuDbdoXBLCyA7bky1jHDhNURD_2BymkqaiUVGSKZaK4q7OwFIdPchvS5kQQI_O5dTmAIi2b_SgxL_5hEy0XwbfLr3ZZGIZUAW87xG9JqmoczmRe9lf1m7oNxjy6GZAmQ766jl4qRcdgc9DkdrJIp-0e7dYjezXPb-AWCrUiUjFANwnQYgNN_s9HA-XBdowKzscPxzDZo2aClsURr7XMvmqbRgHCXK5xnioCIFuKvGmCV7YkW18WY-9nnNE7trj8JuWKntiAt8HtqQikCHv67O7XFsAqAqik7TfcSF_Pv6Cnc3BCkwKKNZVBEjlfW1FFM9b-03ywEU74sCMZ8-n8uo3qfPdHuyJg-WRetATN08kbM1CxI4AB9JI2pccWUbAqhj1nPmb3ucU3cZqoFaPJtAo2qOQF2Jtli3Mrf9NMhquBIn0Uw0gQIOMfuik43IbTMp7dKxlZ-h15d_S8MbsXuMnilXXO2RALMAA0TcVeAFrL4gpyKeTWy-NqMPTHd_DoYdVbUEJfKnkZW7Y6d6roYNBO-wZhPOCus5rjbOuXKlzjDeSnmWRXSiqWh9wkXY4Dpsslo4TNETodh-twx-OnlTbgUDtW5VB5oWEOAw2zMWItRJ2VifsmTCcHvEplmiggEgR1py33e8YwBlkVhpSyJQRyeHT007bPDyfCB2X34mw5ksIebpG0THMeB7iwl4MbhbLgBsNPjXICixUDgzTGCC0tOzCqaPScNvrCco5O7fyXsQeKefOaE_bBqgwMph9lmbUhoE6lc6bCNSWHK6gu8o9z4vlVpHHw2RQkXEDchjR4GuOgwpyoAMPB_W8gS7R74P6DGAgIVoLmi9YmacejYXXwQzL9Wby4JP-Q4lEa3Tzx1U8fvf6GOnlJhr1CXUMiJRux-pZUiB7iO87D4RvwL2NMcjSB74y6NOzSEwjWA2DQ99YOXEf79Mpe1ACWE-1D5JGO7kwQFWLmbFG11Ncsbjo6FH5OYWZJaub6RiqDRNbyIjv1R57zvxCxHhNaUY6cxI1S7KS-YUjgRlIhRY4K_Ww8tvaM8y8DuJyatUFawkwB3phxVxXpSqcOVTVK2ZDzMlUH_xVRQKGc25VEWS-GIUA35efG2YqD6D99NYgWD5HpTk1ofigDoM04XLRa5D-2_sM_75RGX_d32Qg0RE0PUGCgvhSk5di6bfXkMelrZ2W7-A_c6ceEAbkBuvqnen0Hx6BSDDj-iAuUfnA8x-vM3XLSOVT2OTRg_1jyjZlpGI3O5ZlngDigDkgXBBuWdtN9yUgZNaDglkY9NIbtxdGc5UMqqPDmRMGaIHn1qKHwCV_SLDiE7wxTu_1w0tONL6gANuqs114EjkC4UV07Sjyusebw_bVvJ1bvjgDIyd_pSFoLWZFC9iwCVnIosMZWe4REyc_b0rsxGUZyvdKeSJm2ew04n_2naVNf0xrgjZW5s7AODIyDhR1hUIsUl_AlLbCIXRAEa2_UuWmMaK8ld5sua5V5NXk0UnhT1CUn4RRcGDyA2k_0PWtU2yED6DaWMiJz3KB0CO1u9vXa0RBA49KMNhQLXKl-zlwgxjLyWF8EsnDA4y5J2sXsG-BvSY0Gj0XF9qZFeDvuS1YdxFBA3UXB8Vs07a-nL1q_KPhIycV2D4j1SwR_3tfAYzw-IvRL8dlRDrPlNctg5wGTimxBgiXhrO88JrrmV18eDUna9DuWM9CDWFLvRDrrEJ2xlWldEKJ3cydJ_WwuoSBd3_V7qlxDujTFk05VvG-NOOiR72Ei9J_QOiquOzAQ0FihjdJAAUHJNR8w6w_yXaYf4WeuOICgdY-lNOc9Z0SHSgDyDDYOFpGyBjXdzRvFvLD7v_DR7xN1XrorIrl8p8usjl97EYH-RKm5JV47Oj7j3Wd5YY0GVlubuZXfFz9bMmB3uxPf-52oNHYYfemo-eBo2FKqMdZhF_sTw-uUVv6idBCKn2mjolWloGHSVmlGOJ3OBl8u7emln0QMs0iUhVyF9nSAsARUNMpG8Fy0767vI2pLP_DcQ-7IxlMIu7IVeioJTt1oDyx82_m7iBxH-r33ffEctuKh9ADsqoxfoTtrNj8kiiUH1EFUixUVaD-BjOnipiP47Jtd0FEaLTh1wjbeOXCvF217dnYrB5EFFKfsZgIOkTLomCz5x6DfVpxY663FRrG6Wtpp5ZssQsiYuD3oYJARZMjarZuD7kIcauvTCjH9QE-cpolTbqI9K24oKrlXRLPOFp9cW2P0ABxiHkSsfXr4HntA5a22iL_9PtHsXv5YQNQqkRJc_1Iy9NpWFRr2FG9wtD27sWqiwlJC1ELjGp_dT_HGAjEq7aXbYoHpt3QVyhq9J8rana4utQm9P61N58bYqkKTKNvw7W2C1jlGlWNfY8zPQEhWFYbAeEJ3lo7MOZ_41IpqhOflKmm8QxGAqHOitOw_eb1cMOdc-K6ZM4Z72YS5mvjt2gwEMi6klsfbisKRJIQTHvNJ_11R0yVJoxYW2zbohr1kZ-qc81dseFSZLziycKMoDK2q_vXUaWYPZaCVPrQcaxFWI_mCJIizR0rl97SgWf3HhGwkTcfVlKl9fObc_0bwjdgUJuYstDUOLBymjB7PzSOiwaIejMT3YssnVD4FEa3r_Jx9Xc3uGva2duUvIFq-oW7uCKvUlGeZCxTDU7uKOXIuX0ZiG2B7iGehKmiqtSJrOnrAP_lFMswJNNRUP9b34b_EJCPRavHe0K2CUbHtJ-uoxBLqcULO_7sFueT3Dl6_GmUqiFZkM6AWmloGruad9NKukGrnVV6-g_BPdULSR_wBG8RP8V-UbRnKLi14DFTkY-3jbyNGrCPDxcMaYrx63X5BOGVXlVip-iCURVotWuScG33_tev0wtgYA9eCavEuFTR1mknZZpBP_yhe2Z0gw_-VfGHplf9W70RHNAwL8GnFglheBlb700XzoTS2c_kIw3uVTwzW76e4dGWsxiE7Z1-YAnfQDxkMlMtVm2OzueisZNAWqlPnh3vgqvTmsF6sXJoVOzpYwtDeY5DmVYN7DNa-qh2bsqCF6glBmBqW4vIkxJ1deM2BdL1uEBsplgTkqyMfwDxlqhp9IctJlVEg1MvwQ43ZIyiCwI2ZPv7rR0yJ1hpyAhb0zPU9QXYEQgcHbEkULigglYgJH46DcpHU3DdNh27EG0caV2cO-2gt35y994E5Vt73ipGsFyIPAoBefZz6eli4TfI4LVdogoOE9nb3i3e6pcv-hzXHy187JQrp6vB2OhwfKuC2EZMt6xBVX_fZ8l7Yrie0TubmKzMEZHaJ9r8yY26wXjcj0P_RSkKXfVDfWnJL87JpLNmxNh6S61pyyxefQ9xj66qwdIHpDYLOBCzhAlGQpMTKjd2Z_47N85VitknM7THbk5aWGyELlL_9JBKrNEIZpRjsl60I9DfFxK5A5QF8sP1diz42DavAnxBLslIDNmxJ9QJOukOr7YD-8uQoIuWJru-oyV9SQQw0OVs-tOJJpY2GbE4C4DLwwmSmK_UoOokhrSIQT3EhMc1QnCFb-LjQiaoIIIq1KgakZPukvztaq1VZ0VUp69tAZ2XQ7IUIQ-emK6PGriQlCQBgq9MN5kocnWlKJUjtGX7bYUNKXaqFwFYVywoYMvcY9ikmL-KjjqxvyMoA3nudCAe_q3izWBuezGD91Q5J00CVCsET98vo7ejVuH5QN4FdHaFNqm7-MqgokUnCULCpcpLviLH3TVeki7OD2jhM6q_Un0uvI7lzXiy_dG6i-KQct5xbIaCbSOxvofRO1t2Dqn5xnP_LWR68HOICD3qn1uOxw2hG-Lzu8JUaTm2_QNazxZefXcpfF2ojv33Lrx4JMM2vEUorRfvJ-aLvd0=",
+        "status": null
+      },
+      {
+        "id": "msg_0faf946ac4818a01016af89c3a49e887d2ab15cce843726526",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K18\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T4C\",\n  \"agent_name\": \"Ella\",\n  \"setting_domain\": \"museum_exhibition\",\n  \"setting\": \"A science museum's live thermal-demonstration exhibit\",\n  \"source_type\": \"Repeated preparator routines accompanied by a written setup card\",\n  \"belief_cue_ids\": [\n    \"B4\"\n  ],\n  \"action_type\": \"A4\",\n  \"reasoning_structure\": \"prediction_application\",\n  \"story_backbone\": \"During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed.\",\n  \"claim_span_aligned\": \"An unconstrained iron rod generally expands in length when heated moderately.\",\n  \"claim_span_conflicting\": \"An unconstrained iron rod generally contracts in length when heated moderately.\",\n  \"belief_proposition_aligned\": \"an unconstrained iron rod generally expands in length when heated moderately\",\n  \"belief_proposition_conflicting\": \"an unconstrained iron rod generally contracts in length when heated moderately\",\n  \"belief_question\": \"What does Ella believe generally happens to an unconstrained iron rod's length when it is heated moderately?\",\n  \"action_question\": \"How will Ella adjust the camera's zoom from its current setting to keep the heated rod tightly framed?\",\n  \"reality_question\": \"In reality, what generally happens to the length of an unconstrained ordinary iron rod when heated moderately?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"expands in length\",\n      \"q2\": \"Zoom out.\"\n    },\n    \"conflicting\": {\n      \"q1\": \"contracts in length\",\n      \"q2\": \"Zoom in.\"\n    },\n    \"q3\": \"expands\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\n      \"gets longer\",\n      \"lengthens\",\n      \"expands\"\n    ],\n    \"q1_conflicting\": [\n      \"gets shorter\",\n      \"shortens\",\n      \"contracts\"\n    ],\n    \"q2_aligned\": [\n      \"Zoom out\",\n      \"Widen the camera's field of view\",\n      \"Decrease the zoom\"\n    ],\n    \"q2_conflicting\": [\n      \"Zoom in\",\n      \"Narrow the camera's field of view\",\n      \"Increase the zoom\"\n    ],\n    \"q3\": [\n      \"gets longer\",\n      \"increases\",\n      \"lengthens\",\n      \"expands in length\"\n    ]\n  },\n  \"action_constraints\": \"The ordinary iron rod rests loosely on an open support. Before heating, its full length just fits the camera image horizontally. The camera position stays fixed, and Ella must preset the zoom so the warmed rod will remain fully visible with similarly tight framing.\",\n  \"belief_to_action_rule\": \"An expected increase in rod length requires a wider camera view and therefore zooming out; an expected decrease requires a narrower view and therefore zooming in to maintain tight framing.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"source_vs_belief_ambiguity\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"Thermal expansion is familiar enough that Ella might reject the contraction claim despite the preparators' apparent expertise. The anticipatory marker routine could be interpreted as a local exhibition convention rather than evidence of Ella's general physical belief, although the setup card explicitly states the target claim. In aligned stories, the source necessarily supplies the true Q3 answer, so aligned Q3 does not isolate retained world knowledge; no independent true-answer cue is included in the conflicting story.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794677824.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "generate_family_output",
+        "schema_": {
+          "$defs": {
+            "AnswerVariants": {
+              "additionalProperties": false,
+              "description": "guideline 示例里是一个 dict；strict 模式不支持任意键的 dict，所以展开成固定键。",
+              "properties": {
+                "q1_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Aligned",
+                  "type": "array"
+                },
+                "q1_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Conflicting",
+                  "type": "array"
+                },
+                "q2_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Aligned",
+                  "type": "array"
+                },
+                "q2_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Conflicting",
+                  "type": "array"
+                },
+                "q3": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q3",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "q1_aligned",
+                "q1_conflicting",
+                "q2_aligned",
+                "q2_conflicting",
+                "q3"
+              ],
+              "title": "AnswerVariants",
+              "type": "object"
+            },
+            "GoldPair": {
+              "additionalProperties": false,
+              "properties": {
+                "q1": {
+                  "title": "Q1",
+                  "type": "string"
+                },
+                "q2": {
+                  "title": "Q2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "q1",
+                "q2"
+              ],
+              "title": "GoldPair",
+              "type": "object"
+            },
+            "ProposedGold": {
+              "additionalProperties": false,
+              "properties": {
+                "aligned": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "conflicting": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "q3": {
+                  "title": "Q3",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "aligned",
+                "conflicting",
+                "q3"
+              ],
+              "title": "ProposedGold",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "description": "status=candidate_generated 时所有内容字段必填、failure_reason 为 null；\nstatus=needs_revision 时内容字段可为 null，但必须给出具体的 failure_reason。",
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'generate_family'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "bundle_id": {
+              "title": "Bundle Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidate_generated",
+                "needs_revision"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "T1",
+                    "T2",
+                    "T3",
+                    "T4A",
+                    "T4C",
+                    "T5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Template Id"
+            },
+            "agent_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned agent_name.",
+              "title": "Agent Name"
+            },
+            "setting_domain": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "education_training",
+                    "museum_exhibition",
+                    "community_volunteering",
+                    "workplace_operations",
+                    "arts_media",
+                    "hobbies_games",
+                    "environment_weather",
+                    "travel_cultural_orientation",
+                    "events_planning",
+                    "technical_workshop"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned setting_domain.",
+              "title": "Setting Domain"
+            },
+            "setting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The assigned setting_label if given, else one specific natural setting within the assigned domain.",
+              "title": "Setting"
+            },
+            "source_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Type"
+            },
+            "belief_cue_ids": {
+              "description": "Zero, one or two cue ids; [] when needs_revision.",
+              "items": {
+                "enum": [
+                  "B1",
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B5",
+                  "B6"
+                ],
+                "type": "string"
+              },
+              "title": "Belief Cue Ids",
+              "type": "array"
+            },
+            "action_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Type"
+            },
+            "reasoning_structure": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reasoning Structure"
+            },
+            "story_backbone": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Shared story with exactly one {{CLAIM_SPAN}} and one {{BELIEF_INSERTION}} (directly after the sentence containing the claim).",
+              "title": "Story Backbone"
+            },
+            "claim_span_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Aligned"
+            },
+            "claim_span_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Conflicting"
+            },
+            "belief_proposition_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Aligned"
+            },
+            "belief_proposition_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Conflicting"
+            },
+            "belief_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief Question"
+            },
+            "action_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Question"
+            },
+            "reality_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reality Question"
+            },
+            "proposed_gold": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ProposedGold"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "answer_variants": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AnswerVariants"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "action_constraints": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Constraints"
+            },
+            "belief_to_action_rule": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief To Action Rule"
+            },
+            "risk_flags": {
+              "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+              "items": {
+                "enum": [
+                  "agent_prior_knowledge_risk",
+                  "source_acceptance_ambiguity",
+                  "source_vs_belief_ambiguity",
+                  "action_ambiguity",
+                  "q2_copy_shortcut",
+                  "q2_non_tom_difficulty",
+                  "overconstrained_story",
+                  "unnatural_redundancy",
+                  "q3_answer_leakage",
+                  "world_fact_scope_risk",
+                  "template_task_mismatch",
+                  "near_duplicate_structure",
+                  "implicit_belief_leakage"
+                ],
+                "type": "string"
+              },
+              "title": "Risk Flags",
+              "type": "array"
+            },
+            "risk_notes": {
+              "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+              "title": "Risk Notes",
+              "type": "string"
+            },
+            "validation_status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly 'needs_human_review' when candidate_generated, else null.",
+              "title": "Validation Status"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidate_generated; the concrete reason when needs_revision.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "bundle_id",
+            "status",
+            "template_id",
+            "agent_name",
+            "setting_domain",
+            "setting",
+            "source_type",
+            "belief_cue_ids",
+            "action_type",
+            "reasoning_structure",
+            "story_backbone",
+            "claim_span_aligned",
+            "claim_span_conflicting",
+            "belief_proposition_aligned",
+            "belief_proposition_conflicting",
+            "belief_question",
+            "action_question",
+            "reality_question",
+            "proposed_gold",
+            "answer_variants",
+            "action_constraints",
+            "belief_to_action_rule",
+            "risk_flags",
+            "risk_notes",
+            "validation_status",
+            "failure_reason"
+          ],
+          "title": "GenerateFamilyOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 5993,
+      "input_tokens_details": {
+        "cache_write_tokens": 1248,
+        "cached_tokens": 4742,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 1248
+        }
+      },
+      "output_tokens": 1361,
+      "output_tokens_details": {
+        "reasoning_tokens": 474
+      },
+      "total_tokens": 7354
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "feedback_given": [],
+  "checks": []
+}

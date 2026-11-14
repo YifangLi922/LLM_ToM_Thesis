@@ -1,0 +1,206 @@
+{
+  "family_id": "F009",
+  "fact_id": "K20",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T2"
+    ],
+    "agent_goal": "Prepare a prism-based optical inspection station so its detectors receive their intended colors.",
+    "new_task": "After an optics technician explains prism dispersion during training, the agent drafts the mounting layout for a red-light detector relative to an already positioned violet-light detector.",
+    "action_constraints": "The station projects its spectrum horizontally onto a detector rail. The straight-through reference position for the incoming beam lies to the left of the entire spectrum. The violet-light detector's mounting position is already marked. The agent must annotate which side of that mark should hold the red-light detector. The station has not yet been illuminated, and no numerical mounting distance is requested.",
+    "action_type": "A1",
+    "reasoning_structure": "one_step_mapping",
+    "target_output": "The side of the violet detector's mark on which the agent places the red detector in the layout.",
+    "aligned_action_gold": "Left of the violet detector.",
+    "conflicting_action_gold": "Right of the violet detector.",
+    "belief_to_action_rule": "With the incoming beam's reference position to the left, greater deviation corresponds to a position farther right. Believing violet is deviated more places red to violet's left; believing red is deviated more places red to violet's right.",
+    "risk_flags": [
+      "agent_prior_knowledge_risk"
+    ],
+    "risk_notes": "Prism color ordering is familiar school science, so an adult agent might retain the correct ordering despite conflicting testimony. A first-time station operator receiving instruction from a relevant optics technician makes reliance plausible but does not eliminate this risk."
+  },
+  "template_id": "T2",
+  "agent_name": "Mia",
+  "name_pool_group": "feminine",
+  "setting_domain": "workplace_operations",
+  "setting": "An optical inspection station at a factory",
+  "source_type": "Spoken instruction from an optics technician",
+  "belief_cue_ids": [
+    "B2",
+    "B4"
+  ],
+  "action_type": "A1",
+  "reasoning_structure": "one_step_mapping",
+  "story_backbone": "Mia is setting up her first optical inspection station at a factory. An optics technician explains that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later, she sketches the detector layout before the station is illuminated. The spectrum will fall horizontally along a rail, with the incoming beam's straight-through reference position to the left of the entire spectrum. The violet-light detector's position is already marked. Mia must annotate where the red-light detector belongs relative to that mark so each detector receives its intended color.",
+  "claim_span_aligned": "an ordinary glass prism deviates violet light more than red light",
+  "claim_span_conflicting": "an ordinary glass prism deviates red light more than violet light",
+  "belief_proposition_aligned": "an ordinary glass prism deviates violet light more than red light",
+  "belief_proposition_conflicting": "an ordinary glass prism deviates red light more than violet light",
+  "questions": {
+    "q1": "Which color does Mia believe an ordinary glass prism deviates more, red or violet?",
+    "q2": "On which side of the marked violet-light detector position will Mia place the red-light detector in her layout?",
+    "q3": "In reality, which visible color is generally deviated the most when white light passes through an ordinary glass prism?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "violet",
+      "q2": "Left of the violet detector."
+    },
+    "conflicting": {
+      "q1": "red",
+      "q2": "Right of the violet detector."
+    },
+    "q3": "violet"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "violet",
+      "violet light"
+    ],
+    "q1_conflicting": [
+      "red",
+      "red light"
+    ],
+    "q2_aligned": [
+      "left",
+      "to the left of the violet-light detector's mark",
+      "Left of the violet detector."
+    ],
+    "q2_conflicting": [
+      "right",
+      "to the right of the violet-light detector's mark",
+      "Right of the violet detector."
+    ],
+    "q3": [
+      "violet",
+      "violet light",
+      "violet-colored light"
+    ]
+  },
+  "risk_flags": [
+    "agent_prior_knowledge_risk",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "Prism color ordering is familiar school science, so Mia might retain the correct ordering despite conflicting testimony. First-time setup and instruction from a relevant optics technician make reliance plausible but do not eliminate that risk. In the aligned condition, the source claim supplies the Q3 answer by design, so aligned Q3 does not isolate retained world knowledge.",
+  "variants": {
+    "implicit_aligned": "Mia is setting up her first optical inspection station at a factory. An optics technician explains that an ordinary glass prism deviates violet light more than red light. Later, she sketches the detector layout before the station is illuminated. The spectrum will fall horizontally along a rail, with the incoming beam's straight-through reference position to the left of the entire spectrum. The violet-light detector's position is already marked. Mia must annotate where the red-light detector belongs relative to that mark so each detector receives its intended color.",
+    "implicit_conflicting": "Mia is setting up her first optical inspection station at a factory. An optics technician explains that an ordinary glass prism deviates red light more than violet light. Later, she sketches the detector layout before the station is illuminated. The spectrum will fall horizontally along a rail, with the incoming beam's straight-through reference position to the left of the entire spectrum. The violet-light detector's position is already marked. Mia must annotate where the red-light detector belongs relative to that mark so each detector receives its intended color.",
+    "explicit_aligned": "Mia is setting up her first optical inspection station at a factory. An optics technician explains that an ordinary glass prism deviates violet light more than red light. Mia believes that an ordinary glass prism deviates violet light more than red light. Later, she sketches the detector layout before the station is illuminated. The spectrum will fall horizontally along a rail, with the incoming beam's straight-through reference position to the left of the entire spectrum. The violet-light detector's position is already marked. Mia must annotate where the red-light detector belongs relative to that mark so each detector receives its intended color.",
+    "explicit_conflicting": "Mia is setting up her first optical inspection station at a factory. An optics technician explains that an ordinary glass prism deviates red light more than violet light. Mia believes that an ordinary glass prism deviates red light more than violet light. Later, she sketches the detector layout before the station is illuminated. The spectrum will fall horizontally along a rail, with the incoming beam's straight-through reference position to the left of the entire spectrum. The violet-light detector's position is already marked. Mia must annotate where the red-light detector belongs relative to that mark so each detector receives its intended color."
+  },
+  "design_tag": "open_other",
+  "q3_leakage_scan": [
+    {
+      "term": "violet",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    },
+    {
+      "term": "violet light",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    },
+    {
+      "term": "violet",
+      "category": "conflicting_source_claim",
+      "where": "claim_span_conflicting"
+    },
+    {
+      "term": "violet light",
+      "category": "conflicting_source_claim",
+      "where": "claim_span_conflicting"
+    },
+    {
+      "term": "violet",
+      "category": "elsewhere",
+      "where": "story_shared_text"
+    },
+    {
+      "term": "violet",
+      "category": "elsewhere",
+      "where": "belief_question"
+    },
+    {
+      "term": "violet",
+      "category": "elsewhere",
+      "where": "action_question"
+    }
+  ],
+  "fact": {
+    "fact_id": "K20",
+    "world_fact": "When white light passes through an ordinary glass prism under normal dispersion, violet light is deviated more than red light.",
+    "aligned_claim": "An ordinary glass prism deviates violet light more than red light.",
+    "conflicting_claim": "An ordinary glass prism deviates red light more than violet light.",
+    "world_gold": "violet",
+    "conflicting_belief_gold": "red",
+    "pretest_question": "Which visible color of light is generally deviated the most when white light passes through an ordinary glass prism?",
+    "qualification_notes": "Assume an ordinary glass prism displaying normal dispersion of visible light. Deviation means angular deviation from the incoming direction; do not infer a fixed up/down or left/right orientation without specifying the prism geometry.",
+    "source_urls": [
+      "https://openstax.org/books/university-physics-volume-3/pages/1-5-dispersion"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [
+    {
+      "severity": "warning",
+      "code": "question_has_alternatives",
+      "message": "belief_question 含 'or'，可能在提供备选项（应为开放式简答）"
+    },
+    {
+      "severity": "warning",
+      "code": "gold_in_backbone",
+      "message": "Q1 aligned 的答案 'violet' 出现在 claim/belief 以外的公共文字里，可能泄漏答案"
+    },
+    {
+      "severity": "warning",
+      "code": "gold_in_backbone",
+      "message": "Q1 conflicting 的答案 'red' 出现在 claim/belief 以外的公共文字里，可能泄漏答案"
+    },
+    {
+      "severity": "warning",
+      "code": "q3_answer_in_conflicting_claim",
+      "message": "真实答案 'violet' 出现在 conflicting 的来源声明里：锁定的 conflicting_claim 本身含真实答案，需标记风险（不改知识库）；请人工确认语义（否定/同义）"
+    },
+    {
+      "severity": "warning",
+      "code": "q3_answer_in_conflicting_claim",
+      "message": "真实答案 'violet light' 出现在 conflicting 的来源声明里：锁定的 conflicting_claim 本身含真实答案，需标记风险（不改知识库）；请人工确认语义（否定/同义）"
+    },
+    {
+      "severity": "warning",
+      "code": "q3_answer_leakage_review",
+      "message": "真实答案 'violet' 出现在 story_shared_text（claim 以外），可能是意外泄漏，需人工复核（子串命中不等于泄漏）"
+    },
+    {
+      "severity": "warning",
+      "code": "q3_answer_leakage_review",
+      "message": "真实答案 'violet' 出现在 belief_question（claim 以外），可能是意外泄漏，需人工复核（子串命中不等于泄漏）"
+    },
+    {
+      "severity": "warning",
+      "code": "q3_answer_leakage_review",
+      "message": "真实答案 'violet' 出现在 action_question（claim 以外），可能是意外泄漏，需人工复核（子串命中不等于泄漏）"
+    }
+  ],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:37:47+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 1/1 个通过硬检查的 bundle 中，取 warning 最少（0 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 8,
+      "template_id": "T2",
+      "agent_name": "Mia",
+      "name_pool_group": "feminine",
+      "setting_domain": "workplace_operations",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}

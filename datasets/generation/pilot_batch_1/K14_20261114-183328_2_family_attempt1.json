@@ -1,0 +1,679 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 21.45,
+  "usage": {
+    "input_tokens": 6000,
+    "input_tokens_details": {
+      "cache_write_tokens": 1255,
+      "cached_tokens": 4742,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 1255
+      }
+    },
+    "output_tokens": 1366,
+    "output_tokens_details": {
+      "reasoning_tokens": 516
+    },
+    "total_tokens": 7366
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "generate_family_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "generate_family",
+      "fact_record": {
+        "fact_id": "K14",
+        "knowledge_category": "basic_biology_category",
+        "world_fact": "Dolphins breathe air using lungs, not gills.",
+        "aligned_claim": "Dolphins breathe air using lungs.",
+        "conflicting_claim": "Dolphins breathe underwater using gills.",
+        "world_gold": "lungs",
+        "conflicting_belief_gold": "gills",
+        "pretest_question": "What organs do dolphins use to breathe air?",
+        "pretest_accepted_answers": [
+          "lung"
+        ],
+        "qualification_notes": "Dolphins are air-breathing mammals; surface access is needed. Avoid story settings implying they can safely breathe indefinitely underwater.",
+        "source_urls": [
+          "https://oceanservice.noaa.gov/facts/dolphin.html",
+          "https://sanctuaries.noaa.gov/education/teachers/dolphins/background.html"
+        ],
+        "review_flags": [
+          "animal_welfare_and_physical_context"
+        ]
+      },
+      "selected_bundle": {
+        "bundle_id": "B01",
+        "suggested_template_ids": [
+          "T4C"
+        ],
+        "agent_goal": "Make a biologically realistic stop-motion dolphin animation while preserving as much of the existing storyboard as possible.",
+        "new_task": "Revise a breathing beat in the agent's own underwater adventure storyboard. The current beat shows a fully submerged dolphin taking a fresh breath.",
+        "action_constraints": "The dolphin is an ordinary real-world animal, not a fantasy creature. The storyboard explicitly depicts taking a fresh breath rather than merely swimming underwater. The agent is reviewing only this breathing beat and wants the smallest necessary change for biological realism.",
+        "action_type": "A5",
+        "reasoning_structure": "targeted_revision",
+        "target_output": "The single storyboard change, if any, the agent makes to the breathing beat.",
+        "aligned_action_gold": "Show the dolphin surfacing to take the breath.",
+        "conflicting_action_gold": "No change.",
+        "belief_to_action_rule": "Believing dolphins breathe air using lungs makes the fully submerged fresh breath an error, so the agent changes that beat to show surfacing. Believing dolphins breathe underwater using gills makes the existing beat acceptable, so the minimal revision is no change.",
+        "risk_flags": [
+          "agent_prior_knowledge_risk",
+          "source_acceptance_ambiguity"
+        ],
+        "risk_notes": "Dolphin air-breathing is familiar knowledge, so the conflicting implicit belief may be difficult to establish. For T4C, use repeated observation of an experienced hobby-club animator rehearsing dolphin breathing scenes, with the locked claim stated as the explanation of that recurring practice. Even with a natural-history focus, observing the routine does not establish that the agent accepts its biological explanation rather than treating it as an animation convention."
+      },
+      "assignments": {
+        "template_id": "T4C",
+        "action_type": "A5",
+        "reasoning_structure": "targeted_revision",
+        "agent_name": "Henry",
+        "agent_pronouns": "he/him",
+        "setting_domain": "hobbies_games",
+        "setting_label": null
+      },
+      "revision_feedback": [],
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, reasoning_structure and the two action golds). template_id must equal assignments.template_id. When status is candidate_generated, failure_reason must be null and validation_status must be exactly \"needs_human_review\". When status is needs_revision, put the concrete reason in failure_reason, set every nullable content field and validation_status to null and belief_cue_ids to [] (risk_flags/risk_notes may describe the problem). story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; {{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} (directly after that sentence's final punctuation). Claim spans and belief propositions must not contain curly braces. Both claim spans must fit the same grammatical slot in the backbone, and each must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, same wording as far as the grammar allows) -- never an indirect or behavioural paraphrase of it, in any template (including T4C routines). belief_proposition_aligned / belief_proposition_conflicting are affirmative finite-clause complements without an initial 'that', without the agent's name at the start and without final punctuation; the caller builds the sentence '[agent_name] believes that [proposition].' itself. The protagonist must be the person named in assignments.agent_name: set `agent_name` to exactly that name, use the name in the story, and use the pronouns in assignments.agent_pronouns whenever you refer to the protagonist with a pronoun, so the story reads naturally and consistently. Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are rejected automatically). If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K14\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T4C\",\n  \"agent_name\": \"Henry\",\n  \"setting_domain\": \"hobbies_games\",\n  \"setting\": \"A stop-motion animation hobby club\",\n  \"source_type\": \"Repeated observation of an experienced wildlife animator's rehearsal routine and its spoken explanation\",\n  \"belief_cue_ids\": [\n    \"B4\"\n  ],\n  \"action_type\": \"A5\",\n  \"reasoning_structure\": \"targeted_revision\",\n  \"story_backbone\": \"At his stop-motion club, Henry regularly watches an experienced wildlife animator rehearse dolphin breathing scenes for biological realism. The animator explains the recurring routine this way: {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later, Henry reviews a breathing beat in his own underwater adventure storyboard. It shows an ordinary dolphin staying fully submerged while taking a fresh breath. He wants the animation to be biologically realistic while preserving as much of the storyboard as possible, and is reviewing only this beat.\",\n  \"claim_span_aligned\": \"Dolphins breathe air using lungs\",\n  \"claim_span_conflicting\": \"Dolphins breathe underwater using gills\",\n  \"belief_proposition_aligned\": \"dolphins breathe air using lungs\",\n  \"belief_proposition_conflicting\": \"dolphins breathe underwater using gills\",\n  \"belief_question\": \"What breathing organs does Henry believe dolphins use?\",\n  \"action_question\": \"What change, if any, will Henry make to the breathing beat?\",\n  \"reality_question\": \"What organs do dolphins actually use to breathe air?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"lungs\",\n      \"q2\": \"Show the dolphin surfacing to take the breath.\"\n    },\n    \"conflicting\": {\n      \"q1\": \"gills\",\n      \"q2\": \"No change.\"\n    },\n    \"q3\": \"lungs\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\n      \"lungs\",\n      \"Lungs\"\n    ],\n    \"q1_conflicting\": [\n      \"gills\",\n      \"Gills\"\n    ],\n    \"q2_aligned\": [\n      \"Show the dolphin surfacing to breathe.\",\n      \"Have the dolphin come to the surface for the breath.\",\n      \"Move the breathing moment to the surface.\"\n    ],\n    \"q2_conflicting\": [\n      \"No change.\",\n      \"Leave the breathing beat as it is.\",\n      \"Keep the dolphin submerged while it takes the breath.\"\n    ],\n    \"q3\": [\n      \"lungs\",\n      \"lung\"\n    ]\n  },\n  \"action_constraints\": \"Henry is reviewing only the breathing beat, which depicts an ordinary dolphin taking a fresh breath while fully submerged. His goal is biological realism with the smallest necessary change to the existing storyboard.\",\n  \"belief_to_action_rule\": \"Believing dolphins breathe air using lungs makes the submerged fresh breath an error, so Henry changes the beat to show surfacing. Believing dolphins breathe underwater using gills makes the existing beat acceptable, so preserving the storyboard requires no change.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"source_acceptance_ambiguity\",\n    \"template_task_mismatch\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"Dolphin air-breathing is familiar knowledge, so Henry may retain prior knowledge rather than accept the conflicting explanation. Repeated observation of an experienced animator does not guarantee acceptance of the biological claim. The observed rehearsal movements remain unspecified to keep the routine constant across conditions; consequently, belief attribution may depend more on the spoken explanation than on the established routine required by T4C. In aligned stories, the source necessarily supplies the Q3 answer, so aligned Q3 does not isolate retained world knowledge.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_0920146e5bc1f029016af89b8dc90487d2a576f23f257974bd",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794677645.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0920146e5bc1f029016af89b8ef00887d2aae2133a6605fcf7",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JujIJapJzCXjxZmwxToLpLaKo3f_ZM7t-gUBNPSxm706J2ddvM_jEirqcgAQNckxQvZqkcl1-3vbHGIzZNclv1N1YOsKXZTAr4jYhYSOblmjgLlE8sj40WzhmBwJBWuLveub9rwCpDeE3Txc026-GrHV578gkbk3RoMGV8qV8LzCgWYHg3itumb-20o7t3Mbn9YHDcRxQU7LgMC8TS3Y_atMHKiXoVgPCzvvNOeXYsOvASxXPDijgF80QISq6Q2S7pVOkduqJ-K-sLgaCmTEiZ2pX6KplopM6-Mkwl_dK-8ZwATyCjOU6BFn15JhmLxuh7KfO8y4UhMJOhWvHYfCeRjL-SknO_o79wpg4oAr74tfI_xJW_bdENU0CIqABe2Ayd22MRkWlF9TCfc0b5VJ46yA5TP0vfCgPHPuV4guEDCljq_H5jc3lWeO3HFQSmqsaNvG3fgbz2NKT-_DZxjDoWStxWfKQCCx2tI_hV6bbWR0B0JV6hyRUo_Ri318fndUTmYDxl_b0mHc4eL2wnz5ljwv2NTU3-g-RZDNCU7CJ0qCOg86uVgVBDOrJ3n_8E4udymrSLX3pEJ3KgnnfW4uZrWY63bDcSDZ20WzpMuE9YWLrNogQLkJRbAC6mUyXV8zuQzf6ty2P_4cpnw-_goSEK_kRlPDYCSrreKkthZrhtkAP70J2SZx_Fw3FstWd52U3F6byuFxDGjBpHTTYUzUnoau_F2F4aaIcRh9alRdqDZrQxoRsM9NyGuahLZBYgzHkgewKwWfX5CIXlbh6CUU0tJ6TZKUOJNBy-pXku8bXogMMNLgVliSzfqZBVIJje08l1WAr3gjiztkwmqhlW5yPbZmRyDjm3yMd9sC-DCX5KBqM1VhaSAdd4wkLNyCclZeThZyZi55knsxAAFYZnEC8QdXudDF0O6jW4hiwFL9gIp0DK1qXM3EL83ie6vrA6GKP20K0_8CB_9IWePtKra1nBEKZX2fozny_TOFaS_gHdwgjz-x6xgI34mjT__ANj0jLQTKFqv97br-FogaGX8A7lPI0CMnX-qCgx8V_AcdwzuJaSk7k8ZKpTC79pqSTI6JjpKH0yH9mWoC4-gxL12VUkPF2dsOvgPFB7nGau4pGacfRCtv13CuqyHgZu4GdpOe0XHlNZqALFJ3LlCKYbkVDJKAFXC5YFB3TIRSp5Z3saZnHth3fZU_kLaFXsGIelRTMQTv2QfVSsuXrA9WD2YsYUikT-Smamqk2PS3F_blXdgcuX-1DEvk00-gG1L8BhyVxXGtaGjg2vCcRCUP0h5zzHFRB9rXQOWXBhvvhZRUl_TWEbVEcEsBFsA_QPQ1EcM8f2U-Nym3Iee9me7NPRWvt0ioqZnNK9HiyaKnh1_AG5LJOgzUl0_PzIsKYgJfwZ9HZFaSUlYfh4WoWDzUK6pGqrRoprvH_CGTB4GP-1CTnH3TrE3Gj7ww7GgXeBKBLDoBQuAbR_trSKDrxHJ5AnQ1D1lFEO8CodKvy7bblcwhTeRuOt7qU025af-XGMSD1NSC08iuS3zGIH0cxvfDYWB4NB2EBn8lPQySNv3d9QlxXhJgPBOXaUVCIvT8Hh5AhYxSet4Xc-U6wbye1kivFPRjQz-26kdrUs4pfzJNuVtlYOvyiYh9HTaYBTBe6HLK5O5Gvzr-q3PTZ2W-oM346fqR6w-zh35aqPhs6AdUQGCZuvghzAXygy90McMDP9QCgXnUjYCvA3ilXLEfD-b_IRrG-NpMA5HiPsCvTi_4b-VGOlsIo-PsKQXeuddLvG1HtKLH_T7_s5H9woXNkuujPYiidRAWUHOAnWWRSFxuy3gqSeRfe1BALU0__Msir1_pj-LqH8znM70idYB4jYdKjYCwsz5vDS8LhvK4M5Jc5xQpFbXrQHHc5r3Hl7cdcibklQB7ZscEcmaxgGrkXcCQVU9IscSRSCl9DmlJLXkHiRChjQGO0H9rvzm3bMM722QCWwTkt01Vs1RdPRjJI-VPzMdoSX_hvsdUidk20wsD8_3z0O2AXUh6VrMcPT-GAlUItJbea6_FeJkSH234dNIS5xshvoy28Zby3hRYvsnZk9jOGxX8pugGmSAraAwcYyYfewUoK3uD-n9KPK2GxFWB-7suTfL2WjIYaM-zGCW65kth15eJtMw3P1zQlorQjHmsOBa5sFncd85R_11BNoj9zsbCzMU5ympo56ey1LEaJvIOSsZ5dopsgf2wY9WtEs1dzvj_TvCUB8lJSS2H2vlpMDuCb8RWj7U_c0MjyGj5nmIS4exoeuGsKqL5ES5NbY-u2L2y2cgkoOjfVvgIxArr37RchyhP00u9lDQ7CoHzyitCt0iPV_-cesvIV2JDK_9LazdhKCCcn94Ido8xFDJwq_OlWbcCTA0LjZp6mfkoqCOU8cXFa4psfsOCF5m1gOVHTk98ivEl7CFCSlqWExyluLiWwO7m9-FHT16auRIbveDkoMwii7ke733OLQJ8LjCEbS-zP6s0zmjXeJK0TeN5x0K4PDoJxjlA7MOzQ2PvKr8qe5w2oIFq7nqlA5-Ia44OiIgtPyqZ8Ok23IjXBsocfJlv5bS0PKjFF3cISlj1zkiuV8WGbFxUXgT2VRphlhRocM_V9aXZnmu_7S7xehAnvYWod7W8L4VEAEYmMCeVGRsRZEOsEM5kEFMzOrP6IaHMCxo3e_5KSuB2iYeWzlTJwEMIg5WkhhVyGgRLCW8nQnXeWuZnQVW5u_VfCQPYqJvcHBAc1hJVAtxNnKh60wBW0GY_qZscbYpETxnZBNFJ2Cn0iSWxQ0r2dQPrZcbOtZiDW3EylESMaJKx9eIE7Hn_92fssgrR6vGvJtPgIBB2HRcXvV-3bevnV1YEqD27_QIUu5fWbz_ScN294zgy4uBb4mXz218-HgJMAEz8QkI0uz498Pl3TgwNAEWLFVQTwFg3hTCerFUPaxvcCM7VuiftxISTHGq3zL1mTtJQ-3YASQmeJUdHvphc_OGuwR9XC9Lgmh31-jnnDlNirXfwcx0yaYQb54-FQVqELSp_JvDzjjKtXE1oWfwS0bZ13CoDhZpcq_8Y_POzrmdTfZnlwP6MFJjPwA5e3L3am_imupmH4rVDr6cKDwg7HV_d2eae7Bd2Sc2Hs8KkT0mSBEtGyZ6dJ-cA3cafpYlvFbnxhGOj_osD7aDizhgeIWJbHS3dtRGa29v9ONES-TAeOqr0O9xeEjRMVjYaaAiLEzerqD7jnTwaJ20g_h3FK84s7YT3YObzxU-qMALheLTlum2kZvxIivLeat9b-QtTPDJ9uqk_nptkoPFHwiVn6uq87Xa9RS3Tom0DyDg_TnU7C4i5JgqctgEJLjF68Cuayt18V6m250IUlHzGnOmubxXuwKVA7YqrSQdxNNoZMdFjrO2yaHLsr74oU-7HE4YhjIaodaLeGUidNqUpTuDWVqZxJutMEiAtwaO9mG6FIKcYDcj6d5BZMGCU_iKUKURIk_umdnX2Sf38_kKeVAdU5rrEcpsV2dHrpJcxVig7KU-fJtnG85Ba5DFHNxAVYa9wCIz7zWyMcOEmscA9vppkzMQTXdXE01tG9hqatvGTcryEHV2FKZH6cyP8VwC4Tetogeabidsk85_KRqV9CLA9t1L7-DdoXe8CVMKmsI0Df0g0OspzW-4ACuapDJfZUL0UeKjGmf9E_tjor4MWiaxCJ8m1ivv6Q6YG1LAuve32wiFaJ8ki3lyjDwKoXmYhKFBkUgO9mpiO0w2_9lZi6pYV3wwK-HDN4ub2JsnE4TREBPL40egWLVBm2GEnPqLQTpFMXFbIV8ornot_3aGYtdLFfcA1LSPm13aen8-Q0iBaiJXwWOCbmGxkIQ45hF6UWFSEzv0RuqZ8a8xyWTgMuOjc-BQ-mbG-S_-gPJJ8PLEeLiNyP7ALf90mn6UsgAnHOFtB1R4dAz_OV6dUk4dGuKgI39_LyGRMXUYr1V4jTZwVur6L75wmF1C54zpO-SkWEFaGMYOs_pjlwO52XoQREBqkwjy83LHeAYrJfmAwHZn6oFmaKTu68gl-WwPmdMDzb6uF2o0-X41yvIfdu555avphsRwniTwiiqxexFrmtKKRyOZmX9FNI5ITrnuflxkSzbw2DHfhH0wX9HrcjArbfYrTZcSvtEDsZm0gtH_TZbgwh-CpF6qeLL-qx7uVA1VvQr3hstPeO7oIp41OUOHQ7e6EMz2kDlV2mUHo6W8jWX_ti-ApuVxWORI040rbzoctgoMzNLyoS2-yY_piRDtHZJpKvD9j8Zxj_qmkQqG9gawrNKecZ3JU6wGKtEp4tNSLCMwYBJww4ScfBYymZrtOvrwdgSN-kr_o-5bIdyuHz-WnHy1hgvCzXVNOHjoA4lM7f5o-_2Ib5_ry3inkr_PKNDJiCS3dhl4I0mvxSlRFtNyImO4RXP8SRE8IGLCdBaCyaTYtNdfpybNDV2QoL0Sos-ih0L3tMGnkEUsUSL0wHJ6HOjkzZQ_KOgkkQoGCHL01a31ityE7AutwWiMpTGI3BjVmR15jqCMW7AmZL28a-5_Ibg9vOZmC7d6ChXYWS_E9QNGSQXtwFhl3J_vscBqAY7MchPX2Nx4CIyLJzTMzwbDauxJpTHA6wUDGKrZ17lQal2KeJdwZx0rFj5RdGDJ9MDbXXkZ1-Ni5Pv59YBGuc-aFrsZOa4oe2MisQiyQJTsF81Xn3Xj5F9jPaxTNyQOaXdXUeiTFuqiK4XvRSC6_d1_ALBIOSUOi6WqhGYgvECecbz-D4PruPTy3MFPTnYY4FZqmCVPdMUjJXlij8FFTv77e0BGZyKrJXE2MXd3GTHpsRNWQ0c0V2hZacslgtTE044h-6etC2dmRzVodeHV0BWNzlUcAAQtZEDsZpmlr0RQj0TWbPeBaRM2btqWu7pxjKFZ73gr41y5rvxQeXvoDONGcAWIAPwk5Y3yjITGkqBvNW5wN9hOhEBRJ8lbxTLfBUmzj27rzSmAAdMNfzHPvyoRW_ooRGmZxRYrwzvAMbBz47WEYHcBrIXWDPmYNUSc3w8ZpHA2sQIuz-UDt3zGQ3RsbsZvX6egwcCHAnbW_sADtirQuppFD2VjaDndBdr2dtl-PuezMfriRuzrPONcfW3otvijVnqmgMEn69Kw2hvMmZ-E5vJURnRaY7w8uLxRweFtRXdM5srG-ZQ7wnSJytA5JSaOLX8D4Nr5WHTJY7dJO6ohZMnxvRTZgAvMR4z0fZmh4BQqJk_PIc2w9igR7vHlWPPeoltrbGcQDFgv5ZijFAhW3b-CeUq0364A3QnmMsTLz6DWb-NLDQh8L8AWMxPNvc0V0PdoNNpHEMLRHy85bfH-l1jah45SQYdNoELoa-3PjPfr1drzdZBpadXXxfjmblxxez3pVAyqnVVhYDTAIi3APWBgk_Db1OFpNc8YxkAeLW5oJ118MMaS2Z6Z-XJxvAjqHDt5y6loxF10L14UhSjIr6jQ40SJ_QDPmBd89y_ygCC2nl-Stdw_tdbRNK2yUHkysK55K93A3ysqFKnyEOYrzhOkX5mhKXImqhw3DuQovjc3cPuf3JjbWIM5xAR3s3X7GS_pBRdnNepsykqqq3iMzjwEg4DwvzNfz759Q5ZOvFaJiAG5g7QceVdz4ComSSIzSNS8ilz0tVmWpU1vy4vfOONvMc5mM9dv8fdqG01NO6icUBSPZ77LeL2zXZpsiSyo_M1NJjDwGvUcvnqsrXjn7dcYkcYV8wukrEXfPcORL8yLo6yavGkqTxU5XcfFqPKY8DUXYmtEfleajCFSTeQzQKhFvu8sXGnh5CocoI1ZP_0V5Jr65f_BBFklTzYmsQwOY-nK8vwqnSe9GwN2J7DgmbdjXCvHLUHTYfvTsXZKsNi9FzDVbYthwtYe84I-RMnT3f4Tfy8oImT-H5Zt_ziaezmrcLFw3J6movzPZ8uRBacO72WqrKsD2GIcVlSEH8s3I42CKRsy7LxCqikkwP2mfDRZe9ph0rOgE1owugn2I2tPOxOlCXcUP0RRpeHbXHf9box2k6xp4dd7WJCKUpDc3r-5cOjhRXh8yu5S8pLluQ3bKLOfVJYpRdxo6aI3p1sZotoX20ohG45pKC6AVAapDO165fn-M-qf_lblrSCrUiE1xh-r20YHy1-LbLa5AvwY44Bn0RhKzVSvp50PAviit0TSXgGSWEemgXLJn5aZotNeh41ciuq9K3iLqzHAe2XRj4DaIFvX9JX9H6vdg0QSDYNLj6y2fOYTw4OZ1KbEZPrhI9WiGNtx3SxAd767c5Do-Ycx9IpHBr4-RlJ0ooMpOHzkTReMo7Qa59tGlbA2T-u6F7x2Oiwbq4nTo2_MnDEToxEy2LsNNaoovfH34vngZFfLhK5tAus7gUyr8iVr_2_1HL2x8_PWnpvagiA5PzrAeGz1J8fviTUm7pv22KhZRFvX48x_RjaaIMkrQWegYVO3qoZfi99tVcs9a1GXilD4JdVSzIKeRbSPMjs8ZKmUl5FDwudY-ssYuYFby6sVSpIlHC5cFuhEfArWf1ogZt11iA5hlDkkUVqSuIvx2N0D6R-lvaTkXDNmVBVQ7PyMmi1F5xGj7liXfZQCgGSlyvAI5z87tjcKugqh8Sb_1zhdzF2qYGl6m6uKcJgLHw556-DflFISTce53XgWfURtuumXt4Mr6Eb4l19k2_iPSN7i7We5rMAi8_eMJWnvyqVIoZxGGlnwsFIYOxMeqiRP-dmZz1cOzA4Y1teooWtsvsCsbt1f_Jp-Bpzn9xWG_-8NWvN1pPm0_KxVgQUEl3dz_iU-NLAzSfVmSXo6P0uv9gDG1tsuE2iN04XT8xbS6SF3-YjL9YGBuZSmz9yoIk5HlsC42kCxJECIXs3EGaMi4Lx21ecy2HgjfTeuxbOrzxI1-X44CxXNMwcHZ-7Z2xnCHv0mSkBhsDWRy_USZfIAOsssIvgk1gMnpgaTmeuHdD9jywXXBPJ2SU6tfS1YkOVWESMRy-xMxIj4-GfzbGtle0Avt87UNS5ZJZhFA6y7YcuMmTL4ymicH9WDjkZXrpCECgCr6m91H7iLwtvmMpg8qOqTDgyiExZNBuwEC0kGb2EoXUgx8H6ffYOzUDEtmSzdlkrn0dWNeXrGwzvw3a0EALCIUtgPrmDz9v2Tx0XmISaGcax9b80quy8u8w7Ntw12wHiD_TYVIwkhnce8C0Ro601dbzlN_0rMX1JYMh9VDQ5ExAtT7QFRcVcsM80lswz241zl9jqhS3rv64_Ha1WF5eyRBMurNvY2MwiuGVwtI_fWVjRe5JEe_ubGt2RDmVLiFnFlkx_jf0Zr9QgJULDa-Qc2FKoqIsE6-P6-4jiNOBqd9y_x46rQ16xsdxo-5kUgVpbQnw3Rui3KHjZu0X0iZAGRvnZ8LASBzt9By-zJp0E3W_ncjKTdEqNdS4_LWxmZyGUJ0v4qSKLcTGFw_UwZ-MYVeg76V272Bd0_yG_MBOoVKBh82nANu4_xrORUvvhB77P8D52IqDb3m3opsxRvhyfMjs94-v-L_5rt-wfRx_2cNdmzCG7y2iShHdUaY1SHFL41MHcyIQBoazV8Q5O530ySGbG8KMMa7fc1p5gLLEG5IKC-9Fq1kOAf5czQJP0ZRIo1mmFlnQgAtvNCkC3l79hrsmtyS7lAsYs9Gs9lDb9etLO3YlTzQbAusUMy9CqGTAVjiEVIAfgfGVtjg6UewYT6QVYxI0eVZZUfiXAlX4jhzgN090xvrTfnD8f79X7CF1qWMbWCs5rpbSz3KqqEGgMY53vIRSOU34P0RwyDGvSYjloYAmDEq2VD7C7ioVT7wP2iberdJdiwLUPFWpfB8zu4V0-5C_oXAH88P3-s7s2KlIMU7oRY3XpKUR0bhUtxaxv1pBRS5EJ3Jw59ODzya_PlMSa52ZjpjvA-yKKZYoqgEwLeVzgPZe3hPsFHoPqpLzrGfFc9lEd27gdtdAhL5bON4x3DPUwJXhnS-rCJNnFoPTtzg1Lgstg41QLkZAOSLjOZkAaxNHqZZgsHe5spOPECGlPDmpYCLTCc51vVGyAyWvlRXs0J_jmAVderbGHEDzx70b3qRlSJEsXReAaLoSLvsHSAgZsd1IvzH3TgWzaono2a0laj5jjO14dvHl1arYc8-PA_hF3rVZtkGWyhE9g38snxe0KRDWV-Jmy6XDU4u63d_m5EWGCKAR6drfCGoWiKRRoPCpcYUkLmQLH9VXXAVwaCHY1MMXN-gNckUDYsPqzW4hFkAjVCmH1Sp0oEOXnC54wrBxgMmAgNxKPuPHEeZu-KKeSDnq_L3yab-UfDg1823ML9eFSbwJUwU1tmfxreXLxThP7jBoJs5R0aZdO7jWYgZyqgcMzLcn0SdsM5SKW9z7vJOOwpqKggZGVlYcPBesKlaPQw2-EuzxTDP-hOx3xsqakEDThqlt0P3nm-8_Qcr0Z1nYAg3_RH2RW7-CkvLTgkr6e-GZ7ofTz-QpL1Uql5YQKbfEDu2--6RlcO679kjJqU4h_hhdTvgGVO5mT2iYD2JfXpMK8vkD7kSBX1ge8vlmGANweppV3wzY_0M_xFsjSnKN9-VhOKQu9v70U6mbKePGrIWj1n6d_MYgqk6abLNX7Bs2_E4D0CNhL8rQ3s8r5WjcgbaJi6IEEEJLkfv_9rWogm0oHcnuSmHwyyafsA2GS5qOT58lyxVasUf_Is8ghP0q8N29GvAZishTwSUGxRZn7LGH5_7FGVWUG3Pgu6P7-uc0pHENUVHKMlDB2DIh66_8k18X3-ev4moaeYFtY7bk_bE0iaOAUeph9Y2UhubhWRFZ1n6n9A8v4JqRzvXzuwHo37YsIQCR68AOn-byEiZU4DSF8HmbO8DRck69MKN6p1BZv0RbdPFizumemOCy1miHCi4t7IPTwgjQ_S22aXEWTd7cRL9w5r642Njxpeptz1eb7s7AfBBG8Q5MIaj_TUpZK6NmJgwz21YZSGi4a-hklh8pIqvq2_hCMksdY09owx9vWrcq9EnZT1fs79TsuD4pTvsEAdR76HUQkH-4VsY2Ux1zXzBjkq2nQtZbDs7xBU0zVE6DWUgS5zvv8Lk-DCklrRbz0r8Y-uLsjxLtODA0GgoV7chVQkcZ0XzzGtbtMpc36kvG8JZu4d-qASuAye7ymAaKyHJ8bDKRMjyenztqTfKOvQBp3_BVsfMECdR1UXJDEr6daGHlfDQ_h5F1oBPso3oC9e35WbiUA24iPMQ6xud_g-tkCl1CahmVp1iP2NgwqIS1awZDL6rziw5dl2e-wliijr_wXNfTYQSxAsBw8PnOp5QvQ34om1cEQD0R1A8cq_2et0Slxjwi5pIQLFt5gaBvnVbEJIuZc80yG3Lkgld2uzFy5UPwbFHhRWBIfl_6ybb9hjLp0Hd94Fxz1wuyGCQlzEbou6AOyMzxqqX_oifd3KvH8c2_JrhY8jIBUs_JrwvFq8-BQDbM0ktjljcscVYzkthrjGzP1X5DBsmOibXIEezhPkmidBKdUs6FJC2vwBTU-rw01LnAEopJOMGll6B4ogfmlLyH6tsaDfALTnJinKS_Jl6BZFVnWI8ExfLVFQPGgFRWJm0ZmLaRoGDXal_lJ05W7AEWbjAfH1RKu38GUAH1Wg20cBs-bgNGWaplGKflGBlWYttGsoxfNWzBKs-pNajgAQ2AshIP8latygUQkHEYuN1qo_-BHZgoafJCY4fzRPPEh6__ZknluPODVCbKiciGD1iAu90NBskd0otdxC9X72it4Ys7ciND1FEV6UpMc-Gpm0TOZ-cUZQUvbgNahGUiQxo9ky8mtswoj83e3ivl6y6Q==",
+        "status": null
+      },
+      {
+        "id": "msg_0920146e5bc1f029016af89b9beca087d2ab5f409e6c661119",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K14\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T4C\",\n  \"agent_name\": \"Henry\",\n  \"setting_domain\": \"hobbies_games\",\n  \"setting\": \"A stop-motion animation hobby club\",\n  \"source_type\": \"Repeated observation of an experienced wildlife animator's rehearsal routine and its spoken explanation\",\n  \"belief_cue_ids\": [\n    \"B4\"\n  ],\n  \"action_type\": \"A5\",\n  \"reasoning_structure\": \"targeted_revision\",\n  \"story_backbone\": \"At his stop-motion club, Henry regularly watches an experienced wildlife animator rehearse dolphin breathing scenes for biological realism. The animator explains the recurring routine this way: {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later, Henry reviews a breathing beat in his own underwater adventure storyboard. It shows an ordinary dolphin staying fully submerged while taking a fresh breath. He wants the animation to be biologically realistic while preserving as much of the storyboard as possible, and is reviewing only this beat.\",\n  \"claim_span_aligned\": \"Dolphins breathe air using lungs\",\n  \"claim_span_conflicting\": \"Dolphins breathe underwater using gills\",\n  \"belief_proposition_aligned\": \"dolphins breathe air using lungs\",\n  \"belief_proposition_conflicting\": \"dolphins breathe underwater using gills\",\n  \"belief_question\": \"What breathing organs does Henry believe dolphins use?\",\n  \"action_question\": \"What change, if any, will Henry make to the breathing beat?\",\n  \"reality_question\": \"What organs do dolphins actually use to breathe air?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"lungs\",\n      \"q2\": \"Show the dolphin surfacing to take the breath.\"\n    },\n    \"conflicting\": {\n      \"q1\": \"gills\",\n      \"q2\": \"No change.\"\n    },\n    \"q3\": \"lungs\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\n      \"lungs\",\n      \"Lungs\"\n    ],\n    \"q1_conflicting\": [\n      \"gills\",\n      \"Gills\"\n    ],\n    \"q2_aligned\": [\n      \"Show the dolphin surfacing to breathe.\",\n      \"Have the dolphin come to the surface for the breath.\",\n      \"Move the breathing moment to the surface.\"\n    ],\n    \"q2_conflicting\": [\n      \"No change.\",\n      \"Leave the breathing beat as it is.\",\n      \"Keep the dolphin submerged while it takes the breath.\"\n    ],\n    \"q3\": [\n      \"lungs\",\n      \"lung\"\n    ]\n  },\n  \"action_constraints\": \"Henry is reviewing only the breathing beat, which depicts an ordinary dolphin taking a fresh breath while fully submerged. His goal is biological realism with the smallest necessary change to the existing storyboard.\",\n  \"belief_to_action_rule\": \"Believing dolphins breathe air using lungs makes the submerged fresh breath an error, so Henry changes the beat to show surfacing. Believing dolphins breathe underwater using gills makes the existing beat acceptable, so preserving the storyboard requires no change.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"source_acceptance_ambiguity\",\n    \"template_task_mismatch\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"Dolphin air-breathing is familiar knowledge, so Henry may retain prior knowledge rather than accept the conflicting explanation. Repeated observation of an experienced animator does not guarantee acceptance of the biological claim. The observed rehearsal movements remain unspecified to keep the routine constant across conditions; consequently, belief attribution may depend more on the spoken explanation than on the established routine required by T4C. In aligned stories, the source necessarily supplies the Q3 answer, so aligned Q3 does not isolate retained world knowledge.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794677666.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "generate_family_output",
+        "schema_": {
+          "$defs": {
+            "AnswerVariants": {
+              "additionalProperties": false,
+              "description": "guideline 示例里是一个 dict；strict 模式不支持任意键的 dict，所以展开成固定键。",
+              "properties": {
+                "q1_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Aligned",
+                  "type": "array"
+                },
+                "q1_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Conflicting",
+                  "type": "array"
+                },
+                "q2_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Aligned",
+                  "type": "array"
+                },
+                "q2_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Conflicting",
+                  "type": "array"
+                },
+                "q3": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q3",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "q1_aligned",
+                "q1_conflicting",
+                "q2_aligned",
+                "q2_conflicting",
+                "q3"
+              ],
+              "title": "AnswerVariants",
+              "type": "object"
+            },
+            "GoldPair": {
+              "additionalProperties": false,
+              "properties": {
+                "q1": {
+                  "title": "Q1",
+                  "type": "string"
+                },
+                "q2": {
+                  "title": "Q2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "q1",
+                "q2"
+              ],
+              "title": "GoldPair",
+              "type": "object"
+            },
+            "ProposedGold": {
+              "additionalProperties": false,
+              "properties": {
+                "aligned": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "conflicting": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "q3": {
+                  "title": "Q3",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "aligned",
+                "conflicting",
+                "q3"
+              ],
+              "title": "ProposedGold",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "description": "status=candidate_generated 时所有内容字段必填、failure_reason 为 null；\nstatus=needs_revision 时内容字段可为 null，但必须给出具体的 failure_reason。",
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'generate_family'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "bundle_id": {
+              "title": "Bundle Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidate_generated",
+                "needs_revision"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "T1",
+                    "T2",
+                    "T3",
+                    "T4A",
+                    "T4C",
+                    "T5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Template Id"
+            },
+            "agent_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned agent_name.",
+              "title": "Agent Name"
+            },
+            "setting_domain": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "education_training",
+                    "museum_exhibition",
+                    "community_volunteering",
+                    "workplace_operations",
+                    "arts_media",
+                    "hobbies_games",
+                    "environment_weather",
+                    "travel_cultural_orientation",
+                    "events_planning",
+                    "technical_workshop"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned setting_domain.",
+              "title": "Setting Domain"
+            },
+            "setting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The assigned setting_label if given, else one specific natural setting within the assigned domain.",
+              "title": "Setting"
+            },
+            "source_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Type"
+            },
+            "belief_cue_ids": {
+              "description": "Zero, one or two cue ids; [] when needs_revision.",
+              "items": {
+                "enum": [
+                  "B1",
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B5",
+                  "B6"
+                ],
+                "type": "string"
+              },
+              "title": "Belief Cue Ids",
+              "type": "array"
+            },
+            "action_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Type"
+            },
+            "reasoning_structure": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reasoning Structure"
+            },
+            "story_backbone": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Shared story with exactly one {{CLAIM_SPAN}} and one {{BELIEF_INSERTION}} (directly after the sentence containing the claim).",
+              "title": "Story Backbone"
+            },
+            "claim_span_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Aligned"
+            },
+            "claim_span_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Conflicting"
+            },
+            "belief_proposition_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Aligned"
+            },
+            "belief_proposition_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Conflicting"
+            },
+            "belief_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief Question"
+            },
+            "action_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Question"
+            },
+            "reality_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reality Question"
+            },
+            "proposed_gold": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ProposedGold"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "answer_variants": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AnswerVariants"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "action_constraints": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Constraints"
+            },
+            "belief_to_action_rule": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief To Action Rule"
+            },
+            "risk_flags": {
+              "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+              "items": {
+                "enum": [
+                  "agent_prior_knowledge_risk",
+                  "source_acceptance_ambiguity",
+                  "source_vs_belief_ambiguity",
+                  "action_ambiguity",
+                  "q2_copy_shortcut",
+                  "q2_non_tom_difficulty",
+                  "overconstrained_story",
+                  "unnatural_redundancy",
+                  "q3_answer_leakage",
+                  "world_fact_scope_risk",
+                  "template_task_mismatch",
+                  "near_duplicate_structure",
+                  "implicit_belief_leakage"
+                ],
+                "type": "string"
+              },
+              "title": "Risk Flags",
+              "type": "array"
+            },
+            "risk_notes": {
+              "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+              "title": "Risk Notes",
+              "type": "string"
+            },
+            "validation_status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly 'needs_human_review' when candidate_generated, else null.",
+              "title": "Validation Status"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidate_generated; the concrete reason when needs_revision.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "bundle_id",
+            "status",
+            "template_id",
+            "agent_name",
+            "setting_domain",
+            "setting",
+            "source_type",
+            "belief_cue_ids",
+            "action_type",
+            "reasoning_structure",
+            "story_backbone",
+            "claim_span_aligned",
+            "claim_span_conflicting",
+            "belief_proposition_aligned",
+            "belief_proposition_conflicting",
+            "belief_question",
+            "action_question",
+            "reality_question",
+            "proposed_gold",
+            "answer_variants",
+            "action_constraints",
+            "belief_to_action_rule",
+            "risk_flags",
+            "risk_notes",
+            "validation_status",
+            "failure_reason"
+          ],
+          "title": "GenerateFamilyOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 6000,
+      "input_tokens_details": {
+        "cache_write_tokens": 1255,
+        "cached_tokens": 4742,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 1255
+        }
+      },
+      "output_tokens": 1366,
+      "output_tokens_details": {
+        "reasoning_tokens": 516
+      },
+      "total_tokens": 7366
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "feedback_given": [],
+  "checks": []
+}

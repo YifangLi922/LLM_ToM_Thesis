@@ -1,0 +1,680 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 13.61,
+  "usage": {
+    "input_tokens": 5941,
+    "input_tokens_details": {
+      "cache_write_tokens": 1196,
+      "cached_tokens": 4742,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 1196
+      }
+    },
+    "output_tokens": 1119,
+    "output_tokens_details": {
+      "reasoning_tokens": 322
+    },
+    "total_tokens": 7060
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "generate_family_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "generate_family",
+      "fact_record": {
+        "fact_id": "K09",
+        "knowledge_category": "social_institutional_conventions",
+        "world_fact": "Road traffic in the United Kingdom normally keeps to the left, subject to signs and exceptions.",
+        "aligned_claim": "Traffic in the United Kingdom normally keeps to the left.",
+        "conflicting_claim": "Traffic in the United Kingdom normally keeps to the right.",
+        "world_gold": "left",
+        "conflicting_belief_gold": "right",
+        "pretest_question": "Which side of the road does traffic normally keep to in the United Kingdom?",
+        "pretest_accepted_answers": [
+          "left side",
+          "the left"
+        ],
+        "qualification_notes": "Use ordinary road travel, not exceptional maneuvers, junctions or contrary signs; avoid dangerous real-time navigation tasks.",
+        "source_urls": [
+          "https://www.gov.uk/guidance/the-highway-code/using-the-road-159-to-203"
+        ],
+        "review_flags": [
+          "jurisdiction_specific",
+          "safety_sensitive_actions_avoid"
+        ]
+      },
+      "selected_bundle": {
+        "bundle_id": "B01",
+        "suggested_template_ids": [
+          "T4A"
+        ],
+        "agent_goal": "Create an accurate overhead road illustration for a classroom geography worksheet about the United Kingdom.",
+        "new_task": "After receiving instructor feedback on a traffic-conventions practice exercise, place a northbound vehicle symbol on a newly drawn road.",
+        "action_constraints": "The worksheet shows an ordinary straight two-way road in the United Kingdom, running vertically with north at the top. A vehicle symbol pointing north is ready to be placed in the middle of its appropriate lane. The illustration has no special traffic arrangements.",
+        "action_type": "A1",
+        "reasoning_structure": "one_step_mapping",
+        "target_output": "The compass side of the road's center line where the agent places the northbound vehicle.",
+        "aligned_action_gold": "West",
+        "conflicting_action_gold": "East",
+        "belief_to_action_rule": "For a northbound vehicle, the driver's left corresponds to west on the page and the driver's right corresponds to east. Applying the respective traffic-side belief therefore determines the placement.",
+        "risk_flags": [
+          "agent_prior_knowledge_risk",
+          "source_acceptance_ambiguity"
+        ],
+        "risk_notes": "The UK traffic convention is widely known, so an agent may reject conflicting practice feedback despite limited experience making geography materials. Apparently authoritative instructor feedback supports, but does not establish, acceptance in the implicit condition."
+      },
+      "assignments": {
+        "template_id": "T4A",
+        "action_type": "A1",
+        "reasoning_structure": "one_step_mapping",
+        "agent_name": "Noah",
+        "agent_pronouns": "he/him",
+        "setting_domain": "education_training",
+        "setting_label": null
+      },
+      "revision_feedback": [],
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, reasoning_structure and the two action golds). template_id must equal assignments.template_id. When status is candidate_generated, failure_reason must be null and validation_status must be exactly \"needs_human_review\". When status is needs_revision, put the concrete reason in failure_reason, set every nullable content field and validation_status to null and belief_cue_ids to [] (risk_flags/risk_notes may describe the problem). story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; {{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} (directly after that sentence's final punctuation). Claim spans and belief propositions must not contain curly braces. Both claim spans must fit the same grammatical slot in the backbone, and each must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, same wording as far as the grammar allows) -- never an indirect or behavioural paraphrase of it, in any template (including T4C routines). belief_proposition_aligned / belief_proposition_conflicting are affirmative finite-clause complements without an initial 'that', without the agent's name at the start and without final punctuation; the caller builds the sentence '[agent_name] believes that [proposition].' itself. The protagonist must be the person named in assignments.agent_name: set `agent_name` to exactly that name, use the name in the story, and use the pronouns in assignments.agent_pronouns whenever you refer to the protagonist with a pronoun, so the story reads naturally and consistently. Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are rejected automatically). If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K09\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T4A\",\n  \"agent_name\": \"Noah\",\n  \"setting_domain\": \"education_training\",\n  \"setting\": \"A teacher-training geography workshop\",\n  \"source_type\": \"Written instructor feedback on a practice quiz\",\n  \"belief_cue_ids\": [\"B2\", \"B4\"],\n  \"action_type\": \"A1\",\n  \"reasoning_structure\": \"one_step_mapping\",\n  \"story_backbone\": \"At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane.\",\n  \"claim_span_aligned\": \"Traffic in the United Kingdom normally keeps to the left.\",\n  \"claim_span_conflicting\": \"Traffic in the United Kingdom normally keeps to the right.\",\n  \"belief_proposition_aligned\": \"traffic in the United Kingdom normally keeps to the left\",\n  \"belief_proposition_conflicting\": \"traffic in the United Kingdom normally keeps to the right\",\n  \"belief_question\": \"Which side of the road does Noah believe traffic normally keeps to in the United Kingdom?\",\n  \"action_question\": \"On which compass side of the road's center line will Noah place the northbound vehicle symbol?\",\n  \"reality_question\": \"Which side of the road does traffic normally keep to in the United Kingdom?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"left\",\n      \"q2\": \"West\"\n    },\n    \"conflicting\": {\n      \"q1\": \"right\",\n      \"q2\": \"East\"\n    },\n    \"q3\": \"left\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\"left\", \"the left\", \"left side\"],\n    \"q1_conflicting\": [\"right\", \"the right\", \"right side\"],\n    \"q2_aligned\": [\"west\", \"west side\", \"west of the center line\"],\n    \"q2_conflicting\": [\"east\", \"east side\", \"east of the center line\"],\n    \"q3\": [\"left\", \"left side\", \"the left\"]\n  },\n  \"action_constraints\": \"The goal is an accurate classroom geography illustration. The new task is to place a northbound vehicle symbol in the middle of its appropriate lane on an ordinary straight two-way UK road, drawn vertically with north at the top and no special traffic arrangements. The requested output is the compass side of the center line.\",\n  \"belief_to_action_rule\": \"For the northbound vehicle, the driver's left corresponds to west on the page and the driver's right corresponds to east. The left-traffic belief therefore yields West; the right-traffic belief yields East.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"source_acceptance_ambiguity\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"The UK traffic convention is widely known, so Noah may already know it despite making his first worksheet. Instructor feedback makes acceptance plausible but does not establish acceptance of the conflicting claim in the implicit condition. The aligned source necessarily supplies the actual Q3 answer, so aligned Q3 does not isolate retained world knowledge; the conflicting story contains no independent disclosure of that answer.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_06cc2f27a48bddb0016af89ccbd38887d2985332febb00f22c",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794677963.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_06cc2f27a48bddb0016af89cccebc087d2ae0bc86398e82f47",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JzZ4q9xFuuH5S3Ah9zEI7GfslVis7uXk8bwxl1q42I8EhETU9WLvHxowiCkMIR-OSDvC0V8A1Of2zojogRVeH6AcvGX4fopu4Fu5XTtmb_uYuCBAvnlpidvlklaOGkTZkhAq34hoq-1mEy_pGwxhcfl4q6ZniQ4A4-0noOl_-hl5PxvaKW9nDe4OpOfSw6hOa3I8SZIbYgZYnBTQsgMmt5VewyZk7TKO2bQVSnouRKF8ejID527x7xUcrz31Ayffw44m75onkOamIPolb7wQ1z_z2dr-jQUmzOh2chHl2iVozZ0U80go0tkFrDuhYH8IwongJBTYPJPsVDXRRZtUulkJRjtnfiZS8xQ-rtGiPLPmLlwH0JFjBdx_kHV1UMukdibYYocL8LUImK1Lw_6uEhPpSuPncDNyA1w3_Vrz3f0VBe4tYkQWNvCFg5kbnup7sOfZqo3L2quWupMwYIT6l4eGucun0Cm-LPItSbTZqGTEFLIcp1eMqAaxe42x4PaZCpN0VG_RHPQJV-jWGaEj79rewDiX5_RGKUe6IBJb6N553bQ6KdtWm2nSvvY9WoJZ0jXj2NuuRytq_UAzNUNvmbztcACjLv_bFWeTkPdGvWt55suzBs8rxa0ac0BwNsoITXfvWjw5hLiNmbmkdSG80xjSiczMu9rdfIrMthqOhmbGFNQnaNurb2gEdVEn1ac9oraw0PnXGEdodm7PtgvJxxYB1jII0zt_39og5yD27P_119u7LVDgRf1xzV4SKC4zRIE0EY2uI76WDrx9Y2uMqO50fOhSSW3q06nEktpK0eS3TCJ87do7ff7WGpT9iZuMLoyixXWc8_zNqIjSYTCo_JVb2-O0WntTU5ffYHQu4uAWc72HSRD6MpCMC53_oZ8FxrwB_FNj7BQoErcjkrn-Uqr9kU8BwbHWYyYNx47lMFf5fMb4R0sne49ED115DUTuBBgZ0hlBMBuslGFmwPTV7d7pyILAVZn4CXput5TWhwF85Jvw_7emMOYkEP-Q35FhdRpbDm3-mYFBqlrqjUrX8bb3octEOI59r0mA0wLjs4EwftbpdDfRDJRsrOxN4WLhCG8KqrD35gxy8emT3ryqaRqkMZLOAK0aHy_JGQQN_eoXo2X-W1MajhEc8ZfM0Luvpk64FNCn_aPWlEsihHqPBAFU-2T0t6-zSELlfXbMeRMBVOVA-3RYBCheqURhLgYVpzL_GedsleDwaRvyuvVhHrczQZRW8YlHCjcNbi3CAj9I7BYy9Ltkcni0pBsFfQpJgPPpPRU8U6Yk8FEnV2wuXB8QrO5vIWZnsgNnaGG6PZWcSRxOrIQNVp2tkFVy9PHOE-YhmwwO7b2HZOWsZc-8tcLTXXIlHppwGMeVmEmonWLFufw1KTD826rPPyJp9aqIRJFLqFTaI8csaA1nrTd4geKeW25IvdpgtM2qtW3F0YYTOALVgbtbowjDHyGZUtkr1NzrLHne7y3zFuXmnh0wpP7dQBMWMNfTi1x2Fd3Swo9-j28CbsZWDGYDy_P8W5B3SJ6JFtfgCyr3nIdOY53NvDc3NX9-uZu_YS6QJNj5QI3hCOwuWp82bKboub519l-xuTzpjmIFGAEYrHm9Ir6Jc_4K8rSpEsQVHRQYXZ4C_lVbvWZtbu3DAaJzsy8oNnceeucaBcUGt6vwsTU3XwI4WhmcqfQbqmiO7SYBBXuKujEOA6nHAEdovti-sFD2p1qGZ7tym1VrAJ7KhY5EtUMQYeZ-q_o4x3jra1iCVFAU9ndXrW9fjRWQP1_kCWDndb_uq_ViyDyhCoCUS4jTLf5zBkE9cSR6zkHKrzYP0dnmVzWgHOMfW3SRPARvGInaRd3ptY7lI3jwo7a3bZNuyF0KEqWpwtPS8ggCocalkYW_g3n58Ah_v_36CffHNxyI8zqnHzCG_nv1phIjArTxXR10RYHwgp-O01Aj4mWL7tbQl1_FbPYojXw5gemKObzP-b9pSgqCQpzzrO5_sG98bB2sb4extH-vlykYGWLiNXiLk6GV83xI4W1qXrwvBRtiAkOmizCraG6uLdwvvE40ZdEa2BN8h7wNIdG2IZHu9FSqFUaYm7jyydVITc9j-Fzf0dhyfbAgqByHGhBZ2gHIK_ca-vLr7a60YdFnI-qfVYP7EJnuD-l9bdAY-MOie5B_ULkJMK53LJlUkx5SbT9dfjesdqWByKMI0gsj7WifvD75Zure-OJ9AgxTWyBc6nazBIqzbTsJJsHzfV_2uMnCKhxLp7m9GRtkcnA2vfSsGY4yVVqIeoa7vsHX7xbhLcUKpUtv2kl0wFEqBas9X9tfmMCaOnNVIFRAHDGHW5hCHE4SktTLHiNwHCqGjDRVhs-sr8OFYrRETXfKpIYNmRorG4aysOCenFCpmXJRU2KV-F4cscDAdI0KYs1O2ivC9dSPewbVsfJpSOWlTKyQILzhhqj6k68zbtriTEv0OL3tlPTwdKCusSH-9j10U1MtnOvpnzKEP3cupPyxEl94sI0f1_4QNhY_k6j2CDI7afkvUExGPVDKQVWSsBmp73wtgSqsnzVl2iu--2ItlhM1m1Mbhg8VxVxk8cKrLLbPZlcAhdmewOZKDoBGJLOWoqNhQmHgwy3ghFCN1RvMytF7vJyNy9mBACXu3XcStg1WJpqM9FiADi52e2ycl3qW9y6PGfQ4hbEzzJtdCzkHHq3IgrqkWp44RP_FfyK-qSskWjVDxNE6jFIIFOT0XXywe2utgY_rCqvWH-q1GpKnlPxhJ0I4VaNqMoV1woZcojEvZblocg6bVu0fZH9YErPEFjHPpSFZRSx4t0PzEYsaD9lGV_IaSB6TwBVgk5rI4fmPdkA9i2ZDnXqQ11ZaeHz99kbmc2gkZAefA3z8ZbmnnmfmwL9SlN1w8FCEV-CWXozoyJK2eEt23RuaZry78lgywrzIeIUOBi8ZewKoFuY13ftR35NyPEzKJyN5nigEXL9gGejnNGyKg8DhC3xNs-tptInEW_JoQciaGZjUJbkKPa250fodHqkj_PXpWhHCNb7AWirEzz97DqSDcgouVbl157uKINlFfFaKfXYvxygTOaVqbxucCgsW3-KA9R2v8Iwme_xDRbHIJGtzGex6bRHgPEYbGjNFVcBzauzlHIARtQPo_vcEsQjQVqTEq8KOL6Vj_Ni1N8__qHsVgojg4qb_MS4OLZtVs-VTtD8sjQ6PhkDbhoOdl9g58TpV2c_t2JsYdEO4zy_5AWStb-ekrMfF6-nHn4cO3yEwoYwlVPXBrPqv4EAtnfHAkrAkI5fX-_Z-5qlIQ8AW2sJHOJHKJD2BR14x8L2hxhhzxB6iMCHiRUtlNuHhlsCzEhUKArB5_PrubaYfMuMrqIlSgtunbsRGOPYuiwEdz4TnfufRh647N3tc0HjY7HFqE9Qh731W3LF_jHLONrJqtYpCasy6ZVbl8oQixrEiQqY59B55sNNFCp0RSP9QlcVgQXz4L8Ro8hEz1-YtaOY3a8toCBj39IClFSAbYYYfNvzvDrUcOWdTvDEE_tklZTnlq3HtE1ouw5-3buFTqZuD7MIpTdYL6rOFKqqrpl1ZxeoRJdJsnjf9rduCyq-C2t3Skw-nuRsYMcjnMR6Se-7H2pzp5f5CYwof30Iu63nyKwe4PCpRyryT0DQuLhzzWfSgL3fGzc9GlAWQhhPDeb56X-9E7J47ov-ReFOKwI9vlV8e_2boMCg1xsLgQAh8pGRKdi2vKko-wZ6FMSAxKF5A3IcIYIp524BHax0eRNKZvcpqckFrdRBPux8UlP-uuVb5ev6yDM7S4elr8-luacSZ6RI2r0kVBdHA3HwVHucoUlTlP6HldUTmPt3w9Pnbs49x6Nv-eAmKwOLW3_5amdBzVsAANjBpYCO7sx4NokF06jatJGVg7ZkHWmRCnqYZfkDwY0PlEu18IUUvDP28F8X_ALfa1Jmj7VrOXqdoZKFH-eeNK8YDnRTtAnwvjgptGsbZGSZu9fxX52xztYsiBSBFLeZZ9Sx2ngJVd7nafBnZvukz0j3WFJ_ZFiZJcXtSKNtzm3QQGnxJ03DzxLJ4v9urK7BNXZNoXgXADCozx7iC5FDrNKtcuw24sXm2J0GGUZ8Ukakm1h2gdlUD9_fdC4xc8soTAnpydZVIheEXtx2V4swLAmEt5Hsbrdf6qhcHPgh-8Mi-KTrz6KIufwa9eU_fNr1eA-J7fCTtUA9ZpU8xlTfZKJllw73fbsZDFwQvFcUK6kS-LM7ltctArE5wHLSTGpeltMGu9_YuZM91pq6B7le4BjSlhQ1HfV0KIZwlv6d5GiZFt133Oqt9B-mxpIPsWikNo1vu_Tj5IX901HZNqCcgZx-yfcR9DUu0KfJnFv2mb5hir21qG79lW6Eh80_UU-sHaVt7fqMqNgYrk5TwK4WZaO0U-RRLh7T8uga1X6MzbdGC10GzGfJ_3pR02qAeAXebTdqo67ipdN6cWDdpVQEaIsxclGdyisqn92rcXXgx8GlAFnqevvL7US0UBhsZXr4_mTbHXxkqMs6cvm_EikaHkFahAdXh5F82C4AMJU3WDXetIrsqB0f2La9R03udH5lcYwWrc2GNtSVaYySwjVZ_Ze_jN-huUVVtQFSrUbK0cQ5HE89yBdQpGo8Wk7EGq2JQsXnqh7AvS6Hxd65dWdundwheN4zFNezLNE2fmA00qScDpr6MYifeg7FCF6zgnxsnUlRG0Gq0wTyN1f9Vuw8k2uq5XVVUcbBBhKqeZc9xPqEaeLHeUvWTfgTIHdf5wfmL-rwHlgQdVwTU4OviW2Xr2ULlHP_WqSXlvRa7ZyaaDudU2qvlR9Y8fgmeh7YcwByqQrZgI1uzCcGOvF3g6TIGLu2PmEujt4uzYy8f_QzhBjZNP8ASi7eSY-AydlFOynCC76abWsGx4H2EqExo16lnZuERu04OaEM4sE-L8R83Lqm84Fev0V8fREIbqJY12Xc8C4Hhd5iEr87ZcAJnNGn43-f_Zd4klwG-ShRPqTEFbJp9JNZVlv-Zt8U7tcZN83PcvpnIcrC5kOHk7Uj7RjMkbTAxd8Prc2-ABNoTODISeYQOMjavb9-TijLsWHJKsGQTU5-sKNndjlGgrNPG5uxSFZNzoOFxEySCV1Ng02mDmJikDlqHYHgw_f-heOuz0CbVXuqI7fxsjF8h3jjgUx3dbq98spZygvvflzJ-IDFu_w4SL3qTcpvfDg-B5mFct4175954VeJ0vWr95dlSVq3dbIHQHoHOYHgGbU2lclPrCkpJJnq-uwcTassCes_w4Ih3Ke8mo0glS0PpbzGJsMdV1XSnT_M2mh4bT9QWqOjNgjQvAHyOyOYOz-71Pp066a11oA0D878GtiWu2Yt1CYgCFQm3NfVg3ggrXTH4BEHSUeOdS2wTk02N7zqB4flxxKU16inu04btZcZcIKHIADYnitNvZG4gb1MijQ1feobauFS-cPpSTtiEsUYnbT82-lXOFMXLRkMdz6pbmB3YE0J7uOJJOtYAkmDPFOWPewRYpLs5mV_y15GWSe09w32Qr3L7xCu6uGGOyBQlFAX9BBaCcrj2KgzfGIbaTNWoR9TTiXd4TL6nPZ97znawLR7zuvOcx3ye98FqQmuu4AFC7uPhzJBXTltxVsCL7W5GQ1NfdeA2M4d8cgeNhY-XbQ-a_eA7j-DDFoTn9sRDJE_AwHVbEZT98OvSJ3fzTpSgA5wT9fG4jRPqZ3sO73ijh7YzaZsTwjZ5cvPHs73wAlDmV2sfu8YAHmXGaOF7TQpYnyhpAi4UGz-aWWVoHKBSKDRU_CIf-t_s3g99f5T8__Im7zTrEXSRwRWaaUpCkYoeFn43Bw-B4IecsdJBbHyP4OuzmYPBT0MPEC3Cfe-20C0BTWWM1n_lqxqoj9pQnHIE7ZM3gM4EwFnkle9bYvP0wqbUtRgIMRO6RJHImfsQk6YXAKF6q4IUIe1nDZzlz2BIH1iMJfUMfpd10GTkAWPW8Bqr4K6xDQefJeP4O0_0izBENfyXmJzEGDIU1lXPafsnjs0XTXoMaWFWws5uZAitJpkAI4dUKaBt4RgbToK3C63YN4EPVJtD3fnZ5qjNUhMxbhJ4xG_nrMqIcVWh_MJb3bJp2Ltk211CqKqIuwtb2LLeY2p7wEHXmzC5VPjnjqWH2hVHAwEdiyAudhf79bGEW1KG3kKihbj8QTlgg1rfKEjQaYydyCqoZH6tt50scm1I7CKe_afb56AegfM0730d78S-PGIQCy7IXw1NBJbgBZlWhJ51UcUhfGSXrsMCj06jYoM-JSiOLQ6lbaiMLrHA3i8BuUMYcORQROu5Lx1S_60tpRzzLLBq84k8ZIOcR9mJC5AeJwJyxn6XK6yhm3mifiDC2t9STJa6vsYidt5TCAGJMGaqVdu2Sydmch5dJWYI8xp8WixNB8V3btkP_OrgDv23DT4h1aASsFAwDYzMebiGtQUXZn8DlKxWaYfeszIqFP3xjr1hYjj5BwCs2oQsoAqCCcOAUx7CcVd3aR-KrgXVwyZ7W3WkGNiwCw3xXsKaB8XTmKgyjMPgee6N1FsYMfzz5iX7aCKAlieI8FJC_9A0_2OdAv_i-C6yz260tNvLemTIcjFb4FzXkO5GhgHJyrorJn6lrPDMIFR1JrVXGigbo-E4CMNsDQfZmUlw2rczbM_1iRb1ACfcXgbVoi4KTXJMbNqqeyHQjCufy7yZYvO63TwGwjmOvHW6NCqFEr0AStwbvCEwEJkhslMDQOBvS-hbiiFuu9bzuYr72zTZh2uKDtGfxk9VL4Fih9wPDaausGSlModd_iyiq6Y3CXoxLyx6QgSj7snjAJ-GTuwngcZLPDxc_5CpPtfGIoazVhytohrsIi3wLb0buyP0Os4UPfkwVkc3RIhK9nnQ4ohfj85SRcuGLvO",
+        "status": null
+      },
+      {
+        "id": "msg_06cc2f27a48bddb0016af89cd3c1e087d29161b91e583e7ed8",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K09\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T4A\",\n  \"agent_name\": \"Noah\",\n  \"setting_domain\": \"education_training\",\n  \"setting\": \"A teacher-training geography workshop\",\n  \"source_type\": \"Written instructor feedback on a practice quiz\",\n  \"belief_cue_ids\": [\"B2\", \"B4\"],\n  \"action_type\": \"A1\",\n  \"reasoning_structure\": \"one_step_mapping\",\n  \"story_backbone\": \"At a teacher-training geography workshop, Noah is preparing his first classroom worksheet about the United Kingdom. He completes a practice quiz on national traffic conventions. His geography instructor returns it with this feedback: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} For the worksheet, Noah then draws an ordinary straight two-way UK road running vertically, with north at the top. To make the illustration accurate, he places a northbound vehicle symbol in the middle of its appropriate lane.\",\n  \"claim_span_aligned\": \"Traffic in the United Kingdom normally keeps to the left.\",\n  \"claim_span_conflicting\": \"Traffic in the United Kingdom normally keeps to the right.\",\n  \"belief_proposition_aligned\": \"traffic in the United Kingdom normally keeps to the left\",\n  \"belief_proposition_conflicting\": \"traffic in the United Kingdom normally keeps to the right\",\n  \"belief_question\": \"Which side of the road does Noah believe traffic normally keeps to in the United Kingdom?\",\n  \"action_question\": \"On which compass side of the road's center line will Noah place the northbound vehicle symbol?\",\n  \"reality_question\": \"Which side of the road does traffic normally keep to in the United Kingdom?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"left\",\n      \"q2\": \"West\"\n    },\n    \"conflicting\": {\n      \"q1\": \"right\",\n      \"q2\": \"East\"\n    },\n    \"q3\": \"left\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\"left\", \"the left\", \"left side\"],\n    \"q1_conflicting\": [\"right\", \"the right\", \"right side\"],\n    \"q2_aligned\": [\"west\", \"west side\", \"west of the center line\"],\n    \"q2_conflicting\": [\"east\", \"east side\", \"east of the center line\"],\n    \"q3\": [\"left\", \"left side\", \"the left\"]\n  },\n  \"action_constraints\": \"The goal is an accurate classroom geography illustration. The new task is to place a northbound vehicle symbol in the middle of its appropriate lane on an ordinary straight two-way UK road, drawn vertically with north at the top and no special traffic arrangements. The requested output is the compass side of the center line.\",\n  \"belief_to_action_rule\": \"For the northbound vehicle, the driver's left corresponds to west on the page and the driver's right corresponds to east. The left-traffic belief therefore yields West; the right-traffic belief yields East.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"source_acceptance_ambiguity\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"The UK traffic convention is widely known, so Noah may already know it despite making his first worksheet. Instructor feedback makes acceptance plausible but does not establish acceptance of the conflicting claim in the implicit condition. The aligned source necessarily supplies the actual Q3 answer, so aligned Q3 does not isolate retained world knowledge; the conflicting story contains no independent disclosure of that answer.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794677977.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "generate_family_output",
+        "schema_": {
+          "$defs": {
+            "AnswerVariants": {
+              "additionalProperties": false,
+              "description": "guideline 示例里是一个 dict；strict 模式不支持任意键的 dict，所以展开成固定键。",
+              "properties": {
+                "q1_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Aligned",
+                  "type": "array"
+                },
+                "q1_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Conflicting",
+                  "type": "array"
+                },
+                "q2_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Aligned",
+                  "type": "array"
+                },
+                "q2_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Conflicting",
+                  "type": "array"
+                },
+                "q3": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q3",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "q1_aligned",
+                "q1_conflicting",
+                "q2_aligned",
+                "q2_conflicting",
+                "q3"
+              ],
+              "title": "AnswerVariants",
+              "type": "object"
+            },
+            "GoldPair": {
+              "additionalProperties": false,
+              "properties": {
+                "q1": {
+                  "title": "Q1",
+                  "type": "string"
+                },
+                "q2": {
+                  "title": "Q2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "q1",
+                "q2"
+              ],
+              "title": "GoldPair",
+              "type": "object"
+            },
+            "ProposedGold": {
+              "additionalProperties": false,
+              "properties": {
+                "aligned": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "conflicting": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "q3": {
+                  "title": "Q3",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "aligned",
+                "conflicting",
+                "q3"
+              ],
+              "title": "ProposedGold",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "description": "status=candidate_generated 时所有内容字段必填、failure_reason 为 null；\nstatus=needs_revision 时内容字段可为 null，但必须给出具体的 failure_reason。",
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'generate_family'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "bundle_id": {
+              "title": "Bundle Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidate_generated",
+                "needs_revision"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "T1",
+                    "T2",
+                    "T3",
+                    "T4A",
+                    "T4C",
+                    "T5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Template Id"
+            },
+            "agent_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned agent_name.",
+              "title": "Agent Name"
+            },
+            "setting_domain": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "education_training",
+                    "museum_exhibition",
+                    "community_volunteering",
+                    "workplace_operations",
+                    "arts_media",
+                    "hobbies_games",
+                    "environment_weather",
+                    "travel_cultural_orientation",
+                    "events_planning",
+                    "technical_workshop"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned setting_domain.",
+              "title": "Setting Domain"
+            },
+            "setting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The assigned setting_label if given, else one specific natural setting within the assigned domain.",
+              "title": "Setting"
+            },
+            "source_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Type"
+            },
+            "belief_cue_ids": {
+              "description": "Zero, one or two cue ids; [] when needs_revision.",
+              "items": {
+                "enum": [
+                  "B1",
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B5",
+                  "B6"
+                ],
+                "type": "string"
+              },
+              "title": "Belief Cue Ids",
+              "type": "array"
+            },
+            "action_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Type"
+            },
+            "reasoning_structure": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reasoning Structure"
+            },
+            "story_backbone": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Shared story with exactly one {{CLAIM_SPAN}} and one {{BELIEF_INSERTION}} (directly after the sentence containing the claim).",
+              "title": "Story Backbone"
+            },
+            "claim_span_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Aligned"
+            },
+            "claim_span_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Conflicting"
+            },
+            "belief_proposition_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Aligned"
+            },
+            "belief_proposition_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Conflicting"
+            },
+            "belief_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief Question"
+            },
+            "action_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Question"
+            },
+            "reality_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reality Question"
+            },
+            "proposed_gold": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ProposedGold"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "answer_variants": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AnswerVariants"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "action_constraints": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Constraints"
+            },
+            "belief_to_action_rule": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief To Action Rule"
+            },
+            "risk_flags": {
+              "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+              "items": {
+                "enum": [
+                  "agent_prior_knowledge_risk",
+                  "source_acceptance_ambiguity",
+                  "source_vs_belief_ambiguity",
+                  "action_ambiguity",
+                  "q2_copy_shortcut",
+                  "q2_non_tom_difficulty",
+                  "overconstrained_story",
+                  "unnatural_redundancy",
+                  "q3_answer_leakage",
+                  "world_fact_scope_risk",
+                  "template_task_mismatch",
+                  "near_duplicate_structure",
+                  "implicit_belief_leakage"
+                ],
+                "type": "string"
+              },
+              "title": "Risk Flags",
+              "type": "array"
+            },
+            "risk_notes": {
+              "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+              "title": "Risk Notes",
+              "type": "string"
+            },
+            "validation_status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly 'needs_human_review' when candidate_generated, else null.",
+              "title": "Validation Status"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidate_generated; the concrete reason when needs_revision.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "bundle_id",
+            "status",
+            "template_id",
+            "agent_name",
+            "setting_domain",
+            "setting",
+            "source_type",
+            "belief_cue_ids",
+            "action_type",
+            "reasoning_structure",
+            "story_backbone",
+            "claim_span_aligned",
+            "claim_span_conflicting",
+            "belief_proposition_aligned",
+            "belief_proposition_conflicting",
+            "belief_question",
+            "action_question",
+            "reality_question",
+            "proposed_gold",
+            "answer_variants",
+            "action_constraints",
+            "belief_to_action_rule",
+            "risk_flags",
+            "risk_notes",
+            "validation_status",
+            "failure_reason"
+          ],
+          "title": "GenerateFamilyOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 5941,
+      "input_tokens_details": {
+        "cache_write_tokens": 1196,
+        "cached_tokens": 4742,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 1196
+        }
+      },
+      "output_tokens": 1119,
+      "output_tokens_details": {
+        "reasoning_tokens": 322
+      },
+      "total_tokens": 7060
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "feedback_given": [],
+  "checks": []
+}

@@ -1,0 +1,144 @@
+{
+  "family_id": "F008",
+  "fact_id": "K18",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T4C"
+    ],
+    "agent_goal": "Keep the full length of a heated iron rod tightly framed in a museum exhibit's live camera view.",
+    "new_task": "During exhibition rehearsals, the agent repeatedly observes preparators reposition anticipated-end markers before warming loose iron rods. Their setup card states the locked claim, and the agent's role ends before heating begins. Later, independently preparing a different exhibit's camera, the agent sets its zoom for filming a rod after moderate heating.",
+    "action_constraints": "The ordinary iron rod rests loosely on an open support. Before heating, its full length just fits the camera image horizontally. The camera position stays fixed, and the agent must preset the zoom so the warmed rod will remain fully visible with similarly tight framing.",
+    "action_type": "A4",
+    "reasoning_structure": "prediction_application",
+    "target_output": "The direction of the camera's zoom adjustment from its current setting.",
+    "aligned_action_gold": "Zoom out.",
+    "conflicting_action_gold": "Zoom in.",
+    "belief_to_action_rule": "An expected increase in rod length requires a wider camera view and therefore zooming out; an expected decrease requires a narrower view and therefore zooming in to maintain tight framing.",
+    "risk_flags": [
+      "agent_prior_knowledge_risk",
+      "source_vs_belief_ambiguity"
+    ],
+    "risk_notes": "Thermal expansion is familiar enough that an adult agent might reject the contraction claim despite observing the preparators' routine. Because the observed marker placements are anticipatory rather than measured outcomes, readers might also attribute them to an exhibition convention rather than infer the agent's general physical belief; the setup card must explicitly carry the locked claim."
+  },
+  "template_id": "T4C",
+  "agent_name": "Ella",
+  "name_pool_group": "feminine",
+  "setting_domain": "museum_exhibition",
+  "setting": "A science museum's live thermal-demonstration exhibit",
+  "source_type": "Repeated preparator routines accompanied by a written setup card",
+  "belief_cue_ids": [
+    "B4"
+  ],
+  "action_type": "A4",
+  "reasoning_structure": "prediction_application",
+  "story_backbone": "During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed.",
+  "claim_span_aligned": "An unconstrained iron rod generally expands in length when heated moderately.",
+  "claim_span_conflicting": "An unconstrained iron rod generally contracts in length when heated moderately.",
+  "belief_proposition_aligned": "an unconstrained iron rod generally expands in length when heated moderately",
+  "belief_proposition_conflicting": "an unconstrained iron rod generally contracts in length when heated moderately",
+  "questions": {
+    "q1": "What does Ella believe generally happens to an unconstrained iron rod's length when it is heated moderately?",
+    "q2": "How will Ella adjust the camera's zoom from its current setting to keep the heated rod tightly framed?",
+    "q3": "In reality, what generally happens to the length of an unconstrained ordinary iron rod when heated moderately?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "expands in length",
+      "q2": "Zoom out."
+    },
+    "conflicting": {
+      "q1": "contracts in length",
+      "q2": "Zoom in."
+    },
+    "q3": "expands"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "gets longer",
+      "lengthens",
+      "expands"
+    ],
+    "q1_conflicting": [
+      "gets shorter",
+      "shortens",
+      "contracts"
+    ],
+    "q2_aligned": [
+      "Zoom out",
+      "Widen the camera's field of view",
+      "Decrease the zoom"
+    ],
+    "q2_conflicting": [
+      "Zoom in",
+      "Narrow the camera's field of view",
+      "Increase the zoom"
+    ],
+    "q3": [
+      "gets longer",
+      "increases",
+      "lengthens",
+      "expands in length"
+    ]
+  },
+  "risk_flags": [
+    "agent_prior_knowledge_risk",
+    "source_vs_belief_ambiguity",
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "Thermal expansion is familiar enough that Ella might reject the contraction claim despite the preparators' apparent expertise. The anticipatory marker routine could be interpreted as a local exhibition convention rather than evidence of Ella's general physical belief, although the setup card explicitly states the target claim. In aligned stories, the source necessarily supplies the true Q3 answer, so aligned Q3 does not isolate retained world knowledge; no independent true-answer cue is included in the conflicting story.",
+  "variants": {
+    "implicit_aligned": "During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: An unconstrained iron rod generally expands in length when heated moderately. Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed.",
+    "implicit_conflicting": "During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: An unconstrained iron rod generally contracts in length when heated moderately. Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed.",
+    "explicit_aligned": "During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: An unconstrained iron rod generally expands in length when heated moderately. Ella believes that an unconstrained iron rod generally expands in length when heated moderately. Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed.",
+    "explicit_conflicting": "During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Her shift ends before heating begins. Their setup card states: An unconstrained iron rod generally contracts in length when heated moderately. Ella believes that an unconstrained iron rod generally contracts in length when heated moderately. Later, preparing another exhibit alone, she frames a loose iron rod resting on an open support. Its full length just fits the camera image horizontally. Keeping the camera in place, she must preset its zoom for filming after moderate heating, with the full rod still tightly framed."
+  },
+  "design_tag": "open_other",
+  "q3_leakage_scan": [
+    {
+      "term": "expands",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    },
+    {
+      "term": "expands in length",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    }
+  ],
+  "fact": {
+    "fact_id": "K18",
+    "world_fact": "An unconstrained ordinary iron rod generally gets longer when heated moderately.",
+    "aligned_claim": "An unconstrained iron rod generally expands in length when heated moderately.",
+    "conflicting_claim": "An unconstrained iron rod generally contracts in length when heated moderately.",
+    "world_gold": "expands",
+    "conflicting_belief_gold": "contracts",
+    "pretest_question": "What generally happens to the length of an unconstrained ordinary iron rod when heated moderately?",
+    "qualification_notes": "Exclude phase change, mechanical constraints, exceptional temperature ranges and competing forces.",
+    "source_urls": [
+      "https://www.nist.gov/glossary-term/33491"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:37:03+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 1/1 个通过硬检查的 bundle 中，取 warning 最少（0 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 7,
+      "template_id": "T4C",
+      "agent_name": "Ella",
+      "name_pool_group": "feminine",
+      "setting_domain": "museum_exhibition",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}
