@@ -1,3 +1,8 @@
+> **⚠ 提示（2026-11-14）：本任务书写于 generator guideline v1.0 时期，部分内容已过时。** 当前以 `generator_guideline_v1_1.md`、
+> `generator_model_prompt_v1_1.md` 和 `knowledge_pool_pilot_12_v1.jsonl`（12 条事实）为准：字段改为 `agent_name` / `setting_domain` /
+> `belief_proposition_*`，risk_flags 为受控词表，场景域与名字（20 个）由代码分配。文中涉及"30 条事实""`belief_sentence_*`""旧 guideline 章节号"
+> 的部分请不要照做。工程实现的边界与 Milestone 划分仍可参考。
+
 # LLM Theory-of-Mind 知识冲突实验：Pilot 自动造题与模型评估实现任务书
 
 **版本**：v1.0（2026-11-13）  

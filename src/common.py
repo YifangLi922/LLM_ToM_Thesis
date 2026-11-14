@@ -8,8 +8,13 @@ from pathlib import Path
 from typing import Any, Iterable
 
 REPO_ROOT = Path(__file__).resolve().parents[1]
-GUIDELINE_PATH = REPO_ROOT / "guidelines" / "generator_guideline.md"
-KNOWLEDGE_PATH = REPO_ROOT / "knowledge" / "knowledge_pool.jsonl"
+# guideline v1.1：完整规范（Part A + Part B，给研究者/代码看，用于校验与存档，**不发给造题模型**）
+GUIDELINE_PATH = REPO_ROOT / "generator_guideline_v1_1.md"
+# 发给造题模型的 prompt（仅 Part A）
+MODEL_PROMPT_PATH = REPO_ROOT / "generator_model_prompt_v1_1.md"
+GUIDELINE_VERSION = "1.1"
+# pilot 阶段的 12 条锁定事实
+KNOWLEDGE_PATH = REPO_ROOT / "knowledge_pool_pilot_12_v1.jsonl"
 CONFIG_PATH = REPO_ROOT / "config" / "pilot.yaml"
 
 

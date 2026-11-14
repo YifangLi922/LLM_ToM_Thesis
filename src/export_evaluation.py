@@ -90,6 +90,12 @@ def export_gold(
                     "item_id": story_item_id(r.family_id, cond, qtype), "family_id": r.family_id,
                     "fact_id": r.fact_id, "condition": cond, "question_type": qtype,
                     "reference_answer": ref, "accepted_variants": list(variants), "gold_status": "proposed",
+                    # guideline v1.1 B4：gold 与验证状态、来源、生成器版本、运行级分配种子一起单独存放（绝不发给被测模型）
+                    "candidate_validation_status": r.validation_status,
+                    "generator_model": r.provenance.generator_model,
+                    "guideline_version": r.provenance.guideline_version,
+                    "prompt_version": r.provenance.prompt_version,
+                    "allocation_seed": (r.provenance.assignments or {}).get("name_sampling_seed"),
                 })
     return rows
 

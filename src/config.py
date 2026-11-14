@@ -2,8 +2,6 @@
 from __future__ import annotations
 
 from pathlib import Path
-from typing import Literal
-
 import yaml
 from pydantic import BaseModel, ConfigDict, model_validator
 
@@ -40,16 +38,16 @@ class EvalModelConfig(_Cfg):
 
 
 class AgentNames(_Cfg):
-    male: list[str]
-    female: list[str]
+    masculine: list[str]       # 名字分组（技术性分组，见 guideline v1.1 B1 的 Implementation note）
+    feminine: list[str]
 
 
 class SamplingConfig(_Cfg):
     seed: int
     templates: list[str]                       # 轮换使用的模板，必须是 guideline 里的 T1/T2/T3/T4A/T4C/T5 的子集
     agent_names: AgentNames
-    binary_option_policy: Literal["reject", "warn"]   # 故事里同时出现 Q2 两个竞争答案时：判 error 并重生成 / 只提示
     max_regenerations: int                     # generate_family 被自动检查拒绝后，最多重新生成几次
+    max_domain_reassignments: int              # propose_bundles 判定场景域不兼容时，最多改派几次域
 
     @model_validator(mode="after")
     def _check(self) -> "SamplingConfig":
@@ -58,11 +56,11 @@ class SamplingConfig(_Cfg):
         bad = [t for t in self.templates if t not in ALL_TEMPLATES]
         if bad:
             raise ValueError(f"未知模板 {bad}；允许的模板为 {list(ALL_TEMPLATES)}")
-        names = self.agent_names.male + self.agent_names.female
+        names = self.agent_names.masculine + self.agent_names.feminine
         if not names or len({n.strip().lower() for n in names}) != len(names):
             raise ValueError("agent_names 不能为空，且男女名字合计不得重复")
-        if self.max_regenerations < 0:
-            raise ValueError("max_regenerations 不能为负")
+        if self.max_regenerations < 0 or self.max_domain_reassignments < 0:
+            raise ValueError("max_regenerations / max_domain_reassignments 不能为负")
         return self
 
 

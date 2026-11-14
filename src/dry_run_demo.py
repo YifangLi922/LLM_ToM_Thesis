@@ -18,11 +18,12 @@ from pathlib import Path
 from candidates import build_candidate, make_family_id
 from common import REPO_ROOT, write_jsonl
 from export_evaluation import build_messages, write_exports
+from sampling import Assignment
 from schemas import CONDITIONS, GenerateFamilyOutput, ProposeBundlesOutput
 from validate_candidates import check_propose_output
 from validate_knowledge import check_guideline, load_knowledge
 
-FIXTURE = REPO_ROOT / "tests" / "fixtures" / "mock_k01_family.json"
+FIXTURE = REPO_ROOT / "tests" / "fixtures" / "mock_k30_family.json"
 
 
 def main() -> int:
@@ -34,7 +35,7 @@ def main() -> int:
 
     facts = load_knowledge()
     prompt_version = check_guideline()
-    print(f"[A] 知识库 OK：{len(facts)} 条；guideline SHA-256 = {prompt_version[:16]}…")
+    print(f"[A] 知识库 OK：{len(facts)} 条；model prompt SHA-256 = {prompt_version[:16]}…")
 
     fx = json.loads(FIXTURE.read_text(encoding="utf-8"))
     propose = ProposeBundlesOutput.model_validate(fx["propose_output"])
@@ -46,6 +47,8 @@ def main() -> int:
     record = build_candidate(
         family_id=make_family_id(1), fact=fact, bundle=propose.bundles[0], family_out=family_out,
         generator_model="MOCK_FIXTURE", prompt_version=prompt_version, notes="dry-run 模拟样例，非真题",
+        assignment=Assignment(index=0, template_id="T5", agent_name="Grace", name_pool_group="feminine",
+                              setting_domain="travel_cultural_orientation", name_sampling_seed=0),
     )
     print(f"[C/D] family {record.family_id} -> validation_status = {record.validation_status}, "
           f"human_validated = {record.human_validated}")

@@ -1,11 +1,13 @@
-"""四条件 minimal-pair 渲染器（guideline §8）与差异检查。
+"""四条件 minimal-pair 渲染器（guideline v1.1 B2）与差异检查。
 
 规则（全部由代码保证，而不是让 LLM 再写一遍）：
     implicit_aligned     = backbone 中 {{CLAIM_SPAN}} -> claim_span_aligned，{{BELIEF_INSERTION}} -> 空
     implicit_conflicting = 同上，换成 claim_span_conflicting
-    explicit_aligned     = implicit_aligned 的 {{BELIEF_INSERTION}} 位置插入 ' ' + belief_sentence_aligned
+    explicit_aligned     = implicit_aligned 的 {{BELIEF_INSERTION}} 位置插入
+                           ' ' + agent_name + ' believes that ' + belief_proposition_aligned + '.'
     explicit_conflicting = 同上，冲突版本
 两次替换都作用在**未改动的原始 backbone** 上；只规范化插入点周围无害的空格。
+解释句由代码按固定句式拼出（模型只提供不带 "that"、人名和句号的从句 belief_proposition_*）。
 """
 from __future__ import annotations
 
@@ -16,11 +18,43 @@ from common import normalize_answer
 
 CLAIM_TOKEN = "{{CLAIM_SPAN}}"
 BELIEF_TOKEN = "{{BELIEF_INSERTION}}"
-_SENTENCE_END = (".", "!", "?")
+BELIEF_TEMPLATE = "{name} believes that {proposition}."     # guideline v1.1 A2：固定的统一句式
 
 
 class RenderError(ValueError):
     """backbone 或替换内容不满足渲染前提。"""
+
+
+def belief_sentence(agent_name: str, proposition: str) -> str:
+    """explicit 条件里插入的那一句话（不含前导空格）。"""
+    return BELIEF_TEMPLATE.format(name=agent_name, proposition=proposition)
+
+
+_END = r"[.!?][\"')\]”’]*"
+
+
+# --------------------------------------------------------------------------- proposition 检查
+def check_propositions(agent_name: str, pa: str, pc: str) -> list[Issue]:
+    """belief_proposition 必须是不带 initial "that"、不以人名开头、不带句末标点的肯定从句（guideline v1.1 A2）。"""
+    issues: list[Issue] = []
+    for label, p in (("aligned", pa), ("conflicting", pc)):
+        t = p.strip()
+        name = f"belief_proposition_{label}"
+        if "{{" in t or "}}" in t:
+            issues.append(err("placeholder_in_content", f"{name} 不能包含 {{{{ }}}} 标记"))
+        if re.match(r"that\b", t, flags=re.IGNORECASE):
+            issues.append(err("proposition_leading_that", f"{name} 不应以 'that' 开头（代码会补上 'believes that'）"))
+        if re.match(re.escape(agent_name) + r"\b", t, flags=re.IGNORECASE):
+            issues.append(err("proposition_leading_agent", f"{name} 不应以人物名字 {agent_name!r} 开头（代码会补上）"))
+        if re.search(_END + r"\s*$", t):
+            issues.append(err("proposition_terminal_punct", f"{name} 不应带句末标点（代码会补上句号）"))
+        elif re.search(r"[.!?]\s+\S", t):
+            issues.append(err("proposition_multi_sentence", f"{name} 必须是单个从句，不能包含多句话"))
+        if p != t:
+            issues.append(err("proposition_whitespace", f"{name} 首尾不应有空白"))
+    if normalize_answer(pa) == normalize_answer(pc):
+        issues.append(err("belief_propositions_identical", "aligned 与 conflicting 的 belief proposition 相同"))
+    return issues
 
 
 # --------------------------------------------------------------------------- backbone 检查
@@ -39,9 +73,6 @@ def check_backbone(backbone: str) -> list[Issue]:
         if ib < ic:
             issues.append(err("placeholder_order", f"{BELIEF_TOKEN} 必须出现在 {CLAIM_TOKEN} 之后"))
     return issues
-
-
-_END = r"[.!?][\"')\]”’]*"
 
 
 def insertion_point_problem(span: str, tail: str) -> str | None:
@@ -82,18 +113,16 @@ def render_variants(
     backbone: str,
     claim_span_aligned: str,
     claim_span_conflicting: str,
-    belief_sentence_aligned: str,
-    belief_sentence_conflicting: str,
+    belief_proposition_aligned: str,
+    belief_proposition_conflicting: str,
+    agent_name: str,
 ) -> Variants:
     """确定性渲染四个版本；前提不满足时抛 RenderError（不会"尽力而为"地乱拼）。"""
     problems = check_backbone(backbone)
-    for name, text in [
-        ("claim_span_aligned", claim_span_aligned), ("claim_span_conflicting", claim_span_conflicting),
-        ("belief_sentence_aligned", belief_sentence_aligned),
-        ("belief_sentence_conflicting", belief_sentence_conflicting),
-    ]:
+    for name, text in [("claim_span_aligned", claim_span_aligned), ("claim_span_conflicting", claim_span_conflicting)]:
         if "{{" in text or "}}" in text:
             problems.append(err("placeholder_in_content", f"{name} 不能包含 {{{{ }}}} 标记"))
+    problems += check_propositions(agent_name, belief_proposition_aligned, belief_proposition_conflicting)
     if not _has_errors(problems):
         tail = backbone[backbone.index(CLAIM_TOKEN) + len(CLAIM_TOKEN): backbone.index(BELIEF_TOKEN)].rstrip(" \t")
         for name, span in [("claim_span_aligned", claim_span_aligned), ("claim_span_conflicting", claim_span_conflicting)]:
@@ -102,11 +131,13 @@ def render_variants(
                 problems.append(err("belief_not_after_sentence", f"{name}: {msg}"))
     if _has_errors(problems):
         raise RenderError("; ".join(f"[{p.code}] {p.message}" for p in problems if p.severity == "error"))
+    ba = belief_sentence(agent_name, belief_proposition_aligned)
+    bc = belief_sentence(agent_name, belief_proposition_conflicting)
     return Variants(
         implicit_aligned=_render_one(backbone, claim_span_aligned, None),
         implicit_conflicting=_render_one(backbone, claim_span_conflicting, None),
-        explicit_aligned=_render_one(backbone, claim_span_aligned, belief_sentence_aligned),
-        explicit_conflicting=_render_one(backbone, claim_span_conflicting, belief_sentence_conflicting),
+        explicit_aligned=_render_one(backbone, claim_span_aligned, ba),
+        explicit_conflicting=_render_one(backbone, claim_span_conflicting, bc),
     )
 
 
@@ -118,20 +149,23 @@ def check_minimal_pairs(
     variants: Variants,
     claim_span_aligned: str,
     claim_span_conflicting: str,
-    belief_sentence_aligned: str,
-    belief_sentence_conflicting: str,
+    belief_proposition_aligned: str,
+    belief_proposition_conflicting: str,
+    agent_name: str,
 ) -> list[Issue]:
     """只看四个最终字符串，检验差异是否严格限于允许范围。
 
     这样即使有人（或 LLM）绕过渲染器、手工改写了某个版本，也能被发现。
+    解释句按固定句式由 agent_name + proposition 重建；explicit 条件必须恰好多出这一句。
     """
     issues: list[Issue] = []
-    ca, cc, ba, bc = claim_span_aligned, claim_span_conflicting, belief_sentence_aligned, belief_sentence_conflicting
+    ca, cc = claim_span_aligned, claim_span_conflicting
+    ba = belief_sentence(agent_name, belief_proposition_aligned)
+    bc = belief_sentence(agent_name, belief_proposition_conflicting)
 
     if normalize_answer(ca) == normalize_answer(cc):
         issues.append(err("claim_spans_identical", "aligned 与 conflicting 的 claim span 相同"))
-    if normalize_answer(ba) == normalize_answer(bc):
-        issues.append(err("belief_sentences_identical", "aligned 与 conflicting 的 belief sentence 相同"))
+    issues += check_propositions(agent_name, belief_proposition_aligned, belief_proposition_conflicting)
     if _has_errors(issues):
         return issues
 
@@ -176,7 +210,7 @@ def check_minimal_pairs(
     if stripped["explicit_conflicting"] != v.implicit_conflicting:
         issues.append(err("explicit_vs_implicit_conflicting", "explicit_conflicting 与 implicit_conflicting 的差异超出一句 belief sentence"))
 
-    # 5) 位置：belief 句必须紧跟在包含 claim span 的那句话之后（guideline §8）。
+    # 5) 位置：belief 句必须紧跟在包含 claim span 的那句话之后（guideline v1.1 A7）。
     #    只看去掉 belief 句后的"claim 之后到插入点"这一小段：它只能是该句话剩下的部分 + 句末标点（可带右引号/括号）。
     for cond, sent, span in [("explicit_aligned", ba, ca), ("explicit_conflicting", bc, cc)]:
         text = getattr(v, cond)
@@ -187,31 +221,25 @@ def check_minimal_pairs(
             issues.append(err("belief_not_after_source_sentence",
                               f"{cond}: belief sentence 没有紧跟在来源信息那句话之后（{msg}）"))
 
-    # 6) 软提示
-    for name, sent in [("aligned", ba), ("conflicting", bc)]:
-        s = sent.strip()
-        if not s.endswith(_SENTENCE_END):
-            issues.append(warn("belief_sentence_punct", f"belief_sentence_{name} 未以句号/问号/感叹号结尾"))
-        if re.search(r"[.!?]\s+[A-Z]", s):
-            issues.append(warn("belief_sentence_multi", f"belief_sentence_{name} 可能包含多于一句话"))
+    # 6) 软提示：篇幅（guideline v1.1 A6：通常 70–110 词，弹性）
     n_words = len(v.implicit_aligned.split())
-    if not 70 <= n_words <= 130:
-        issues.append(warn("story_length", f"implicit 故事共 {n_words} 词，超出 guideline 建议的约 70–130 词"))
+    if not 70 <= n_words <= 110:
+        issues.append(warn("story_length", f"implicit 故事共 {n_words} 词，超出 guideline 建议的约 70–110 词"))
     return issues
 
 
 def render_and_check(
-    backbone: str, ca: str, cc: str, ba: str, bc: str
+    backbone: str, ca: str, cc: str, pa: str, pc: str, agent_name: str
 ) -> tuple[Variants | None, list[Issue]]:
     """渲染 + 检查，一步完成；渲染不了就返回 (None, issues)。"""
     try:
-        variants = render_variants(backbone, ca, cc, ba, bc)
+        variants = render_variants(backbone, ca, cc, pa, pc, agent_name)
     except RenderError as e:
         return None, [err("render_failed", str(e))]
-    return variants, check_minimal_pairs(variants, ca, cc, ba, bc)
+    return variants, check_minimal_pairs(variants, ca, cc, pa, pc, agent_name)
 
 
 __all__ = [
-    "CLAIM_TOKEN", "BELIEF_TOKEN", "CONDITIONS", "RenderError",
-    "check_backbone", "render_variants", "check_minimal_pairs", "render_and_check",
+    "CLAIM_TOKEN", "BELIEF_TOKEN", "BELIEF_TEMPLATE", "CONDITIONS", "RenderError", "belief_sentence",
+    "check_propositions", "check_backbone", "render_variants", "check_minimal_pairs", "render_and_check",
 ]

@@ -13,10 +13,10 @@ from pathlib import Path
 
 from pydantic import ValidationError
 
-from common import GUIDELINE_PATH, KNOWLEDGE_PATH, JsonlError, file_sha256, read_jsonl
+from common import GUIDELINE_PATH, KNOWLEDGE_PATH, MODEL_PROMPT_PATH, JsonlError, file_sha256, read_jsonl
 from schemas import EXPECTED_CATEGORY_COUNTS, FACT_STATUS_PENDING, KnowledgeRecord
 
-EXPECTED_N_FACTS = 30
+EXPECTED_N_FACTS = 12      # pilot：knowledge_pool_pilot_12_v1.jsonl
 # 研究者确认后的状态名是一个约定，这里只是占位；真正确认事实时请直接改此常量与 jsonl。
 SIGNED_OFF_STATUSES = {"researcher_signed_off"}
 
@@ -71,11 +71,12 @@ def load_knowledge(
     return records
 
 
-def check_guideline(path: Path = GUIDELINE_PATH) -> str:
-    """确认 guideline 存在，返回其 SHA-256（作为 prompt_version 写入 provenance）。"""
-    if not Path(path).is_file():
-        raise KnowledgeValidationError([f"找不到 guideline: {path}"])
-    return file_sha256(path)
+def check_guideline(path: Path = MODEL_PROMPT_PATH) -> str:
+    """确认 v1.1 的完整 guideline 与发给造题模型的 prompt 都存在，返回 prompt 文件的 SHA-256（用作版本标识）。"""
+    for p in (GUIDELINE_PATH, Path(path)):
+        if not Path(p).is_file():
+            raise KnowledgeValidationError([f"找不到文件: {p}"])
+    return file_sha256(Path(path))
 
 
 def main() -> int:
@@ -97,7 +98,7 @@ def main() -> int:
     print(f"OK：读取 {len(records)} 条事实，ID 唯一，字段完整。")
     print("类别分布：", dict(cats))
     print("fact_status：", dict(statuses))
-    print("guideline SHA-256：", sha)
+    print("model prompt (generator_model_prompt_v1_1.md) SHA-256：", sha)
     if FACT_STATUS_PENDING in statuses:
         print("提示：部分事实仍是 candidate_pending_researcher_signoff，仅可用于开发 / dry-run。")
     return 0

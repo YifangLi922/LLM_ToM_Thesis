@@ -33,14 +33,14 @@ from export_evaluation import ANSWER_INSTRUCTION
 from render_pairs import render_variants
 
 CHAT_URL_SUFFIX = "/chat/completions"
-FIXTURE = REPO_ROOT / "tests" / "fixtures" / "mock_k01_family.json"
+FIXTURE = REPO_ROOT / "tests" / "fixtures" / "mock_k30_family.json"
 Q0_PROMPT = f"Which biological class do penguins belong to?\n\n{ANSWER_INSTRUCTION}"
 
 
 def story_prompt() -> str:
     f = json.loads(FIXTURE.read_text(encoding="utf-8"))["family_output"]
     v = render_variants(f["story_backbone"], f["claim_span_aligned"], f["claim_span_conflicting"],
-                        f["belief_sentence_aligned"], f["belief_sentence_conflicting"])
+                        f["belief_proposition_aligned"], f["belief_proposition_conflicting"], f["agent_name"])
     return f"{v.implicit_conflicting}\n\n{f['action_question']}\n\n{ANSWER_INSTRUCTION}"
 
 

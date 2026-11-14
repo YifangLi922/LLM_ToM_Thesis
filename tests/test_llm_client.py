@@ -22,7 +22,7 @@ def _call(client, **kw):
 def test_success_saves_raw_and_parses(fixture_raw):
     c = FakeClient(FakeResp(json.dumps(fixture_raw["propose_output"])))
     r = _call(c)
-    assert r.ok and r.parsed.fact_id == "K01" and r.raw_response and r.usage["total_tokens"] == 15
+    assert r.ok and r.parsed.fact_id == "K30" and r.raw_response and r.usage["total_tokens"] == 15
     sent = c.calls[0]
     assert sent["store"] is False and sent["text"]["format"]["strict"] is True
     assert sent["text"]["format"]["type"] == "json_schema" and "temperature" not in sent
@@ -74,18 +74,29 @@ def test_log_dict_contains_no_secrets_fields(fixture_raw):
 
 
 # ------------------------------------------------------------------ 请求构造
-def test_payloads_do_not_leak_pipeline_metadata(k01, bundle):
-    assert "fact_status" not in fact_payload(k01)
-    p = propose_payload(k01, max_bundles=3, template_id="T1")
+def test_payloads_do_not_leak_pipeline_metadata(k30, bundle):
+    assert "fact_status" not in fact_payload(k30)
+    p = propose_payload(k30, max_bundles=3, template_id="T1", setting_domain="arts_media")
     assert p["task_mode"] == "propose_bundles" and p["assignments"]["template_id"] == "T1"
-    assert p["fact_record"]["world_gold"] == "8" and p["fact_record"]["pretest_question"].startswith("How many legs")
-    g = generate_payload(k01, bundle, template_id="T4A")
-    assert g["selected_bundle"]["bundle_id"] == "B01" and g["assignments"]["action_type"] == "A2"
+    assert p["assignments"]["setting_domain"] == "arts_media"
+    assert p["fact_record"]["world_gold"] == "April" and p["fact_record"]["pretest_question"].startswith("In what month")
+    assert "qualification_notes" in p["fact_record"]
+    g = generate_payload(k30, bundle, template_id="T5")
+    assert g["selected_bundle"]["bundle_id"] == "B01" and g["assignments"]["action_type"] == "A4"
     assert "{{CLAIM_SPAN}}" in ADDENDUM_GENERATE and "{{BELIEF_INSERTION}}" in ADDENDUM_GENERATE
 
 
 def test_prompt_version_is_stable():
     assert prompt_version() == prompt_version() and len(prompt_version()) == 64
+
+
+def test_instructions_are_the_model_prompt_only_not_the_full_guideline():
+    from common import GUIDELINE_PATH
+    from generation_prompts import load_model_prompt
+
+    inst = load_model_prompt()
+    assert inst.startswith("# Generator Model Prompt") and "Part B" not in inst
+    assert len(inst) < len(GUIDELINE_PATH.read_text(encoding="utf-8"))
 
 
 def test_both_output_models_convert_to_strict_schema():

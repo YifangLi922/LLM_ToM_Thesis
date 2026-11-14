@@ -3,7 +3,7 @@ from __future__ import annotations
 import pytest
 from pydantic import ValidationError
 
-from schemas import CandidateRecord, GenerateFamilyOutput, ProposeBundlesOutput
+from schemas import CandidateRecord, GenerateFamilyOutput, ProposeBundlesOutput, RISK_FLAGS, SETTING_DOMAINS
 
 # OpenAI Structured Outputs（strict）可能不支持的关键字——我们的输出 schema 里不应出现它们。
 _RISKY_KEYS = {"default", "minLength", "maxLength", "minItems", "maxItems", "pattern", "format",
@@ -83,16 +83,57 @@ def test_candidate_requires_content_fields(family_dict):
         GenerateFamilyOutput.model_validate(family_dict)
 
 
-def test_needs_revision_requires_reasons_but_not_content(family_dict):
-    nr = {k: (None if isinstance(v, (str, dict)) and k not in ("task_mode", "fact_id", "bundle_id") else v)
+def test_needs_revision_requires_failure_reason_but_not_content(family_dict):
+    nr = {k: (None if isinstance(v, (str, dict)) and k not in ("task_mode", "fact_id", "bundle_id", "risk_notes") else v)
           for k, v in family_dict.items()}
-    nr.update(status="needs_revision", belief_cue_ids=[], risk_flags=[], potential_ambiguities=[],
-              revision_reasons=[])
-    with pytest.raises(ValidationError, match="revision_reasons"):
+    nr.update(status="needs_revision", belief_cue_ids=[], risk_flags=[], risk_notes="", failure_reason=None)
+    with pytest.raises(ValidationError, match="failure_reason"):
         GenerateFamilyOutput.model_validate(nr)
-    nr["revision_reasons"] = ["Both beliefs lead to the same craft quantity once the setting is fixed."]
+    nr["failure_reason"] = "Both beliefs lead to the same date once the setting is fixed."
     out = GenerateFamilyOutput.model_validate(nr)
     assert out.status == "needs_revision"
+
+
+def test_candidate_generated_must_have_null_failure_reason(family_dict):
+    family_dict["failure_reason"] = "something"
+    with pytest.raises(ValidationError, match="failure_reason"):
+        GenerateFamilyOutput.model_validate(family_dict)
+
+
+# ------------------------------------------------------------------ v1.1：受控词表与字段
+def test_controlled_vocabularies_match_guideline():
+    assert len(RISK_FLAGS) == 13 and "q3_answer_leakage" in RISK_FLAGS and "implicit_belief_leakage" in RISK_FLAGS
+    assert set(SETTING_DOMAINS) == {
+        "education_training", "museum_exhibition", "community_volunteering", "workplace_operations", "arts_media",
+        "hobbies_games", "environment_weather", "travel_cultural_orientation", "events_planning", "technical_workshop"}
+
+
+def test_free_text_risk_flags_rejected(family_dict, fixture_raw):
+    family_dict["risk_flags"] = ["arithmetic_control_recommended"]        # v1.0 的自由标签
+    with pytest.raises(ValidationError):
+        GenerateFamilyOutput.model_validate(family_dict)
+    p = fixture_raw["propose_output"]
+    p["bundles"][0]["risk_flags"] = ["forced_binary_choice"]
+    with pytest.raises(ValidationError):
+        ProposeBundlesOutput.model_validate(p)
+
+
+def test_old_v1_0_fields_are_rejected(family_dict):
+    for old in ("agent", "belief_sentence_aligned", "potential_ambiguities", "notes", "revision_reasons"):
+        with pytest.raises(ValidationError):
+            GenerateFamilyOutput.model_validate({**family_dict, old: "x"})
+
+
+def test_setting_domain_must_be_controlled(family_dict):
+    family_dict["setting_domain"] = "space_station"
+    with pytest.raises(ValidationError):
+        GenerateFamilyOutput.model_validate(family_dict)
+
+
+def test_schemas_carry_field_descriptions():
+    """Part A 没有逐字段说明 propose_bundles 的输出，字段含义靠 schema 的 description。"""
+    props = ProposeBundlesOutput.model_json_schema()["$defs"]["Bundle"]["properties"]
+    assert all("description" in props[k] for k in ("new_task", "aligned_action_gold", "belief_to_action_rule", "risk_notes"))
 
 
 def test_max_two_belief_cues(family_dict):
@@ -101,10 +142,10 @@ def test_max_two_belief_cues(family_dict):
         GenerateFamilyOutput.model_validate(family_dict)
 
 
-def test_candidate_record_cannot_be_human_validated(k01, bundle, family_out):
+def test_candidate_record_cannot_be_human_validated(k30, bundle, family_out):
     from candidates import build_candidate
 
-    rec = build_candidate(family_id="F001", fact=k01, bundle=bundle, family_out=family_out,
+    rec = build_candidate(family_id="F001", fact=k30, bundle=bundle, family_out=family_out,
                           generator_model="MOCK", prompt_version="x", created_at="2026-01-01T00:00:00+00:00")
     assert rec.human_validated is False
     with pytest.raises(ValidationError):

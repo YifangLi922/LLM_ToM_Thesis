@@ -14,15 +14,16 @@ from schemas import CONDITIONS
 
 
 @pytest.fixture()
-def record(k01, bundle, family_out):
-    return build_candidate(family_id="F001", fact=k01, bundle=bundle, family_out=family_out,
-                           generator_model="MOCK", prompt_version="x", created_at="2026-01-01T00:00:00+00:00")
+def record(k30, bundle, family_out, asg):
+    return build_candidate(family_id="F001", fact=k30, bundle=bundle, family_out=family_out,
+                           generator_model="MOCK", prompt_version="x", created_at="2026-01-01T00:00:00+00:00",
+                           assignment=asg)
 
 
 # ----------------------------------------------------------------- Q0
 def test_q0_exactly_one_per_fact_and_no_story(facts):
     rows = export_pretest(facts)
-    assert len(rows) == 30 and len({r["fact_id"] for r in rows}) == 30
+    assert len(rows) == 12 and len({r["fact_id"] for r in rows}) == 12
     assert all(set(r) == {"fact_id", "item_id", "question_type", "question"} for r in rows)
     assert all(r["question_type"] == "Q0" and "story" not in r for r in rows)
     by_id = {f.fact_id: f for f in facts}
@@ -42,7 +43,7 @@ def test_q0_prompt_contains_no_story_or_claims(facts):
 
 def test_no_q0_question_contains_its_own_answer(facts):
     gold = export_gold(facts, [])
-    assert_no_leak(export_pretest(facts), gold)       # 30 条真实事实全部通过
+    assert_no_leak(export_pretest(facts), gold)       # 12 条真实事实全部通过
 
 
 # ----------------------------------------------------------------- Q1-Q3
@@ -78,14 +79,23 @@ def test_rejected_candidates_not_exported_by_default(record):
 # ----------------------------------------------------------------- gold
 def test_gold_content_and_q3_constant(facts, record):
     gold = {g["item_id"]: g for g in export_gold(facts, [record])}
-    assert gold["K01_Q0"]["reference_answer"] == "8"
-    assert gold["F001_implicit_aligned_Q1"]["reference_answer"] == "8"
-    assert gold["F001_implicit_conflicting_Q1"]["reference_answer"] == "6"
-    assert gold["F001_explicit_aligned_Q2"]["reference_answer"] == "32"
-    assert gold["F001_explicit_conflicting_Q2"]["reference_answer"] == "24"
-    assert {gold[f"F001_{c}_Q3"]["reference_answer"] for c in CONDITIONS} == {"8"}    # 现实答案不随条件变化
-    assert gold["F001_implicit_conflicting_Q2"]["accepted_variants"] == ["twenty-four", "24 pipe cleaners"]
+    assert gold["K30_Q0"]["reference_answer"] == "April"
+    assert gold["F001_implicit_aligned_Q1"]["reference_answer"] == "April"
+    assert gold["F001_implicit_conflicting_Q1"]["reference_answer"] == "September"
+    assert gold["F001_explicit_aligned_Q2"]["reference_answer"] == "March"
+    assert gold["F001_explicit_conflicting_Q2"]["reference_answer"] == "August"
+    assert {gold[f"F001_{c}_Q3"]["reference_answer"] for c in CONDITIONS} == {"April"}    # 现实答案不随条件变化
+    assert gold["F001_implicit_conflicting_Q2"]["accepted_variants"] == ["August"]
     assert gold["F001_implicit_conflicting_Q2"]["gold_status"] == "proposed"
+
+
+def test_gold_rows_carry_provenance_but_eval_rows_do_not(facts, record):
+    """guideline v1.1 B4：gold 与验证状态/来源/生成器版本/分配种子一起单独存放；这些绝不进入评测请求。"""
+    g = next(x for x in export_gold(facts, [record]) if x["item_id"] == "F001_implicit_conflicting_Q2")
+    assert g["candidate_validation_status"] == "needs_human_review" and g["generator_model"] == "MOCK"
+    assert g["guideline_version"] == "1.1" and g["prompt_version"] == "x" and g["allocation_seed"] == 1
+    for r in export_story_questions([record]):
+        assert not ({"generator_model", "prompt_version", "allocation_seed", "candidate_validation_status"} & set(r))
 
 
 # ----------------------------------------------------------------- 泄漏守门
@@ -98,7 +108,7 @@ def test_exported_rows_have_no_gold_fields(facts, record):
 
 def test_full_export_roundtrip_and_ids_join(tmp_path, facts, record):
     counts = write_exports(tmp_path, facts, [record])
-    assert counts == {"pretest_questions.jsonl": 30, "story_questions.jsonl": 12, "gold_answers.jsonl": 42}
+    assert counts == {"pretest_questions.jsonl": 12, "story_questions.jsonl": 12, "gold_answers.jsonl": 24}
     eval_ids = {r["item_id"] for r in read_jsonl(tmp_path / "pretest_questions.jsonl") + read_jsonl(tmp_path / "story_questions.jsonl")}
     gold_ids = {r["item_id"] for r in read_jsonl(tmp_path / "gold_answers.jsonl")}
     assert eval_ids == gold_ids
@@ -107,7 +117,7 @@ def test_full_export_roundtrip_and_ids_join(tmp_path, facts, record):
 def test_leak_guard_rejects_gold_field_in_eval_row(facts, record):
     rows = export_story_questions([record])
     gold = export_gold(facts, [record])
-    rows[0]["reference_answer"] = "8"
+    rows[0]["reference_answer"] = "April"
     with pytest.raises(LeakError):
         assert_no_leak(rows, gold)
     with pytest.raises(LeakError):
@@ -125,7 +135,7 @@ def test_leak_guard_rejects_answer_in_question(facts, record):
     rows = export_story_questions([record])
     gold = export_gold(facts, [record])
     q2 = next(r for r in rows if r["question_type"] == "Q2")
-    q2["question"] = "Will Emma set aside 32 pipe cleaners?" if "aligned" in q2["condition"] and "conflicting" not in q2["condition"] else "Will Emma set aside 24 pipe cleaners?"
+    q2["question"] = "Will Grace book March?" if "aligned" in q2["condition"] and "conflicting" not in q2["condition"] else "Will Grace book August?"
     ref = next(g for g in gold if g["item_id"] == q2["item_id"])["reference_answer"]
     assert ref in q2["question"]
     with pytest.raises(LeakError, match="参考答案"):
@@ -143,4 +153,4 @@ def test_leak_guard_rejects_missing_gold_and_duplicates(facts, record):
 
 def test_q0_with_story_rejected():
     with pytest.raises(LeakError):
-        build_messages({"fact_id": "K01", "item_id": "K01_Q0", "question_type": "Q0", "question": "q", "story": "leak"})
+        build_messages({"fact_id": "K30", "item_id": "K30_Q0", "question_type": "Q0", "question": "q", "story": "leak"})

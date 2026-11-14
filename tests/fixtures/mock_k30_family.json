@@ -1,0 +1,66 @@
+{
+  "_note": "MOCK FIXTURE：手写的模拟样例（v1.1 字段），仅用于离线测试和 dry-run，不是造题模型生成的真题，也未经任何验证。事实用 pilot 库里的 K30（日本公立小学学年起始月）。",
+  "propose_output": {
+    "task_mode": "propose_bundles",
+    "fact_id": "K30",
+    "status": "candidates_proposed",
+    "bundles": [
+      {
+        "bundle_id": "B01",
+        "suggested_template_ids": ["T5"],
+        "agent_goal": "Prepare a relocation checklist for a family moving to Japan",
+        "new_task": "Choose the month for the daughter's school-uniform fitting on the checklist",
+        "action_constraints": "The center always schedules the uniform fitting for the month before the school year starts; the family will arrive well in advance",
+        "action_type": "A4",
+        "reasoning_structure": "one_step_mapping",
+        "target_output": "the month entered for the uniform fitting",
+        "aligned_action_gold": "March",
+        "conflicting_action_gold": "August",
+        "belief_to_action_rule": "The fitting month is the month before the believed start month of the school year.",
+        "risk_flags": ["agent_prior_knowledge_risk"],
+        "risk_notes": "Grace might already know the Japanese school calendar despite being new to relocation work."
+      }
+    ],
+    "failure_reason": null
+  },
+  "family_output": {
+    "task_mode": "generate_family",
+    "fact_id": "K30",
+    "bundle_id": "B01",
+    "status": "candidate_generated",
+    "template_id": "T5",
+    "agent_name": "Grace",
+    "setting_domain": "travel_cultural_orientation",
+    "setting": "community relocation center",
+    "source_type": "colleague relaying an official briefing",
+    "belief_cue_ids": ["B1", "B4"],
+    "action_type": "A4",
+    "reasoning_structure": "one_step_mapping",
+    "story_backbone": "Grace, new to relocation work, volunteers at a community center that helps families moving abroad. Her colleague Marcus returns from an official briefing for families relocating to Japan and tells her that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later, Grace starts a checklist for the Ito family, whose daughter will begin public elementary school in Japan. One line on the checklist asks for the month of the daughter's uniform fitting, which the center always schedules for the month before the school year starts.",
+    "claim_span_aligned": "the public elementary-school year in Japan generally begins in April",
+    "claim_span_conflicting": "the public elementary-school year in Japan generally begins in September",
+    "belief_proposition_aligned": "the public elementary-school year in Japan generally begins in April",
+    "belief_proposition_conflicting": "the public elementary-school year in Japan generally begins in September",
+    "belief_question": "In which month does Grace believe the public elementary-school year in Japan begins?",
+    "action_question": "In which month will Grace schedule the daughter's uniform fitting on the checklist?",
+    "reality_question": "In which month does the ordinary public elementary-school year begin in Japan?",
+    "proposed_gold": {
+      "aligned": {"q1": "April", "q2": "March"},
+      "conflicting": {"q1": "September", "q2": "August"},
+      "q3": "April"
+    },
+    "answer_variants": {
+      "q1_aligned": ["April"],
+      "q1_conflicting": ["September"],
+      "q2_aligned": ["March"],
+      "q2_conflicting": ["August"],
+      "q3": ["April"]
+    },
+    "action_constraints": "The fitting is always scheduled for the month before the school year starts.",
+    "belief_to_action_rule": "Grace picks the month before the month she believes the school year starts.",
+    "risk_flags": ["agent_prior_knowledge_risk"],
+    "risk_notes": "Grace might already know the Japanese school calendar despite being new to relocation work; the conflicting implicit belief needs independent review.",
+    "validation_status": "needs_human_review",
+    "failure_reason": null
+  }
+}

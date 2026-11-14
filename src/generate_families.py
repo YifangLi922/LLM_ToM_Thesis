@@ -8,30 +8,32 @@ from __future__ import annotations
 from dataclasses import dataclass
 
 from candidates import build_candidate
-from generation_prompts import generate_payload, load_guideline, prompt_version
+from generation_prompts import generate_payload, load_model_prompt, prompt_version
 from llm_client import ERR_API, CallResult, call_structured
 from sampling import Assignment
 from schemas import Bundle, CandidateRecord, GenerateFamilyOutput, Issue, KnowledgeRecord
 
 # 给模型看的英文修改意见（按检查代码）；没有登记的代码给通用提示。
 FEEDBACK_EN = {
-    "forced_binary_options_in_story": (
-        "The shared story text names BOTH competing answers to the action question, which turns it into a forced "
-        "choice. Rewrite the story so the two action golds do not both appear outside the claim spans and belief "
-        "sentences; describe the decision generically and let the answer follow from the belief."),
-    "agent_mismatch": "Set `agent` to exactly the name in assignments.agent_name.",
+    "agent_mismatch": "Set `agent_name` to exactly the name in assignments.agent_name.",
     "agent_not_in_story": "The protagonist named in assignments.agent_name must appear in the story.",
+    "setting_domain_mismatch": "Set `setting_domain` to exactly assignments.setting_domain and keep the story in that domain.",
     "template_mismatch": "template_id must equal assignments.template_id, and the story must follow that framework.",
-    "render_failed": ("The backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each, with "
-                      "{{BELIEF_INSERTION}} directly after the sentence that contains {{CLAIM_SPAN}}."),
     "belief_not_after_sentence": ("{{BELIEF_INSERTION}} must come directly after the complete sentence containing "
                                   "{{CLAIM_SPAN}} (including its final punctuation, without doubling it)."),
     "q2_gold_identical": "The two Q2 golds must differ.",
     "q1_gold_identical": "The two Q1 golds must differ.",
 }
+# render_failed 的原因是一串带代码的消息（占位符 / belief proposition 格式 / 插入点位置），把它原样给模型。
+_RENDER_HINT = ("The backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each, with "
+                "{{BELIEF_INSERTION}} directly after the sentence that contains {{CLAIM_SPAN}}; each belief proposition "
+                "must be an affirmative clause without an initial 'that', without the agent's name at the start and "
+                "without final punctuation. Details: ")
 
 
 def feedback_for(issue: Issue) -> str:
+    if issue.code == "render_failed":
+        return _RENDER_HINT + issue.message
     return FEEDBACK_EN.get(issue.code, f"Automatic check failed: {issue.code}.")
 
 
@@ -44,14 +46,16 @@ class Attempt:
 
 
 def run_generate(
-    client, *, model: str, fact: KnowledgeRecord, bundle: Bundle, template_id: str,
-    max_output_tokens: int, max_retries: int,
-    agent_name: str | None = None, agent_gender: str | None = None, revision_feedback: list[str] | None = None,
+    client, *, model: str, fact: KnowledgeRecord, bundle: Bundle, assignment: Assignment,
+    max_output_tokens: int, max_retries: int, setting_label: str | None = None,
+    revision_feedback: list[str] | None = None,
 ) -> CallResult:
     return call_structured(
-        client, model=model, instructions=load_guideline(),
-        user_payload=generate_payload(fact, bundle, template_id=template_id, agent_name=agent_name,
-                                      agent_gender=agent_gender, revision_feedback=revision_feedback),
+        client, model=model, instructions=load_model_prompt(),
+        user_payload=generate_payload(
+            fact, bundle, template_id=assignment.template_id, agent_name=assignment.agent_name,
+            agent_pronouns=assignment.pronouns, setting_domain=assignment.setting_domain,
+            setting_label=setting_label, revision_feedback=revision_feedback),
         schema_model=GenerateFamilyOutput, schema_name="generate_family_output",
         max_output_tokens=max_output_tokens, max_retries=max_retries,
     )
@@ -59,7 +63,8 @@ def run_generate(
 
 def generate_with_regeneration(
     client, *, model: str, fact: KnowledgeRecord, bundle: Bundle, assignment: Assignment, family_id: str,
-    max_output_tokens: int, max_retries: int, max_regenerations: int, binary_policy: str, notes: str | None,
+    max_output_tokens: int, max_retries: int, max_regenerations: int, notes: str | None,
+    setting_label: str | None = None,
 ) -> list[Attempt]:
     """返回按顺序排列的所有尝试。最后一次尝试的 record 就是该 family 的结果（可能仍是 auto_rejected）。
 
@@ -68,16 +73,14 @@ def generate_with_regeneration(
     attempts: list[Attempt] = []
     feedback: list[str] = []
     for n in range(1, max_regenerations + 2):
-        call = run_generate(client, model=model, fact=fact, bundle=bundle, template_id=assignment.template_id,
+        call = run_generate(client, model=model, fact=fact, bundle=bundle, assignment=assignment,
                             max_output_tokens=max_output_tokens, max_retries=max_retries,
-                            agent_name=assignment.agent_name, agent_gender=assignment.agent_gender,
-                            revision_feedback=feedback)
+                            setting_label=setting_label, revision_feedback=feedback)
         record = None
         if call.ok and call.parsed.status == "candidate_generated":  # type: ignore[union-attr]
             record = build_candidate(
                 family_id=family_id, fact=fact, bundle=bundle, family_out=call.parsed,  # type: ignore[arg-type]
                 generator_model=model, prompt_version=prompt_version(), assignment=assignment,
-                binary_policy=binary_policy,
                 notes=f"{notes or ''} | attempt {n}/{max_regenerations + 1}".strip(" |"),
             )
         attempts.append(Attempt(n, call, record, list(feedback)))
