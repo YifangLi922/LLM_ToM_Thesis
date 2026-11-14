@@ -171,26 +171,26 @@ def test_answer_in_action_question_is_flagged(family_dict, k30):
 
 
 def test_answer_inside_locked_conflicting_claim_is_flagged(facts, bundle):
-    """K25：锁定的 conflicting_claim 本身含真实答案（short hand）。应标记风险，而不是改写知识库。"""
-    k25 = next(f for f in facts if f.fact_id == "K25")
-    assert "short hand" in k25.conflicting_claim
+    """K27：锁定的 conflicting_claim 本身含真实答案（"rather than diagonally"）。应标记风险，而不是改写知识库。"""
+    k27 = next(f for f in facts if f.fact_id == "K27")
+    assert "diagonally" in k27.conflicting_claim and k27.world_gold == "diagonally"
     out = GenerateFamilyOutput.model_validate({
-        "task_mode": "generate_family", "fact_id": "K25", "bundle_id": "B01", "status": "candidate_generated",
-        "template_id": "T1", "agent_name": "Grace", "setting_domain": "arts_media", "setting": "studio",
+        "task_mode": "generate_family", "fact_id": "K27", "bundle_id": "B01", "status": "candidate_generated",
+        "template_id": "T1", "agent_name": "Grace", "setting_domain": "hobbies_games", "setting": "chess club",
         "source_type": "guide", "belief_cue_ids": [], "action_type": "A4", "reasoning_structure": "one_step_mapping",
-        "story_backbone": "Grace reads that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later she sets a prop clock.",
-        "claim_span_aligned": "on a conventional two-hand analog clock, the short hand indicates hours",
-        "claim_span_conflicting": "on a conventional two-hand analog clock, the short hand indicates minutes",
+        "story_backbone": "Grace reads that {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later she sets up a practice board.",
+        "claim_span_aligned": "under standard chess rules, a bishop moves diagonally",
+        "claim_span_conflicting": "under standard chess rules, a bishop moves horizontally or vertically rather than diagonally",
         "belief_proposition_aligned": "x", "belief_proposition_conflicting": "y",
         "belief_question": "q?", "action_question": "q?", "reality_question": "q?",
-        "proposed_gold": {"aligned": {"q1": "short hand", "q2": "a"}, "conflicting": {"q1": "long hand", "q2": "b"},
-                          "q3": "short hand"},
+        "proposed_gold": {"aligned": {"q1": "diagonally", "q2": "a"},
+                          "conflicting": {"q1": "horizontally or vertically", "q2": "b"}, "q3": "diagonally"},
         "answer_variants": {"q1_aligned": [], "q1_conflicting": [], "q2_aligned": [], "q2_conflicting": [], "q3": []},
         "action_constraints": "c", "belief_to_action_rule": "r", "risk_flags": [], "risk_notes": "",
         "validation_status": "needs_human_review", "failure_reason": None})
-    cats = {(h.term, h.category) for h in scan_q3_leakage(out, k25)}
-    assert ("short hand", "conflicting_source_claim") in cats
-    _, issues = check_family_output(out, k25)
+    cats = {(h.term, h.category) for h in scan_q3_leakage(out, k27)}
+    assert ("diagonally", "aligned_source_claim") in cats and ("diagonally", "conflicting_source_claim") in cats
+    _, issues = check_family_output(out, k27)
     assert "q3_answer_in_conflicting_claim" in codes(issues, "warning")
 
 
