@@ -1,0 +1,688 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 15.03,
+  "usage": {
+    "input_tokens": 5992,
+    "input_tokens_details": {
+      "cache_write_tokens": 5989,
+      "cached_tokens": 0,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 5989
+      }
+    },
+    "output_tokens": 1042,
+    "output_tokens_details": {
+      "reasoning_tokens": 276
+    },
+    "total_tokens": 7034
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "generate_family_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "generate_family",
+      "fact_record": {
+        "fact_id": "K23",
+        "knowledge_category": "object_functions_properties",
+        "world_fact": "A hygrometer measures humidity in the air.",
+        "aligned_claim": "A hygrometer measures the humidity of the air.",
+        "conflicting_claim": "A hygrometer measures air temperature instead of humidity.",
+        "world_gold": "humidity",
+        "conflicting_belief_gold": "temperature",
+        "pretest_question": "What atmospheric property does a hygrometer measure?",
+        "pretest_accepted_answers": [
+          "air humidity",
+          "moisture in the air",
+          "relative humidity"
+        ],
+        "qualification_notes": "Instrument function is humidity; a thermometer measures temperature. Some multi-sensor devices measure both, so specify ordinary single-function instrument if needed.",
+        "source_urls": [
+          "https://www.weather.gov/ggw/GlossaryH"
+        ],
+        "review_flags": [
+          "related_instrument_overlap_K07",
+          "multifunction_device_avoid"
+        ]
+      },
+      "selected_bundle": {
+        "bundle_id": "B01",
+        "suggested_template_ids": [
+          "T5"
+        ],
+        "agent_goal": "Make a community weather station's public display understandable by adding the appropriate measurement unit to its instrument readout.",
+        "new_task": "Configure the unit suffix beside the numerical reading from a hygrometer on a public weather dashboard, after a colleague relays a weather-instrument technician's explanation of the instrument's function.",
+        "action_constraints": "The station follows ordinary public weather-reporting conventions in a Celsius-based locale. The hygrometer is an ordinary single-function instrument, not a combined sensor. Its dashboard tile currently shows only a number, and the agent is responsible for entering its unit suffix. The technician is unavailable for direct consultation.",
+        "action_type": "A1",
+        "reasoning_structure": "one_step_mapping",
+        "target_output": "The unit suffix entered beside the hygrometer reading.",
+        "aligned_action_gold": "%",
+        "conflicting_action_gold": "°C",
+        "belief_to_action_rule": "An agent who believes the instrument measures humidity uses the conventional weather-display humidity unit, percent. An agent who believes it measures air temperature uses degrees Celsius under the station's measurement convention.",
+        "risk_flags": [
+          "agent_prior_knowledge_risk",
+          "action_ambiguity",
+          "q3_answer_leakage"
+        ],
+        "risk_notes": "Prior familiarity with hygrometers could undermine acceptance of the conflicting second-hand explanation, even with a relevant technician as the original source. Percent assumes the conventional relative-humidity interpretation used in public weather reports; the locked claim specifies humidity more generally. The locked conflicting claim itself contains 'humidity', making the actual Q3 answer lexically available even in the conflicting condition; the aligned claim also supplies it by design."
+      },
+      "assignments": {
+        "template_id": "T5",
+        "action_type": "A1",
+        "reasoning_structure": "one_step_mapping",
+        "agent_name": "Lucas",
+        "agent_pronouns": "he/him",
+        "setting_domain": "environment_weather",
+        "setting_label": null
+      },
+      "revision_feedback": [],
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, reasoning_structure and the two action golds). template_id must equal assignments.template_id. When status is candidate_generated, failure_reason must be null and validation_status must be exactly \"needs_human_review\". When status is needs_revision, put the concrete reason in failure_reason, set every nullable content field and validation_status to null and belief_cue_ids to [] (risk_flags/risk_notes may describe the problem). story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; {{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} (directly after that sentence's final punctuation). Claim spans and belief propositions must not contain curly braces. Both claim spans must fit the same grammatical slot in the backbone, and each must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, same wording as far as the grammar allows) -- never an indirect or behavioural paraphrase of it, in any template (including T4C routines). belief_proposition_aligned / belief_proposition_conflicting are affirmative finite-clause complements without an initial 'that', without the agent's name at the start and without final punctuation; the caller builds the sentence '[agent_name] believes that [proposition].' itself. The protagonist must be the person named in assignments.agent_name: set `agent_name` to exactly that name, use the name in the story, and use the pronouns in assignments.agent_pronouns whenever you refer to the protagonist with a pronoun, so the story reads naturally and consistently. Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are rejected automatically). If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K23\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T5\",\n  \"agent_name\": \"Lucas\",\n  \"setting_domain\": \"environment_weather\",\n  \"setting\": \"A community weather station's public dashboard\",\n  \"source_type\": \"A colleague relaying an instrument technician's explanation\",\n  \"belief_cue_ids\": [\"B2\", \"B4\"],\n  \"action_type\": \"A1\",\n  \"reasoning_structure\": \"one_step_mapping\",\n  \"story_backbone\": \"Lucas is configuring a community weather station's public dashboard for the first time. His colleague passes on an explanation from the station's instrument technician: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} The technician is away and unavailable for questions. Later, Lucas works on the dashboard tile for a standalone hygrometer. The tile shows a number without a unit, and he needs to add the conventional unit suffix so visitors can understand the reading. The station uses Celsius in its public weather reports.\",\n  \"claim_span_aligned\": \"A hygrometer measures the humidity of the air.\",\n  \"claim_span_conflicting\": \"A hygrometer measures air temperature instead of humidity.\",\n  \"belief_proposition_aligned\": \"a hygrometer measures the humidity of the air\",\n  \"belief_proposition_conflicting\": \"a hygrometer measures air temperature instead of humidity\",\n  \"belief_question\": \"What atmospheric property does Lucas believe the hygrometer measures?\",\n  \"action_question\": \"What unit suffix will Lucas enter beside the hygrometer's numerical reading?\",\n  \"reality_question\": \"What atmospheric property does a hygrometer actually measure?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"humidity\",\n      \"q2\": \"%\"\n    },\n    \"conflicting\": {\n      \"q1\": \"temperature\",\n      \"q2\": \"°C\"\n    },\n    \"q3\": \"humidity\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\"air humidity\", \"moisture in the air\", \"relative humidity\"],\n    \"q1_conflicting\": [\"air temperature\", \"temperature of the air\"],\n    \"q2_aligned\": [\"percent\", \"percentage\", \"% RH\"],\n    \"q2_conflicting\": [\"degrees Celsius\", \"Celsius\", \"° C\"],\n    \"q3\": [\"air humidity\", \"moisture in the air\", \"relative humidity\"]\n  },\n  \"action_constraints\": \"Lucas must add one conventional unit suffix to the bare numerical reading from a standalone, single-function hygrometer. The public weather station uses Celsius for temperature reporting. He has only the colleague's relayed explanation and cannot consult the technician directly.\",\n  \"belief_to_action_rule\": \"Believing the hygrometer measures humidity leads to the conventional public-weather humidity suffix %. Believing it measures air temperature leads to °C under the station's Celsius convention.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"action_ambiguity\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"Prior knowledge of hygrometers could undermine acceptance of the conflicting explanation despite the technician's relevant expertise. The % action assumes conventional relative-humidity reporting, whereas the locked claim describes humidity generally. The conflicting claim itself contains 'humidity', making the Q3 answer lexically available; the aligned claim supplies the actual answer by design, so aligned Q3 does not isolate retained parametric knowledge.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_0fa6a92e5530d489016af8945d60f487d28d21c365b41926f4",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794675805.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0fa6a92e5530d489016af8945e5b8c87d2a5052896b1872d2f",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JRsNpgYLpGHbEjWZ16l1JroIQxHE8FCEJs0PrS8xsCv-NNviNJzrCfD-41FpCrs2JJpWzL8O9v2NANSa6os6ab_wzShnkkN-OL9_luuClXaLhyJv-Xkot5sp2saROxXOdUX3h89CNXsxXtbY1y5eAGvvyU2qZ-mCVjUZN9MJf31_xE8sRgpqMuZ8XsI5KRV9VeraMisjOBO1xLKgWNjqvHrTtmCQCKQUvqYY9aGqpYjIIwrIHX-6rmOJxblMq4cHHNK8ojhYiNzKl0PU87Gn8HVtznhCaFiicYij6G1-fwm3OJ5Hy8wWaRrGkYwtXWykV18itKxflJweviG21NC0gL2BcXKIqDOmrwQNhdVGkXHQDV2qrF2LUe6UWv_MKT536j4SQUcGCdRWryRosLxhghv5GU_MudZr8ltramzWXW7AWYFoX-AjTJuysnMe3bbKncZrLmU7SyRW89BB4uq0g5ZLiETcFYZNtSL9gW2xP1psf8rEJdoaFxrfnA6UEhAIhSb0YwK6TQmY8YPDGF_nvDOmEPPxOG_jAm-9HJVy8ivJGLHFQKLEibNhqm6w05nFzyv1e6BknX9uvdJP40Cha3hs24-weqTXg7Su7CbkLCpLts9qMdE0oig2ibudejFqqcltOWeH9sRoactpxlYH8xo1MFsYkiqJAAXcu8Jrj8akJp3ENCQzOy1KiLUvs4qkaf8pT6QtNV68aRABya7yNZgZyeMnF06IohHPZJQQqcFx806hQpwKEl6-TYHTeUmCfeiay03OEjeyb3Y8AJH6_SsaEoIlJeP0SwswEpZIRRMlGzlIJY2sPpQe8VgO_hqRloo8gQsjSakkQTGWjU7uSIfljP9sm6JXWXDZ7VTeFMas4OwSncSMxP0cETxMiYXgtv6vCnklnuiazUUO2Bts6dd6sS8q-oYyyPKeqW2ZCWeGOlAX7cOvu4U_yYUWeZpUE-v6So8rN8UV864lpJkRyvlPMRcFzY8BhQt8gqDCL-Ts732DSei6nRUfhvkT9am4C-8CzXdsQHFDFnmt0YLknQM1Rc2vsvRy4qZb1I5ddn539pMaHAYsafoP48nduO3JLqwD6dOSrV5L6ZQDd7Kq491qjSGlyXeUhoXd4Pw0j6sP35V-XDPOvLbl5crg3oQUySsdksaU4AsIhPENHmV92MZHn4GtL_HHq_fVbMJFZzoPkKkD_ozfoZ0XgkMwbESwrn25yhSL1p2nug2nF5-mHJTWriQRW3X6ef_hEDuooR2Zd2m2alpe8c4e9RHj6_PDkozbFeXwHlARt2HnJTE2w4pLOzR8qsP3mPG_KRt9Hr4a0h_gk2mcOEEY7xK2NIS89YChqSYpBlJYiR7jimPEwqwKzibDv8VA9mpZM95y4CbKKarKVn38bSvVwhErBNG_2kir6npG6AL3TfpbabKHeuNzm-fjEHrahXlrZ_GrFcRcCVvwlWJ-2ykexCRENy3nYLqZyQkrBPXHhYCCJ76d73HcQIFHmbOril8KjWq9_u_4UryAiXCiCk4owmg2Sk60C5QyMrM2FDzue7Nb6blzvTRV_yHzMfk3bUxR9HakEBUTOP_t4_sWXT_6nGxMP8omUmRKWrhUhjLyGcTPOsWObXO31Fr0sZFJj-10IcJG5SGgP4IKs2DX1q0pV6EEmn452NsbBAgFT81GRyaP1ywOIWlxwp-HS_us_GMYjBt0rLhVvCqdNIzsIEuK7fRU2AMQmUVk4PN1XyZAbEO7Bpnj6bCsxmppM36fyCoQwK9FzM3gLNvwkZLCabPvhbPCW4JF8lD0AmgR0D34DrAoSJRRaY4jVm3Pnz8M8_J3DQoKfGw2UIW3B6mCA-K9GxZXkZEtxsi4Wl4PKsxv6eENXK878-6PFOVFumP434eG_lok1EOIil3ZRfLz-pMq3_okuvaubAw1kjKhmeUaKew3tMLagtB3uQfwNES2uIFAPZHjsHiVuF18RcG-jq3WSljM7nI2nb4OAwn2eQSkK-QfLbaC5-ZmBY5Ne-CZ_e_GYd73XcnQTNrXt2Pnfkra-s6LnxhwoUk5-tdcMgxhai61GueaLzru_G14A2LmFTbqbFuAhhjlqfCjp-R4o666oJdY7z_Zej2FI1Fgl9LQRVjHBRXv1fm25TGVPaQOGQZ0jL9peK_Utm7Aa9Ij37zonjGR7glFFa4OO5ZWgxNOiiASuVOhSZdtPqGfGl_4rL6NvZKh6yKlh7BVwRNFh4ioYWdXQ2u2psjWBwF3xxWviwWz2ma-v5ZIZu7l6526dFBUIsARcXw7LhFAhdBTSlGTU6-panwDSJmGwDj9xxazgqypleMMlE9kimZY1ccJoIRSsRV0yGC1BSOy1i4-gUNIiUWmA_R4u8sMLw53b1XQr1IpExQyweq20-GUR7hznaaWliDaAd1e2NGz4Lqn0QkC8n4pjvWCv4hYrqv2ulD0Rc2-8cVx447yKN61OBTgrEQzNRbIPhT6L42lSQNX82WgVdt9TCBzloRffuu6MRVCKQ36DI2QrH-aicYZQ8D1yD0T6FA3bpSxGv9OSSWcNr_cSk9AXQc4s6mKoH0NtbHNqbafGVjVX5iN4d2WDD533j_lZ-HxUCkbuwD71IwkVt7To0zZ7pYGDgchu2G2Q1fr53z-5rkXHwtoP4GAsZon_hLc_9A7p7-fTYJlETX3w81owUDe2iKqwhOoVh-_5xL3DSVtuS0aoIdH4oSjVDlza_XN9yExQWRg6SNN2mK_n_B8nLSY5_Kmg69n5Ue8TgUxCV3guqSHgu4o7LyRqccseGm-f-GauPBXpoAe0IwRvqgfAjx1SdDDAPH4XVH0RipCW8g3n7q5nu3qYVRb__tzL6ZBoFquugbh1puuK9JJDsk5N6q9IC6JRJRalx872E1YR0Ae7aSFgc6UEiPXxPgHGm3v_FFyIx7eKjbNlH9tP_ZZj6an3OkPQ-Ag18JmD-5tue_U2FnsTS86zaJoDzvNYKFnmz302cJ4rUN0Vm-G3nmQhkQGZSWNTxojHcuEXFOff-H4W7It08GLQDn67xQ1d-kCvBKHs_nHBjWwLjUJDojwRLtoTJjStijFYwUFxLFUhn8rK_FsUvtW79ekBg9CHR40TZZ7CwW3a1fY2A_32SLmWTL87CB7dFH9r-F5VFAay-poC_z3cQXNzWFxKrPfVktRT-ihlpOmgAcdfMbfTFpZM2GLhhlX51AHjCv0SUamRIQ6tWwATorzEdNmNmJx2djp7unEa0JLftJZPwP98e1vE-5U1MB50TyvQFA87YOwPi3TeVpYku-WQeIALaTblLIemuUEHCKLkyJfhSt5dSwOYF1r3ZWoqfjyemYbQwN54DaxrQL6r-j3mgAK8u_9fz_x8Sb7Qj57jyVx6VTWK6ytjaH-n5gSe6u21zz8hhk0xoj7tq55X4m7ygeUZPluTFU34zmJbJYBoqFFHf4E-qFGz3R0KUaQuq3iL3UEZVfZcmuUkeA3lpTVFMk84U-Rs9yVhESUhJSi074vudPK2T4q62-58ox4oiOCIBrjru2zKgIzYAVP23Ex0HWZ1mdCaZWQo146BvIRjFxa2F2dR6d5NTsc_4Q6QbpdxiEwEzVDqyxhySRTxx_Dz9Dd7iTEMv0e14bxfuaqynhlIzBA0OdvQRkhGakhltgmMTE5cxSn6YkxbGutnSSOqcGWDzHIoRLblbZYQhR7e8nnFiuSO2nlCiVmL2kMBRSFv73lapHmZw5nhC5fdWyWjdrY1q1afyx7sJwKIvbXXed985LMi-yHWjadLVw4TNrnkoFcUMVktADPQYAHIHgSib1wVWkqMuipJK67-_F5kdLDl9KguqNwiVaWezG57u3S3NXOW356zhTBjc-DvfH0Q3tmEVDfvaTei3EP9iZ_Fp9xrhX-rSO9D8AjmGTL31oMBiJn_xAU-iWXI27MO64_lAswe_KS-BUI-ZQCAsFQMQSBn819Mdn0LDzoNsAJ8wE8FfdIUpVtES1zRDTWsag2p0biG2TRmDXox4zK_dK820pmKxIeF8x2aMVf7NXG1lE5BW68JI7q0sJmbVEfEvh3IzTAAou93MjzUOkMkHgb4OyoADcN55msOiut03g7WJyvmT0RVP7B7sbEa8V0k4x1wzB2NN6jVWAdI9OudOkoLLyio4AMXj6DW5M8yTl_nINzfOg5KpENT7oMaKrJ64Qj2RZI_D5PknToLinKQLrB5oleHztV5LO_Gjn5Pvq0XE-bkjoXJ5yLXQNlTuB_NQLpB4xaZUKRRjBb5ts0-MhZYa_dzp8lJxGSBJ_3OoKWscmr-v2s9kf9NZ6L9NX9wSpe0sXnZk0x5jCHHfZX9VotWWdgmbCG5fzcbBV3SUpLn4ti_iX6jG0u344qL4ns-ZY75DZUx4Rfn-o_IMORpsEUVgKPQwfcCFmBi3WsxR697lbLpLnmdPMK_YhN7XVidBxVLc7rHPqUP7MuM_oV4HvjA7GrnPpv4RI75HwfFDOp-A02wGCbv3XA6wWwAPmm1jq1ai7AS6JxTN_bE8eZw59W2Upj_Ug5h31sxVU4_1Z3IcD0tOLCbBckhGb-EhFBSoXgxLdXIGqmLTig9XuqE4byZGVj1BxdJ3idVx4XVHi3tTJtpv-nk_ILdH7aTjrFqCSGcelpRwzkb6iO7p06YefBuAKvKUhy_kk2RSoUy2zjsn-34VDakkqwvUTTvROJK0QfyHz1nfLpijXP1vx3qxR_CJtgYs3ZaI2KusbWyTvEZQs-XXFFIalxDoqhS4e1-NUbEc6LG-n7WeuhbqZQBuTF4Jl8XPCSkRrXdyPsZFcEmNl8Ek-nBx9GaFBg_QuQ3FZPQdF4YL2s-cYN69ujf5fSTLZpt6zZfRe9FAXuOPUrtVPvbPHyNrEIJa_6VWkuh4o_xJgAxxdDbjqEBAmWJMqCBht8C-ixQ7X4afM-3THjhrYTvJhitSYO4VpDZGbZs85No075hpCtqrblIt_m6GNJOM4u21DuZbPJv72Soeykt2RC8Kqz2yw8dH9xMlnMxQLtfITHwnc6CNmveN5I76gzjPy4luS6B_mem33LJiDW4NGrAN2mpVTRivOu10BXX1vWWCR2Wv1g61U_e5qb3gcV5w2UfC493GNod0TFhsbJ2FMl5YvKACFkhmWTwC4Qc1uJeLqdwTjXE2TYEMudcrO5ndZSuwxETI8LB29pN7D9cvOPBl7UFcDtIiC77FJskIxyPi7nIMA3CewjpykgN5JQPf3dzmoesMwpipKwtBBZ70rXz2ryUb02F3tvh3LvxCfjtHWWTldlOkWTu92BLhceY8P_3SU716wVgompL4j2xMJ_CwevFISJGgf75yG3nbMQqmr3PvXjLw7dOdOAOU9ONV04iThK_R9AFJ59Ny09tDaT4Ruhjr4EO8X2k-b6l7cYaeUVmQUOszSe6ADprQVp2C_FRoHWAhxufxQLy6Up92-5cwFVGJTHQIyfaunG_Y6mJHsEowDBzNQZc0tXY3ZDSEbv29jlX-JhJYJExlTby8Pk_tV-g3Kik5bXZ8mF3ICjUvcXK2R8wT9fZv8MlBxj0cdAl0J0plSMAE91MDsL8xxdNsZleK4dzF16xZLn1wOm1qgQzKDHe7RoocnWXSkT4a9x6Z4zX1Jn0X9JxWFwSdPwXVNTwMNFOQd3lHzq7NJR1f-gJRrfcqAfH7bOwG6uPtCTzLPH-aHKgypr0mI0eAdXM-G0wZHMbLGu8YSC5c0POMmIdTYqCGEmNIUqk8icsFPfHBHMBYEqIHtvCrI1mGNGUPhGIQV39k9eWujxJHlxlG6tY5j0h8BkjN0kxkZz5QWI0sDK56D2V5cWQMU2pETKCuEDPFMXVlJ-iibuw63tE9jJpuCK4FvRueprTDVqZkI8A5x_aNfYKCPtJptK6XKe29t1hKHZVwHY7hn9RMOWJdUIjw-lNlCL-Gzc9dAnibXY-ljs0hSccqiqfjIWO-aUFDPrLY6UiCJrq2oC_3EmmzOpSbgoprOYe8G7z62eX-Au4-Wah7WRfvB2Yfl1ClomFTzUWsIAW8GgpWzZSucmMvgQ1VQP4UjtfSExaGrCioehP_Qxt9OaG63OReZ6GPAbUmDcWSgmSpqoALtrUFd0hjpFkhE2m98mvB_L_qctRdzd05BrbuFXAb5y7YW5NL6J5j74z8S2uRgchy0hip_PqC0fXa6fAIjJ2cfbt5lv0xsOAJjHbcHDjVBQ52BCZbECGaH4DsUsyK38K4dRR--yuYu7ZXsMm5lh9jydbO7bN5pCCRraRvzX12qCmCaE1mtjZNusWCoR1HT6Y3KQ4_FYlKfj9s5lfMWVdwWHZ9ev4sbEGbcYb_0EBs4aOY-5FxksefhuIhnVFs46lA9ALaXiA==",
+        "status": null
+      },
+      {
+        "id": "msg_0fa6a92e5530d489016af89465c36c87d296358c9cd1b041c1",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K23\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T5\",\n  \"agent_name\": \"Lucas\",\n  \"setting_domain\": \"environment_weather\",\n  \"setting\": \"A community weather station's public dashboard\",\n  \"source_type\": \"A colleague relaying an instrument technician's explanation\",\n  \"belief_cue_ids\": [\"B2\", \"B4\"],\n  \"action_type\": \"A1\",\n  \"reasoning_structure\": \"one_step_mapping\",\n  \"story_backbone\": \"Lucas is configuring a community weather station's public dashboard for the first time. His colleague passes on an explanation from the station's instrument technician: {{CLAIM_SPAN}}{{BELIEF_INSERTION}} The technician is away and unavailable for questions. Later, Lucas works on the dashboard tile for a standalone hygrometer. The tile shows a number without a unit, and he needs to add the conventional unit suffix so visitors can understand the reading. The station uses Celsius in its public weather reports.\",\n  \"claim_span_aligned\": \"A hygrometer measures the humidity of the air.\",\n  \"claim_span_conflicting\": \"A hygrometer measures air temperature instead of humidity.\",\n  \"belief_proposition_aligned\": \"a hygrometer measures the humidity of the air\",\n  \"belief_proposition_conflicting\": \"a hygrometer measures air temperature instead of humidity\",\n  \"belief_question\": \"What atmospheric property does Lucas believe the hygrometer measures?\",\n  \"action_question\": \"What unit suffix will Lucas enter beside the hygrometer's numerical reading?\",\n  \"reality_question\": \"What atmospheric property does a hygrometer actually measure?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"humidity\",\n      \"q2\": \"%\"\n    },\n    \"conflicting\": {\n      \"q1\": \"temperature\",\n      \"q2\": \"°C\"\n    },\n    \"q3\": \"humidity\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\"air humidity\", \"moisture in the air\", \"relative humidity\"],\n    \"q1_conflicting\": [\"air temperature\", \"temperature of the air\"],\n    \"q2_aligned\": [\"percent\", \"percentage\", \"% RH\"],\n    \"q2_conflicting\": [\"degrees Celsius\", \"Celsius\", \"° C\"],\n    \"q3\": [\"air humidity\", \"moisture in the air\", \"relative humidity\"]\n  },\n  \"action_constraints\": \"Lucas must add one conventional unit suffix to the bare numerical reading from a standalone, single-function hygrometer. The public weather station uses Celsius for temperature reporting. He has only the colleague's relayed explanation and cannot consult the technician directly.\",\n  \"belief_to_action_rule\": \"Believing the hygrometer measures humidity leads to the conventional public-weather humidity suffix %. Believing it measures air temperature leads to °C under the station's Celsius convention.\",\n  \"risk_flags\": [\n    \"agent_prior_knowledge_risk\",\n    \"action_ambiguity\",\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"Prior knowledge of hygrometers could undermine acceptance of the conflicting explanation despite the technician's relevant expertise. The % action assumes conventional relative-humidity reporting, whereas the locked claim describes humidity generally. The conflicting claim itself contains 'humidity', making the Q3 answer lexically available; the aligned claim supplies the actual answer by design, so aligned Q3 does not isolate retained parametric knowledge.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794675820.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "generate_family_output",
+        "schema_": {
+          "$defs": {
+            "AnswerVariants": {
+              "additionalProperties": false,
+              "description": "guideline 示例里是一个 dict；strict 模式不支持任意键的 dict，所以展开成固定键。",
+              "properties": {
+                "q1_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Aligned",
+                  "type": "array"
+                },
+                "q1_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Conflicting",
+                  "type": "array"
+                },
+                "q2_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Aligned",
+                  "type": "array"
+                },
+                "q2_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Conflicting",
+                  "type": "array"
+                },
+                "q3": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q3",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "q1_aligned",
+                "q1_conflicting",
+                "q2_aligned",
+                "q2_conflicting",
+                "q3"
+              ],
+              "title": "AnswerVariants",
+              "type": "object"
+            },
+            "GoldPair": {
+              "additionalProperties": false,
+              "properties": {
+                "q1": {
+                  "title": "Q1",
+                  "type": "string"
+                },
+                "q2": {
+                  "title": "Q2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "q1",
+                "q2"
+              ],
+              "title": "GoldPair",
+              "type": "object"
+            },
+            "ProposedGold": {
+              "additionalProperties": false,
+              "properties": {
+                "aligned": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "conflicting": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "q3": {
+                  "title": "Q3",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "aligned",
+                "conflicting",
+                "q3"
+              ],
+              "title": "ProposedGold",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "description": "status=candidate_generated 时所有内容字段必填、failure_reason 为 null；\nstatus=needs_revision 时内容字段可为 null，但必须给出具体的 failure_reason。",
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'generate_family'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "bundle_id": {
+              "title": "Bundle Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidate_generated",
+                "needs_revision"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "T1",
+                    "T2",
+                    "T3",
+                    "T4A",
+                    "T4C",
+                    "T5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Template Id"
+            },
+            "agent_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned agent_name.",
+              "title": "Agent Name"
+            },
+            "setting_domain": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "education_training",
+                    "museum_exhibition",
+                    "community_volunteering",
+                    "workplace_operations",
+                    "arts_media",
+                    "hobbies_games",
+                    "environment_weather",
+                    "travel_cultural_orientation",
+                    "events_planning",
+                    "technical_workshop"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned setting_domain.",
+              "title": "Setting Domain"
+            },
+            "setting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The assigned setting_label if given, else one specific natural setting within the assigned domain.",
+              "title": "Setting"
+            },
+            "source_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Type"
+            },
+            "belief_cue_ids": {
+              "description": "Zero, one or two cue ids; [] when needs_revision.",
+              "items": {
+                "enum": [
+                  "B1",
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B5",
+                  "B6"
+                ],
+                "type": "string"
+              },
+              "title": "Belief Cue Ids",
+              "type": "array"
+            },
+            "action_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Type"
+            },
+            "reasoning_structure": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reasoning Structure"
+            },
+            "story_backbone": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Shared story with exactly one {{CLAIM_SPAN}} and one {{BELIEF_INSERTION}} (directly after the sentence containing the claim).",
+              "title": "Story Backbone"
+            },
+            "claim_span_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Aligned"
+            },
+            "claim_span_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Conflicting"
+            },
+            "belief_proposition_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Aligned"
+            },
+            "belief_proposition_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Conflicting"
+            },
+            "belief_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief Question"
+            },
+            "action_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Question"
+            },
+            "reality_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reality Question"
+            },
+            "proposed_gold": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ProposedGold"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "answer_variants": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AnswerVariants"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "action_constraints": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Constraints"
+            },
+            "belief_to_action_rule": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief To Action Rule"
+            },
+            "risk_flags": {
+              "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+              "items": {
+                "enum": [
+                  "agent_prior_knowledge_risk",
+                  "source_acceptance_ambiguity",
+                  "source_vs_belief_ambiguity",
+                  "action_ambiguity",
+                  "q2_copy_shortcut",
+                  "q2_non_tom_difficulty",
+                  "overconstrained_story",
+                  "unnatural_redundancy",
+                  "q3_answer_leakage",
+                  "world_fact_scope_risk",
+                  "template_task_mismatch",
+                  "near_duplicate_structure",
+                  "implicit_belief_leakage"
+                ],
+                "type": "string"
+              },
+              "title": "Risk Flags",
+              "type": "array"
+            },
+            "risk_notes": {
+              "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+              "title": "Risk Notes",
+              "type": "string"
+            },
+            "validation_status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly 'needs_human_review' when candidate_generated, else null.",
+              "title": "Validation Status"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidate_generated; the concrete reason when needs_revision.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "bundle_id",
+            "status",
+            "template_id",
+            "agent_name",
+            "setting_domain",
+            "setting",
+            "source_type",
+            "belief_cue_ids",
+            "action_type",
+            "reasoning_structure",
+            "story_backbone",
+            "claim_span_aligned",
+            "claim_span_conflicting",
+            "belief_proposition_aligned",
+            "belief_proposition_conflicting",
+            "belief_question",
+            "action_question",
+            "reality_question",
+            "proposed_gold",
+            "answer_variants",
+            "action_constraints",
+            "belief_to_action_rule",
+            "risk_flags",
+            "risk_notes",
+            "validation_status",
+            "failure_reason"
+          ],
+          "title": "GenerateFamilyOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 5992,
+      "input_tokens_details": {
+        "cache_write_tokens": 5989,
+        "cached_tokens": 0,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 5989
+        }
+      },
+      "output_tokens": 1042,
+      "output_tokens_details": {
+        "reasoning_tokens": 276
+      },
+      "total_tokens": 7034
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "feedback_given": [],
+  "checks": [
+    {
+      "severity": "warning",
+      "code": "q3_answer_in_conflicting_claim",
+      "message": "真实答案 'humidity' 出现在 conflicting 的来源声明里：锁定的 conflicting_claim 本身含真实答案，需标记风险（不改知识库）；请人工确认语义（否定/同义）"
+    }
+  ]
+}

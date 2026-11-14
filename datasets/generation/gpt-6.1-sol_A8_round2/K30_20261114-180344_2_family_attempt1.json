@@ -1,0 +1,680 @@
+{
+  "ok": true,
+  "error_type": null,
+  "error_detail": null,
+  "attempts": 1,
+  "elapsed_s": 17.9,
+  "usage": {
+    "input_tokens": 5914,
+    "input_tokens_details": {
+      "cache_write_tokens": 1169,
+      "cached_tokens": 4742,
+      "cache_write_tokens_details": {
+        "ttl_12h_tokens": 0,
+        "ttl_30m_tokens": 1169
+      }
+    },
+    "output_tokens": 1249,
+    "output_tokens_details": {
+      "reasoning_tokens": 507
+    },
+    "total_tokens": 7163
+  },
+  "request_meta": {
+    "model": "gpt-6.1-sol",
+    "schema_name": "generate_family_output",
+    "max_output_tokens": 16000,
+    "instructions_chars": 15179,
+    "user_input": {
+      "task_mode": "generate_family",
+      "fact_record": {
+        "fact_id": "K30",
+        "knowledge_category": "social_institutional_conventions",
+        "world_fact": "In Japan, the ordinary public elementary-school year generally begins in April and ends in March of the following year.",
+        "aligned_claim": "In Japan, the public elementary-school year generally begins in April.",
+        "conflicting_claim": "In Japan, the public elementary-school year generally begins in September.",
+        "world_gold": "April",
+        "conflicting_belief_gold": "September",
+        "pretest_question": "In what month does the ordinary public elementary-school year begin in Japan?",
+        "pretest_accepted_answers": [
+          "apr",
+          "the month of April"
+        ],
+        "qualification_notes": "Refers to the standard public elementary-school calendar, not atypical international schools or individual class terms.",
+        "source_urls": [
+          "https://education.jnto.go.jp/en/school-in-japan/japanese-education-system/",
+          "https://www.mext.go.jp/a_menu/shotou/shugaku/detail/1422233.htm"
+        ],
+        "review_flags": [
+          "jurisdiction_specific",
+          "exceptions_exist"
+        ]
+      },
+      "selected_bundle": {
+        "bundle_id": "B01",
+        "suggested_template_ids": [
+          "T3"
+        ],
+        "agent_goal": "Arrange a volunteer briefing before a Japanese public elementary school's annual welcome event.",
+        "new_task": "After researching Japan's public elementary-school calendar online, enter the month for a volunteer briefing in an event-booking request.",
+        "action_constraints": "The welcome event takes place during the opening month of the school year. Volunteers need their briefing one calendar month before the welcome event. The booking request requires a month, not a specific date.",
+        "action_type": "A4",
+        "reasoning_structure": "simple_calculation",
+        "target_output": "The month entered for the volunteer briefing.",
+        "aligned_action_gold": "March",
+        "conflicting_action_gold": "August",
+        "belief_to_action_rule": "An April school-year start places the briefing in March; a September start places it in August.",
+        "risk_flags": [
+          "q3_answer_leakage"
+        ],
+        "risk_notes": "The aligned online claim necessarily supplies April, making the actual Q3 answer available in that condition. This is inherent aligned-condition availability; the conflicting task constraints do not independently disclose the true starting month."
+      },
+      "assignments": {
+        "template_id": "T3",
+        "action_type": "A4",
+        "reasoning_structure": "simple_calculation",
+        "agent_name": "Daniel",
+        "agent_pronouns": "he/him",
+        "setting_domain": "events_planning",
+        "setting_label": null
+      },
+      "revision_feedback": [],
+      "output_contract_notes": "Return only the JSON object required by the schema for the given task_mode. Every key in the schema must be present (use null or an empty list where the schema allows it). risk_flags may contain only values from the schema's controlled vocabulary; risk_notes is a single string (\"\" when risk_flags is empty). Do not output ellipses, placeholder text, or the words 'validated', 'approved' or 'human_gold_confirmed'. task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, reasoning_structure and the two action golds). template_id must equal assignments.template_id. When status is candidate_generated, failure_reason must be null and validation_status must be exactly \"needs_human_review\". When status is needs_revision, put the concrete reason in failure_reason, set every nullable content field and validation_status to null and belief_cue_ids to [] (risk_flags/risk_notes may describe the problem). story_backbone must contain {{CLAIM_SPAN}} and {{BELIEF_INSERTION}} exactly once each; {{BELIEF_INSERTION}} must come immediately after the sentence that contains {{CLAIM_SPAN}} (directly after that sentence's final punctuation). Claim spans and belief propositions must not contain curly braces. Both claim spans must fit the same grammatical slot in the backbone, and each must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, same wording as far as the grammar allows) -- never an indirect or behavioural paraphrase of it, in any template (including T4C routines). belief_proposition_aligned / belief_proposition_conflicting are affirmative finite-clause complements without an initial 'that', without the agent's name at the start and without final punctuation; the caller builds the sentence '[agent_name] believes that [proposition].' itself. The protagonist must be the person named in assignments.agent_name: set `agent_name` to exactly that name, use the name in the story, and use the pronouns in assignments.agent_pronouns whenever you refer to the protagonist with a pronoun, so the story reads naturally and consistently. Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are rejected automatically). If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
+    },
+    "store": false
+  },
+  "output_text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K30\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T3\",\n  \"agent_name\": \"Daniel\",\n  \"setting_domain\": \"events_planning\",\n  \"setting\": \"Volunteer coordination for a Japanese public elementary school's annual welcome event\",\n  \"source_type\": \"An education agency's online school-calendar guide\",\n  \"belief_cue_ids\": [\n    \"B4\",\n    \"B6\"\n  ],\n  \"action_type\": \"A4\",\n  \"reasoning_structure\": \"simple_calculation\",\n  \"story_backbone\": \"Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date.\",\n  \"claim_span_aligned\": \"In Japan, the public elementary-school year generally begins in April\",\n  \"claim_span_conflicting\": \"In Japan, the public elementary-school year generally begins in September\",\n  \"belief_proposition_aligned\": \"the public elementary-school year in Japan generally begins in April\",\n  \"belief_proposition_conflicting\": \"the public elementary-school year in Japan generally begins in September\",\n  \"belief_question\": \"In which month does Daniel believe the public elementary-school year in Japan generally begins?\",\n  \"action_question\": \"Which month will Daniel enter for the volunteer briefing in the booking request?\",\n  \"reality_question\": \"In what month does the ordinary public elementary-school year actually begin in Japan?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"April\",\n      \"q2\": \"March\"\n    },\n    \"conflicting\": {\n      \"q1\": \"September\",\n      \"q2\": \"August\"\n    },\n    \"q3\": \"April\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\n      \"April\",\n      \"Apr\",\n      \"the month of April\"\n    ],\n    \"q1_conflicting\": [\n      \"September\",\n      \"Sep\",\n      \"Sept\",\n      \"the month of September\"\n    ],\n    \"q2_aligned\": [\n      \"March\",\n      \"Mar\",\n      \"the month of March\"\n    ],\n    \"q2_conflicting\": [\n      \"August\",\n      \"Aug\",\n      \"the month of August\"\n    ],\n    \"q3\": [\n      \"April\",\n      \"Apr\",\n      \"the month of April\"\n    ]\n  },\n  \"action_constraints\": \"The welcome event takes place during the opening month of the school year. Volunteers need their briefing one calendar month before the welcome event. The booking request requires a month, not a specific date.\",\n  \"belief_to_action_rule\": \"Daniel subtracts one calendar month from the school-year starting month he believes applies: April yields March, whereas September yields August.\",\n  \"risk_flags\": [\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"The aligned online claim necessarily supplies April, making the actual Q3 answer available in that condition. This is inherent aligned-condition availability; the conflicting story does not independently disclose the true starting month.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+  "raw_response": {
+    "id": "resp_0d1f653b3528b302016af8949275f087d2b3783a41729bdf48",
+    "access_programs": {
+      "cyber": "standard"
+    },
+    "created_at": 1794675858.0,
+    "error": null,
+    "incomplete_details": null,
+    "instructions": "# Generator Model Prompt — World Knowledge × Agent Belief ToM Items\n\n**Version:** 1.1 | **Usage:** Send this file to the candidate-generating LLM, with a single locked fact record, task mode, caller-selected slots, and the corresponding JSON Schema. Do not include the repository-only implementation appendix.\n\n## A1. Role, input and modes\n\nYou are a **candidate stimulus generator**, not an evaluated participant or a human annotator. Construct concise, natural English stories that support a behavioral test of an agent's contextually established belief against independently pretested world knowledge. A fictional character may believe a false claim; the evaluated model must still be able to distinguish that belief from the world fact.\n\nThe caller provides one locked record from `knowledge_pool.jsonl` and a `task_mode`. **Never invent, select, correct, or silently reword the world fact, false alternative, Q0 question, Q0 gold, or necessary qualifications.** If a fact cannot support a valid story, report failure.\n\n- **`propose_bundles`:** propose compatible knowledge–action bundles, **not** full stories. It is acceptable to return `no_valid_bundle`.\n- **`generate_family`:** use one **selected** bundle, `template_id`, `agent_name`, `setting_domain`, and optional fixed `setting_label` to generate one shared story backbone and Q1–Q3 with **provisional** gold. It is acceptable to return `needs_revision`.\n\nTreat requests as independent. Do not assume a previous model conversation is available. The program controls template, name, setting-domain and action-structure sampling. Do **not** replace the supplied agent's name or switch to an unrelated setting; if the assigned combination is incompatible with the knowledge and task, report that instead of improvising a different one.\n\n## A2. Measurements and conditions\n\n- **Q0 (world-knowledge pretest):** **not generated here**. Its story-free question and answer are already in the fact record.\n- **Q1 (belief attribution):** ask what the **named agent** believes or expects, not what the source says or what is objectively true.\n- **Q2 (belief-dependent action):** ask for one specific next action, output or parameter that depends on the agent's belief plus the explicitly provided goal/constraints.\n- **Q3 (world-knowledge retention):** ask for the actual world fact. The real-world gold must remain unchanged across conditions.\n\nGenerate a family for four conditions:\n\n| | Implicit | Explicit |\n|---|---|---|\n| **Aligned** | Source presents the locked true claim; belief inferred | The same story with **one** direct belief sentence |\n| **Conflicting** | Source presents the locked false claim; belief inferred | The same story with **one** direct belief sentence |\n\n**Strict paired-story rules:**\n\n1. Across **aligned/conflicting**, change **only** `{{CLAIM_SPAN}}`; the corresponding explicit belief proposition must change accordingly. Keep agent, background, source type/credibility, exposure, setting, task, action constraints and all Q1–Q3 wording fixed.\n2. Across **implicit/explicit**, change **only** the insertion at `{{BELIEF_INSERTION}}`; otherwise stories must be identical. Do not alter certainty cues, attention, task difficulty or source access.\n3. Keep the claim attributed to a character-facing source or observed routine, **not** to an all-knowing narrator.\n4. Do not introduce belief updating, later corrections, additional conflicting information sources, or a second target belief.\n5. Q1/Q2 intended answers may change with aligned/conflicting. Q3 must not change. If a belief change cannot plausibly change the Q2 output, reject the proposed bundle.\n\n**Implicit** does not mean cryptic. Include a plausible reason to pay attention to / rely on the information. But **exposure does not guarantee acceptance**: do not insert “believes”, “knows”, “is certain”, or equivalent assertions of the *target belief* in implicit stories. If a reasonable reader could reject the source based on common prior knowledge, flag this as a gold-validity risk.\n\n**Explicit:** Do **not** write a free-form explicit sentence. Supply two **grammatical, affirmative finite-clause complements**, `belief_proposition_aligned` and `belief_proposition_conflicting`, **without** an initial “that”, a leading agent name or terminal punctuation. The caller inserts the exact uniform sentence:\n\n`[AGENT_NAME] believes that [BELIEF_PROPOSITION].`\n\nThis sentence is inserted at `{{BELIEF_INSERTION}}`. Do not vary the verb (“comes to believe”, “expects”, “accepts”, etc.) or add source-acceptance wording. If the belief proposition cannot be expressed naturally within this fixed construction, return `needs_revision`.\n\n## A3. Six source-to-belief-to-task frameworks\n\nUse the **assigned** template. The pathways below are structural constraints, not interchangeable surface labels.\n\n| ID | Framework | Required causal structure and caution |\n|---|---|---|\n| **T1** | Written Reference | Agent encounters relevant information in a written reference → later uses it in a **different** task; do not merely copy a sentence. |\n| **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |\n| **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |\n| **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |\n| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |\n| **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |\n\n## A4. Context cues and action types\n\nUse **one or two** compatible belief-support cues when they meaningfully help; more is not better. Keep the cues constant between aligned and conflicting variants.\n\n| Cue | Use |\n|---|---|\n| **B1** Unfamiliarity | Limited experience in the **relevant** domain; not direct assertion of ignorance of the target fact. |\n| **B2** First-time activity | First time undertaking the task; not proof of ignorance of general knowledge. |\n| **B3** Limited firsthand exposure | Little direct experience of the target phenomenon. |\n| **B4** Source credibility | A plausible relevant authority; never “always correct”. |\n| **B5** Source's past reliability | The source was useful before; not guaranteed truthfulness. |\n| **B6** Purposeful information seeking | Agent actively seeks information; does not automatically imply belief. |\n\n| Type | Downstream output |\n|---|---|\n| **A1** Artifact construction/design | One feature, arrangement or component. |\n| **A2** Quantitative planning/resource allocation | One quantity; minimize independent arithmetic complexity. |\n| **A3** Procedure/sequence | One specific instrument, operation or next step, not a whole unconstrained plan. |\n| **A4** Prediction-based planning/control | One threshold, setting, place or timing. |\n| **A5** Revision/error correction | One targeted edit or “no change”, with a defensible starting state. |\n\n`reasoning_structure` is recorded **separately** from `action_type`; allowed values: `one_step_mapping`, `simple_calculation`, `procedure_selection`, `prediction_application`, `targeted_revision`, `direct_copy`. Prefer non-copy applications. If the candidate is essentially direct copying, flag it. Merely changing names and locations does not produce a new reasoning structure.\n\n## A5. Mandatory knowledge–action compatibility gate\n\n**Before** drafting a story, specify the agent's goal, a **new** task, explicit action constraints, intended output, `action_type`, `reasoning_structure`, and **different** aligned/conflicting action golds. Briefly state the belief-to-action mapping in metadata, not in the visible story.\n\nA compatible bundle must satisfy **all** of the following:\n\n1. The two beliefs lead to **different** intended Q2 outputs under **the same** task and conditions.\n2. The character's likely action is supported by the belief, goal and stated constraints, with no hidden rule or independent event required.\n3. The action is not equally obtainable by ignoring the belief or copying the source into an identical later task.\n4. A reasonable reader need not choose among multiple equally good but incompatible actions.\n5. The fictional setting does not accidentally make the false claim true.\n6. The source and the agent's prior experience make acceptance **plausible**, especially in the conflicting implicit condition. Prior familiarity with the correct fact is a substantive risk, not something to explain away.\n\nIf no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails during story construction, return `needs_revision`. **Do not force an arbitrary gold answer to complete a record.**\n\n## A6. Fact fidelity, language and Q3 leakage\n\nTreat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.\n\n**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.\n\n**Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.\n\nQ3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.\n\n## A7. Renderable story contract and output metadata\n\nFor `generate_family`, provide:\n\n- **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).\n- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.\n- `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.\n- One shared `belief_question`, `action_question`, `reality_question` for all four versions.\n- `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.\n- `risk_flags` (zero or more values **only** from the controlled vocabulary below) plus exactly one free-text `risk_notes` string explaining *specific* issues; use an empty string and `[]` if no issue is detected. Do not invent new flag names.\n\n**Controlled `risk_flags` vocabulary:**\n\n`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `source_vs_belief_ambiguity`, `action_ambiguity`, `q2_copy_shortcut`, `q2_non_tom_difficulty`, `overconstrained_story`, `unnatural_redundancy`, `q3_answer_leakage`, `world_fact_scope_risk`, `template_task_mismatch`, `near_duplicate_structure`, `implicit_belief_leakage`.\n\nAssign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.\n\nThe selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.\n\n## A8. Naturalness and open-response actions\n\n**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., \"Two controls are available: …\", \"The trays are 20 cm and 21 cm\"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.\n\n**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer (\"preserve X if …; otherwise …\"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.\n\n**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., \"exactly\", \"with no phase change or competing forces\", \"both are wide enough\", \"modeling ordinary physics\").\n\n**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.\n\n**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.\n",
+    "metadata": {},
+    "model": "gpt-6.1-sol",
+    "object": "response",
+    "output": [
+      {
+        "id": "rs_0d1f653b3528b302016af894944a7087d288354e23e2e9d366",
+        "summary": [],
+        "type": "reasoning",
+        "content": [],
+        "encrypted_content": "gAAAAABq-JSkP5RaiGN3iwqgBlOXPTpQLTqzfxeezEricrDQUT3rN1OkRZVrZVs7Ua5tVTNXj8V27LlRrC3UumpjKzimiNuyLse2hBeeUAgMvmeCaSbRE1_9NRRbCgqmRbKvKbfpbLSAnpK0Td5M3lPlyyMP_9UVP0y-S7Hb9FMCCAuXEALhS01Rj6T1ztPidwPKlAU8YodD6H_qG4EvLSUHKjv2JB-NRud2EvVKcQbFmalQsO2hcCAVgQr_2HQu-ICH0nLX-akjsGcvJqdXqfVEQOPObWuqMXspnLpKR20eX0rgNl07BisTkUc1Hl4p04YoLX12JkS7dlNg_WFIg357QZDxohYc7p4apvDe6pXUVYV2tr4B4QVxykPdNNH2YWQ5wBgoC07niGFmjIcUoW9IqByecRMsnHUVAzmm-83e4ZwGNoGY71hj6HqbM8YzBRvnu5Tfg-MK3uD90p5h_qTBwIKIwxgcGC8JjFzJriYhjz1MZBrcoFYtfmWbtZcrzlfCzieWO8bpf9IaQeOeg5bfx2vql1yTArnrnK1JvO5TsHLreK2JhHgpnf5JL4DlAYL1N8c4l9xLnjSDW1GadtyCTz03s4ddf3pW3PHBzqLfMrIqfco8-KjLkiDE_hKqkWq4LwIrHTGPLQ9kmsORzTXAAD9putjWK3wd8ZMCHd1LfiPz5alE7z_R3TpdD-BOmPJZIv7w6wmwUXlGCKIo17YDbjPbi5rLS8SWA9nAYbApNcgy1EdiA0K7kbdJbBVELYeMn15FqYRD2xlML_9ZjQLjfj8UM983MzlpUPojnZ5k5xI-uxG42FyCRsc0VzfyBGeNkP-LgZGI-TIIijDWndgeDSrQXZk1nzwXAdPK0O3IpMRo4Uehb2npTxbeAlYk8YfyyCrzfw077LG8lI41Fp6omr9dPxb2tPcsoZLeR99fQiVGSPZX5LmmQS26_QMIqGZ29Oy6bsMUTFlrlEeQ1QAze6iBLEciSGFddixsX3E7z_Wpgug7cB53kzqlzrG7V9QYUPRX_SZsehExcRNaTEmrW_wcN3OQj2X9hQ2r6iXSmmuNnhUvkV5arCjQjbrUQ8lyGV9AY2VQq4X_A9xjIFyqYA7X48O6YywcXB9HP87RI5oD50lzllgAqxRLXcWat6CTkTlIjm7JXh2ZBA4kud7QtVaJiOKz6prXldktAVXuDvjC-hQLHqtmOX8XhfXlf4G7ZAs1nKfpcCYh-4scZ7rNkcLUmA1Qrls5rvN5JGnh63Rz5PRmHVkrPSxAEoi6ILCUoZQn1N8NQ1SAKhlL0mKTIJZdAeV3h0DEjZTe2CJ6yPMuDJSaGJWrDIXtHfdCIQRfRqoxjSbBDMiFT3Z862oKjevpI3qzjcQ8NWWqRxgkbhJWZWVQWm8Q30InaL2PTdxCYrk8pcBLnu3iND2v61I5RKwdtBnEwfLiBjli7j8IVgZsihTbKroOJyflUGO0GCHobKqLv6JzBQYHTSsU9s2OZ4UvPLEgcWsUCDYSyteb1-Kzled-PFz_T_wJQYFuzaKFGeK8iRhW9CLaV21q3GeDdqYY_JgAgDbeVY7R28DAvueqSmnKC3B-rhtBrTh3KlD11cA6p-ktU4iTikgJDRCzlP3kKvSkDBCav_fv15bpyLofzVkYhpZc1tp8TWB06pc7QmvLb4JUm4Bx2sNbh5z6wIugF5XRRV5S0KjmmgJwckhP5kkw9TBgevyGVD6jx_8cNphvxq_QJPfaazFXKdgdcnKV5QkIKw8WIYrn7WYjYxca-kKX0jwD9ew4HekPnbyVrIm6QLFwC6-Mw7ReXm0Ysl4BFpgSsIU_BoL6tlsTood3-m9s9C795FUcimV41EcoMOsHRN3K1auZjqjjtVxgiKjB0j-FkFSCr9UihziT7A51IAaj0eh8v84cazlTPX6pSsFFmuyRWzvXKMQyBdvnPhsP0HJAGHD3iUPjjY-C033AQLESab83cvqv9lGQa8-e7ez_dGIiwSU-x0WB9T4f3_w9b9gkcFlhDPRdMG7rm6c6G6mck35Jjttnoie7Afhk40c5ALxIAqXmh_mobutXzf2ESdpqsLWzqVPb1-HNoudo_nOMD_QGHUG_5m95TwrHd6X2lrHmYhYPf6BeF6CC7jdaiv1VYDiwtzJRjCIl4NJrBnWLjWkgpUpcLDpfzLblqKX5vnrnrAqaR9i7vQ0OyIdpaqTdPQzqjHq9cXJRBzcVnp0lutC7LzRnZzKmEpijoD26UNJKmPAzSi8H7DL-buTICQYxLSq-28H3rtxLy7Tcw61g_T0Kqzsx4GTouHtGHuNYCwYscuKKj5-iX9NN1a_MFzUodfQV095Hj_2QcT4Dq5TDEQM4ujpJkwxFRbMY7LlJUmPAsgFHOtkAl0e9_UJc84hVnTSAHUpjjLI2UHd41aQvl_aOkc6mGbtBINuMzWODi1VL7RiR6IwsP7YTvNyUEutpt5Fuu75Ckuriu2EQOiXBMcTzEPXbN6rwD5vkeXfK3m2QgfIp1HrYDby0V8uW9mLp32PnQ-Z6FdkIuvg_r0KytgIMBi0aWL2IXp49CCnsBq-kC_6iCw8Owhlhuo2wfu281PfMSUAsqJcCNlDZdXzkuu3GKsEDQexCbvG9STq7IS4dHkdivn6jxL8pmfj39MCxaj0AnXDLPDaq5aUaJpD69c3I3uXiaHiypQqiD2srDeJqS-qv84lfRGcQMm-DRzdlpUC4TLwrU8P-QEKVUbQeutiLgBuigMED9SWIqma118bIo2Q8wTOL3MsZI3-US-ZqQzHWjt1pmc7LEC2uXjC00qUSxelIdAive9-sYIHpIwGEdFOBz7Ryc1PRHWzzecC9BTg42cxD10ts0rn0QC5VY55L1ailcXM-RxwUWl9TA5qixEiJxtlHP1PjYLuFETa8N0twvrsMH0yuj3cLIOxbPry3HTggatIhLaGnCqGp0WETesd9lh8Tck2L6-pMn7he7uqJwcY2UQa60-GZredyAnRY9wIRtA-zOtK1R4dHCGHYi6ysPKUrk2sv0VvhiorUScw1FatFR7FBsyF7XmKq2sy1JAx6bL4m3dFQWNpJqPoXiRG7_0JMYL1aIo98Hugz8VMkiVbPK6tAvCjbHUkv14R6WT3Ksmn_cknvr-dhfRhmnKn3hPdN3hqjfmk8a9R6H4xKbdjqv6Ba2v_FuwdExjsqcSJldA2_TjZHLSsVF6K4xNHMUPh0v30Ej5HrsEK4JmjAd990yHVkATulRuwupcN5S33U6UFsOMQBCvln14_Qfk5eci7F7BMJr5Y7gorFe7cQK91ldL4lDPrLnCW8K-YT67lT-LEmTL-D5stiDK0pkQM-c4APBHhV_jhGN_F1QiP9DvD_qAbPG0BP5KZA4bPLoI06vkxgS3JmAuT5xKlcccvdwNUZTsBTygMKwfB_P_XH1jZZEmoAFEAOxNjiaW9WhsqWDJAOTc2QNbbWwV06qut0ORHQyRm0KcDoVgAgZhQyBVWATqhTEYEJI_T6SycyqjqinXSeZJ5dVccDdMlYn1T-J7SQhXXKMgtKSrmond_AIk8SWkG_XxcmHBOcQ-phovmu3cnXeL2SE2lB1kK8BFqoAJtIjRyRZb_rGfdRXceqGd9sZKr4GcdUqEwt1ZLGxCU4mLB22XrtJhplzBUwVtfPTKjw3zJ0Bx3fwMEBYN1-01_7FMZQobxejHQgnuXes0sSQ_wkOWNlhBmTfsqsG1wsbgReU0YeRR4pvChnmQmuQ7FutyMOkW1msnQVD7pAUziBRUyy2AdwfKLxc4BtMYpVuINA7qdshFK2D00VvQ2loHow0VjY6ihfOYSWBAabQPQDtbjmxhhEXkLat4elFHKcEH_AFzCajJ_llk1ipwLzIjjz0ef8Ihj8Jw1OO9hVmF6KBdEDccgXDgSRcUvvx726kMvxN2iZblhny7N1NB2UIdGBUnlWTFccI8iwGe4Uy4ea0jiLWyyBNcWcL18QOdMd9RJ7fk47EDDGQX9fX-e2_98aY4ooyfvYFU9J7LBySOH3YIlSx2PHl7Ll7nM3lav-QFDFrIPdV3Wai8UX3o590dmI0AYRtGVOKntrBRQzMBUTlgHWqj9B1I8VrL0_E7GcJKdG_dHDuFGWWo9JPs_xr89jlIVMWJYQNtHBZEsO_pABcj3PGIJCsmaxe2169bagqom-I106w3eciwzNjnNsb-8FHwBAC09HYzAPqohflmGO6dDEchG9EIF_0ZtQuQCyfRmjlKNjRh31E6wDIxrBrMunj8npbtFvpsmsk8GH7OIFtaTxnMgfBvDeDfLfX_ovtiBhEQazcDmVxTjVZIfoCDe8Lou9FI4JpFV3A6X2caHmL-7Cnxx5S98IVY-hbvshbEbYtaGoteoEE-q3QE85sAfU3hblTktV7AglB__yaqo9k1hdPvE4Aep7JpOZy7fcAX3IjRwpxQYhaqn7kV901Nag9RNJuQnszBTzhBDWM44dTJSo-xh4i9-uVdkvML0QvzKabx5eWUH5SIchgI5rNgkuUe9-gExoNDnO1qif_PSOVSyZqpl71E0nqASksceRRAwXWJfXTXeeoUDePjxQltmnYXkXy9xNQW5Hc0Vw6nJ6opjGCaMQh5dtalj5fj3WJyCacNUswpplOcbThHVaLFlzijGyJV4IyvmVmUznfWQZ2MpykL6xQMyEt_6ln0PTAensnYmE23R0jI45QPyj7XCysVZn8NFfaC2oRL73u-a-1873id02ajV4HSs9lkWWWvqDO4yR1ygvMQ1SQyAdTQHeMxXPTg1802dj8hSVtmtm9ucT_mQ8A7mzs-4l0GGhuS0jrrfSLP_MIQIzEExZJEakB8AgRROnBMURLaSPD5aMEfmCoJlKXM2Vy2Q9sy1S1Hq34yeZYYlkaqzZqDs8BYRcV-YG2mCwOT1obVuYVe_DJW6SzuvH0PWtJ5gXj2tIw4mMQeKGguHxiwu_zdYdvj2Xx2bR9PVBeDqO5efw8y37OVHmvlm_uo7fHXOcnm7RndGabiUf3aCwgkNY473k0uaF60o1c2_3eENDsDCX4DKJ_xjF0qKwVusCZPXWNTN0RpzIMlSdzJMWfgfmX3k-WfTtOCTRVCdt1t25yNr5cB40Qc8h00s2KqhnH8Hvtj_Jy-QWM36ZHEN8N2ZmcJBGxtglVZMpVZute9NGvvTpDYbmM0bYmFZl9VXDjA2CZvc8TXcAIJyD2P-2gDAy0l0RVeBIvgZCjhXTbg75XvLYWrpFIV88LPYmdsi0pegfmW-_2mmPr2Lfc0uqClRAJxNIbf0O12JdhI3jPIDxndsvbuN0Ybj3uBetojYCOoRlnjqDr_VwDu_T2f6khlASmmvOxG83HpYnc4I8duzKp4VUAwDauEX90C6a6h5pSWvKsfpNaqMHgUjrvo6vkwfPhAR4p46R2FOQDb6g9r5UIrL_xuU-Vbg-UFUReon3FRbuNX-cUyx4b_AsBYMenY6rm2aHLLaErJT7aeHVPZCJ7UQL_o4gNf0mDr1TObZ3JdX1Kb2Tuno0sMry1ydP_oLye_gLrYDDI9f6vFE7UXUPHzbj_UDUfdfH8fi38xvB-sRTaPVktOd7G-UHtjvdKOaeh5k6gBucISJ66e2uaTimkI_PYd-AUUw73u-G-gP7r7qln5U-1rTAeSIQspF3pkBK3xzBulZkJc9eZbjVARrorwqs1UYFZRcm-2_6HIiRnk6wWxT342JywMXXJG-4qEDt82rf1hmYJV_Ap6WXv3WxqmzM3DhrXpJr3wJHRzlde-CND6PhikG5wUc_aLM8LHLoGafzYhbuqt-kYXdaBqcDZ0rHuJYuOROjbkTFZRw788UOuaaoGZ-5kM62u7bBGqu3aIHc9nrxflODe3Ip4iMSkd9wFvYAUZvyaWsbELVSBXvZXICtfCVP0edePGkTH5iPmYiGH9gVetfNmwF0fNepQJokR0nzmNwgjJ918NfHP1UXY6E7VCi6UptsSpqHlxixESRUDPA6_l2tZxqBSxGox3fL6owLK_E4k_Oj5ipQkpELSgA1CbzLBp133ixcsPar2AgBBLrBp9TltLFuuNjrVBB-E-8jkS8xr4__3poaL7P7A-gDx6GPB_6colmiA42t_3GEH-k35eRtJ_DMDyAW-767UEMG75QHlG656FYD5fvJwx-Mjs5IW4YKevdFNRCuQwvpiTHArMgv7Ss_o1ox_9kaPqi8OwE8kbhyO0c4llICsqNBGJ1VROpQ_son6Rw0ASdMwN1V-h6FRGEzXGZzCrcMF2F0LD3Bm7qdTCX0FiD3TGmz_x2ZVRwrK8dahdM3kO4M_EUP95GFSZV8uH9RAdzmB1IU7U_uRwUxrbcK5OnnvwBaXbWZ9K48QAkX63EXHjwuInJm2SUgo4NmN38wHnsa0dwQ_eCA12MYcxkMBUxT9LOv_Ot6-Og_Hzi-ybs_PTdn6A-S4o2IB0YwxfGaR-ko1Y6QfH_Y7eWYXC51-A8H4KUtwqqZqR8XGHmcQMIkrTe_i5er257jO14ndJHz3IISBpmd-BKN-yz2MmRgwdjsGCUJi2Gx869rOEdv70mpe2X_gM1cD_puMKwD1wOWG3kBo1tqIBOOoAW5OF6iG-U6YiVHdz8aFF3VDDLu1125qPteAp8r7XxQzrQPy-VnaQEXT12rhoarAplpoqFlLmOSEhG7WU7-LCQ3tJfDlgc9KQslp4JUrGZo1akSrAqEMSNRaJVgRujTYoZJGTo3lZO1E9HTaX3bP4JhyBSyPldZtI1jNdQF8TCUzOx_a3femfoigOmJzFWtFWrxEOicwXdvKpo4G97Ile5xxFpdu8GhGIE2mEGrKqCKQmEKHz4PEHHzGb3zbOg9N-7n69yp5ADBiqj7KrLZBgsdaSFInKDVdD-civPqbIn2HcO2tO3rTtMPCkBCna-llmnJklRrdAQFEXkFOu2WcC-lHZFL5GHjO1tB6X4bpjyPA-BIyT-kvCxcZx8A8C-8INEpuhP7jcur9qQJSSgOyUG7vvCs1KtRweJj9uYz4tsMeKtUxa-PxEfXYeIrV-4j75XZtsf9MCFm65YgqDPAH3jY6jh1kPNlCeFgH9StraDY0EoxCoApST2AD9mmbGBhClv3cFaS0d3xgwos_Tw16oVvMU3VOdJ0hjjD1JKoBrV5oesQHiysKaldj5yalHVHp2I0wiXY6y_-lbVje0Xt-OxIzJW-2E2IHwD8eSibsVDkUttIwd266vdczieoCQkvxiC-sCEDw1n2AZhuThV6Hy20FY2O-D5xGbA0EXchJfTD0S-feBvX8ucjn_juYCOu2TOWaL6uosPWp-wq0l__t7CSK2-JfnLsJCGOXtJQ3tMFO4uQbS8Cw9pX-uNWmJNmG1WkNAtxQFap_VGs8zRBtPND5D-kXRJDaxhswKYwGrWLpq4SxhGWPM5zVKaqhGjCNMANxpRNw4qonaUfzjVVK1JXp5YgEv2VIRlIgkyBjf_9m8kVtoxwBrlI4psLZGz-BxjKoyQ8jZJ7ATRG9XRinH43KQ6793z1_2ze8E6H8BC72SzshariEDjgkkS972ICbunYSrffJZnfTu1wIjIuMfukiB4S56t_iYDAvSKfmNUMwHP_rxtfQGm31_Bg1CgYRDFCk2xtomdUQyubcxtI6bw-Ee82Zj9-okSQYeMae5xupjr95JQGgIZKVve7wtrDooE920Pf-iOHCqbjho2Byv3yAZBgBU_4E7HE3MLZbLGWUn5skoJUocJRWBFQmSdYuzzBD3qzR2szcPSkmYlJn6-SV7OqQokANHW9cAgCHDOeIfDImGrvOVCGHciJl1kk6NovK0H9fe-dcBiMvbu3FWQPPNIBBC1fg5Njqkwg9s3pHp8kMvXuIpcRwhRuWFQROh9-AbCfeIL7ESakqL_PiXf6tnuyAt4joBQdjOvXa_Ty_uoXl7fNS-sCRRd5eOqTwpju48l1hSUh4eXX6S4f3Kwc-VPfujW3ZOx-vHDRafYtXUenL_u8-SBjYLcGT9XbBemnFEX4RGdhzgN9VyPOF73x7BpLnJ7R0mJ7unhGjj5fxzQH_a9COwGq4gh1KZ_THOVvIaRWx965WHJ65TE0E1gIbCDc56QkmhKdmlA_mXyMCsTizc8fuBonfhR1SLIoYZac6_xZisj0uXudspv2isJzDQBS62U7kJgKrPax1xTZazQE7pAPygPi2l4LiHVtuEjq9v46VViBUVH_fTh51QT7RayVydTXA_OtwCOldO-rYFg5ewcdSNoKTcaynN08U2uVIwvFlP7fCxDReEPGUBA4n3donQEwIFSwlDhKjmikdddmArqYldCOkiyIn9riilJG3mgYMVBVCd1lRjP_RI1f7b9hiOpda7qLw2g9s7txdPaCsdINX4L_nOb3-KLMSMfYu9buNouFCU9Nj1GlVkQ1z3SlJPWcpKVS-BrxZWA-D3BfyYwnnaARy7RRHznQ6smdTNO7pUHXe2LIQnpKfZ_nplEWYxV5paFfgqrM2-J7DgzPutGTN7Zl3mNIwSOlbUT_lov04QPomNKzntrOHL_HpoK0N-kKOGG0VRE8zdzzBo0BmacaoF2xhBQoHdrHrafpM8jDOOeX4bKFFQPSlJJpe8OFs-VdGnFUCaS6PggczkJPshSiMGaeOekROdRP-oJC7Cf9HieKTx9mdQeqHsM8gMlvy4gQfHuj6DMgDZrYS7u3yjdLNu11F_2ihfb2snVx9CzG1lnu5sGQWI4pM3r1H05z1qnQy8s0r7-fAvpSjcOEv-RuDusVAgFm9xCDB78J8iwjQzYIHO-ZYi01ITXhmt0EmxeC7FVpVjbEa6o8UUEpUXwPzhXhWgmENcJAvKoLEsnM9HGovQdqua0YJYF8Mvye2_W-pC3A6E9iddoY3cWDGPalrsgaB3R_UBh9zUqU27qHpDDLvktKjxTe6DUgPBVyThA-Y3wqnM3Ym9lN26fbSxHXDow=",
+        "status": null
+      },
+      {
+        "id": "msg_0d1f653b3528b302016af8949ee61487d290b1f82f101230c1",
+        "content": [
+          {
+            "annotations": [],
+            "text": "{\n  \"task_mode\": \"generate_family\",\n  \"fact_id\": \"K30\",\n  \"bundle_id\": \"B01\",\n  \"status\": \"candidate_generated\",\n  \"template_id\": \"T3\",\n  \"agent_name\": \"Daniel\",\n  \"setting_domain\": \"events_planning\",\n  \"setting\": \"Volunteer coordination for a Japanese public elementary school's annual welcome event\",\n  \"source_type\": \"An education agency's online school-calendar guide\",\n  \"belief_cue_ids\": [\n    \"B4\",\n    \"B6\"\n  ],\n  \"action_type\": \"A4\",\n  \"reasoning_structure\": \"simple_calculation\",\n  \"story_backbone\": \"Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date.\",\n  \"claim_span_aligned\": \"In Japan, the public elementary-school year generally begins in April\",\n  \"claim_span_conflicting\": \"In Japan, the public elementary-school year generally begins in September\",\n  \"belief_proposition_aligned\": \"the public elementary-school year in Japan generally begins in April\",\n  \"belief_proposition_conflicting\": \"the public elementary-school year in Japan generally begins in September\",\n  \"belief_question\": \"In which month does Daniel believe the public elementary-school year in Japan generally begins?\",\n  \"action_question\": \"Which month will Daniel enter for the volunteer briefing in the booking request?\",\n  \"reality_question\": \"In what month does the ordinary public elementary-school year actually begin in Japan?\",\n  \"proposed_gold\": {\n    \"aligned\": {\n      \"q1\": \"April\",\n      \"q2\": \"March\"\n    },\n    \"conflicting\": {\n      \"q1\": \"September\",\n      \"q2\": \"August\"\n    },\n    \"q3\": \"April\"\n  },\n  \"answer_variants\": {\n    \"q1_aligned\": [\n      \"April\",\n      \"Apr\",\n      \"the month of April\"\n    ],\n    \"q1_conflicting\": [\n      \"September\",\n      \"Sep\",\n      \"Sept\",\n      \"the month of September\"\n    ],\n    \"q2_aligned\": [\n      \"March\",\n      \"Mar\",\n      \"the month of March\"\n    ],\n    \"q2_conflicting\": [\n      \"August\",\n      \"Aug\",\n      \"the month of August\"\n    ],\n    \"q3\": [\n      \"April\",\n      \"Apr\",\n      \"the month of April\"\n    ]\n  },\n  \"action_constraints\": \"The welcome event takes place during the opening month of the school year. Volunteers need their briefing one calendar month before the welcome event. The booking request requires a month, not a specific date.\",\n  \"belief_to_action_rule\": \"Daniel subtracts one calendar month from the school-year starting month he believes applies: April yields March, whereas September yields August.\",\n  \"risk_flags\": [\n    \"q3_answer_leakage\"\n  ],\n  \"risk_notes\": \"The aligned online claim necessarily supplies April, making the actual Q3 answer available in that condition. This is inherent aligned-condition availability; the conflicting story does not independently disclose the true starting month.\",\n  \"validation_status\": \"needs_human_review\",\n  \"failure_reason\": null\n}",
+            "type": "output_text",
+            "logprobs": []
+          }
+        ],
+        "role": "assistant",
+        "status": "completed",
+        "type": "message",
+        "phase": "final_answer"
+      }
+    ],
+    "parallel_tool_calls": true,
+    "temperature": 1.0,
+    "tool_choice": "auto",
+    "tools": [],
+    "top_p": 0.98,
+    "background": false,
+    "completed_at": 1794675876.0,
+    "conversation": null,
+    "image": {
+      "context_compression": "disabled"
+    },
+    "input_transformations": [],
+    "max_output_tokens": 16000,
+    "max_tool_calls": null,
+    "moderation": null,
+    "previous_response_id": null,
+    "prompt": null,
+    "prompt_cache_diagnostics": null,
+    "prompt_cache_key": null,
+    "prompt_cache_options": null,
+    "prompt_cache_retention": "24h",
+    "reasoning": {
+      "context": "all_turns",
+      "effort": "medium",
+      "generate_summary": null,
+      "mode": "standard",
+      "summary": null
+    },
+    "safety_identifier": null,
+    "service_tier": "default",
+    "status": "completed",
+    "text": {
+      "format": {
+        "name": "generate_family_output",
+        "schema_": {
+          "$defs": {
+            "AnswerVariants": {
+              "additionalProperties": false,
+              "description": "guideline 示例里是一个 dict；strict 模式不支持任意键的 dict，所以展开成固定键。",
+              "properties": {
+                "q1_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Aligned",
+                  "type": "array"
+                },
+                "q1_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q1 Conflicting",
+                  "type": "array"
+                },
+                "q2_aligned": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Aligned",
+                  "type": "array"
+                },
+                "q2_conflicting": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q2 Conflicting",
+                  "type": "array"
+                },
+                "q3": {
+                  "items": {
+                    "type": "string"
+                  },
+                  "title": "Q3",
+                  "type": "array"
+                }
+              },
+              "required": [
+                "q1_aligned",
+                "q1_conflicting",
+                "q2_aligned",
+                "q2_conflicting",
+                "q3"
+              ],
+              "title": "AnswerVariants",
+              "type": "object"
+            },
+            "GoldPair": {
+              "additionalProperties": false,
+              "properties": {
+                "q1": {
+                  "title": "Q1",
+                  "type": "string"
+                },
+                "q2": {
+                  "title": "Q2",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "q1",
+                "q2"
+              ],
+              "title": "GoldPair",
+              "type": "object"
+            },
+            "ProposedGold": {
+              "additionalProperties": false,
+              "properties": {
+                "aligned": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "conflicting": {
+                  "$ref": "#/$defs/GoldPair"
+                },
+                "q3": {
+                  "title": "Q3",
+                  "type": "string"
+                }
+              },
+              "required": [
+                "aligned",
+                "conflicting",
+                "q3"
+              ],
+              "title": "ProposedGold",
+              "type": "object"
+            }
+          },
+          "additionalProperties": false,
+          "description": "status=candidate_generated 时所有内容字段必填、failure_reason 为 null；\nstatus=needs_revision 时内容字段可为 null，但必须给出具体的 failure_reason。",
+          "properties": {
+            "task_mode": {
+              "description": "Must be 'generate_family'.",
+              "title": "Task Mode",
+              "type": "string"
+            },
+            "fact_id": {
+              "title": "Fact Id",
+              "type": "string"
+            },
+            "bundle_id": {
+              "title": "Bundle Id",
+              "type": "string"
+            },
+            "status": {
+              "enum": [
+                "candidate_generated",
+                "needs_revision"
+              ],
+              "title": "Status",
+              "type": "string"
+            },
+            "template_id": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "T1",
+                    "T2",
+                    "T3",
+                    "T4A",
+                    "T4C",
+                    "T5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Template Id"
+            },
+            "agent_name": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned agent_name.",
+              "title": "Agent Name"
+            },
+            "setting_domain": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "education_training",
+                    "museum_exhibition",
+                    "community_volunteering",
+                    "workplace_operations",
+                    "arts_media",
+                    "hobbies_games",
+                    "environment_weather",
+                    "travel_cultural_orientation",
+                    "events_planning",
+                    "technical_workshop"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly the assigned setting_domain.",
+              "title": "Setting Domain"
+            },
+            "setting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "The assigned setting_label if given, else one specific natural setting within the assigned domain.",
+              "title": "Setting"
+            },
+            "source_type": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Source Type"
+            },
+            "belief_cue_ids": {
+              "description": "Zero, one or two cue ids; [] when needs_revision.",
+              "items": {
+                "enum": [
+                  "B1",
+                  "B2",
+                  "B3",
+                  "B4",
+                  "B5",
+                  "B6"
+                ],
+                "type": "string"
+              },
+              "title": "Belief Cue Ids",
+              "type": "array"
+            },
+            "action_type": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "A1",
+                    "A2",
+                    "A3",
+                    "A4",
+                    "A5"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Type"
+            },
+            "reasoning_structure": {
+              "anyOf": [
+                {
+                  "enum": [
+                    "direct_copy",
+                    "one_step_mapping",
+                    "simple_calculation",
+                    "procedure_selection",
+                    "prediction_application",
+                    "targeted_revision"
+                  ],
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reasoning Structure"
+            },
+            "story_backbone": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Shared story with exactly one {{CLAIM_SPAN}} and one {{BELIEF_INSERTION}} (directly after the sentence containing the claim).",
+              "title": "Story Backbone"
+            },
+            "claim_span_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Aligned"
+            },
+            "claim_span_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Claim Span Conflicting"
+            },
+            "belief_proposition_aligned": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Aligned"
+            },
+            "belief_proposition_conflicting": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Affirmative finite-clause complement: no initial 'that', no agent name, no final punctuation.",
+              "title": "Belief Proposition Conflicting"
+            },
+            "belief_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief Question"
+            },
+            "action_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Question"
+            },
+            "reality_question": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Reality Question"
+            },
+            "proposed_gold": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/ProposedGold"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "answer_variants": {
+              "anyOf": [
+                {
+                  "$ref": "#/$defs/AnswerVariants"
+                },
+                {
+                  "type": "null"
+                }
+              ]
+            },
+            "action_constraints": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Action Constraints"
+            },
+            "belief_to_action_rule": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "title": "Belief To Action Rule"
+            },
+            "risk_flags": {
+              "description": "Zero or more distinct values from the controlled vocabulary; only for concrete risks.",
+              "items": {
+                "enum": [
+                  "agent_prior_knowledge_risk",
+                  "source_acceptance_ambiguity",
+                  "source_vs_belief_ambiguity",
+                  "action_ambiguity",
+                  "q2_copy_shortcut",
+                  "q2_non_tom_difficulty",
+                  "overconstrained_story",
+                  "unnatural_redundancy",
+                  "q3_answer_leakage",
+                  "world_fact_scope_risk",
+                  "template_task_mismatch",
+                  "near_duplicate_structure",
+                  "implicit_belief_leakage"
+                ],
+                "type": "string"
+              },
+              "title": "Risk Flags",
+              "type": "array"
+            },
+            "risk_notes": {
+              "description": "One free-text string explaining each flagged risk specifically; empty string if no flags.",
+              "title": "Risk Notes",
+              "type": "string"
+            },
+            "validation_status": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "Exactly 'needs_human_review' when candidate_generated, else null.",
+              "title": "Validation Status"
+            },
+            "failure_reason": {
+              "anyOf": [
+                {
+                  "type": "string"
+                },
+                {
+                  "type": "null"
+                }
+              ],
+              "description": "null when candidate_generated; the concrete reason when needs_revision.",
+              "title": "Failure Reason"
+            }
+          },
+          "required": [
+            "task_mode",
+            "fact_id",
+            "bundle_id",
+            "status",
+            "template_id",
+            "agent_name",
+            "setting_domain",
+            "setting",
+            "source_type",
+            "belief_cue_ids",
+            "action_type",
+            "reasoning_structure",
+            "story_backbone",
+            "claim_span_aligned",
+            "claim_span_conflicting",
+            "belief_proposition_aligned",
+            "belief_proposition_conflicting",
+            "belief_question",
+            "action_question",
+            "reality_question",
+            "proposed_gold",
+            "answer_variants",
+            "action_constraints",
+            "belief_to_action_rule",
+            "risk_flags",
+            "risk_notes",
+            "validation_status",
+            "failure_reason"
+          ],
+          "title": "GenerateFamilyOutput",
+          "type": "object"
+        },
+        "type": "json_schema",
+        "description": null,
+        "strict": true
+      },
+      "verbosity": "medium"
+    },
+    "tool_usage": {
+      "image_gen": {
+        "input_tokens": 0,
+        "input_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        },
+        "output_tokens": 0,
+        "total_tokens": 0,
+        "cached_tokens": null,
+        "cached_tokens_details": null,
+        "output_tokens_details": {
+          "image_tokens": 0,
+          "text_tokens": 0
+        }
+      },
+      "web_search": {
+        "num_requests": 0
+      }
+    },
+    "top_logprobs": 0,
+    "truncation": "disabled",
+    "usage": {
+      "input_tokens": 5914,
+      "input_tokens_details": {
+        "cache_write_tokens": 1169,
+        "cached_tokens": 4742,
+        "cache_write_tokens_details": {
+          "ttl_12h_tokens": 0,
+          "ttl_30m_tokens": 1169
+        }
+      },
+      "output_tokens": 1249,
+      "output_tokens_details": {
+        "reasoning_tokens": 507
+      },
+      "total_tokens": 7163
+    },
+    "user": null,
+    "billing": {
+      "payer": "developer"
+    },
+    "frequency_penalty": 0.0,
+    "presence_penalty": 0.0,
+    "store": false
+  },
+  "feedback_given": [],
+  "checks": []
+}

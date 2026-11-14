@@ -1,0 +1,138 @@
+{
+  "family_id": "F005",
+  "fact_id": "K30",
+  "bundle": {
+    "bundle_id": "B01",
+    "suggested_template_ids": [
+      "T3"
+    ],
+    "agent_goal": "Arrange a volunteer briefing before a Japanese public elementary school's annual welcome event.",
+    "new_task": "After researching Japan's public elementary-school calendar online, enter the month for a volunteer briefing in an event-booking request.",
+    "action_constraints": "The welcome event takes place during the opening month of the school year. Volunteers need their briefing one calendar month before the welcome event. The booking request requires a month, not a specific date.",
+    "action_type": "A4",
+    "reasoning_structure": "simple_calculation",
+    "target_output": "The month entered for the volunteer briefing.",
+    "aligned_action_gold": "March",
+    "conflicting_action_gold": "August",
+    "belief_to_action_rule": "An April school-year start places the briefing in March; a September start places it in August.",
+    "risk_flags": [
+      "q3_answer_leakage"
+    ],
+    "risk_notes": "The aligned online claim necessarily supplies April, making the actual Q3 answer available in that condition. This is inherent aligned-condition availability; the conflicting task constraints do not independently disclose the true starting month."
+  },
+  "template_id": "T3",
+  "agent_name": "Daniel",
+  "name_pool_group": "masculine",
+  "setting_domain": "events_planning",
+  "setting": "Volunteer coordination for a Japanese public elementary school's annual welcome event",
+  "source_type": "An education agency's online school-calendar guide",
+  "belief_cue_ids": [
+    "B4",
+    "B6"
+  ],
+  "action_type": "A4",
+  "reasoning_structure": "simple_calculation",
+  "story_backbone": "Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date.",
+  "claim_span_aligned": "In Japan, the public elementary-school year generally begins in April",
+  "claim_span_conflicting": "In Japan, the public elementary-school year generally begins in September",
+  "belief_proposition_aligned": "the public elementary-school year in Japan generally begins in April",
+  "belief_proposition_conflicting": "the public elementary-school year in Japan generally begins in September",
+  "questions": {
+    "q1": "In which month does Daniel believe the public elementary-school year in Japan generally begins?",
+    "q2": "Which month will Daniel enter for the volunteer briefing in the booking request?",
+    "q3": "In what month does the ordinary public elementary-school year actually begin in Japan?"
+  },
+  "proposed_gold": {
+    "aligned": {
+      "q1": "April",
+      "q2": "March"
+    },
+    "conflicting": {
+      "q1": "September",
+      "q2": "August"
+    },
+    "q3": "April"
+  },
+  "answer_variants": {
+    "q1_aligned": [
+      "April",
+      "Apr",
+      "the month of April"
+    ],
+    "q1_conflicting": [
+      "September",
+      "Sep",
+      "Sept",
+      "the month of September"
+    ],
+    "q2_aligned": [
+      "March",
+      "Mar",
+      "the month of March"
+    ],
+    "q2_conflicting": [
+      "August",
+      "Aug",
+      "the month of August"
+    ],
+    "q3": [
+      "April",
+      "Apr",
+      "the month of April"
+    ]
+  },
+  "risk_flags": [
+    "q3_answer_leakage"
+  ],
+  "risk_notes": "The aligned online claim necessarily supplies April, making the actual Q3 answer available in that condition. This is inherent aligned-condition availability; the conflicting story does not independently disclose the true starting month.",
+  "variants": {
+    "implicit_aligned": "Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: In Japan, the public elementary-school year generally begins in April. The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date.",
+    "implicit_conflicting": "Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: In Japan, the public elementary-school year generally begins in September. The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date.",
+    "explicit_aligned": "Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: In Japan, the public elementary-school year generally begins in April. Daniel believes that the public elementary-school year in Japan generally begins in April. The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date.",
+    "explicit_conflicting": "Daniel is arranging volunteers for a Japanese public elementary school's annual welcome event. He searches online for the school calendar and opens an education agency's guide. It states: In Japan, the public elementary-school year generally begins in September. Daniel believes that the public elementary-school year in Japan generally begins in September. The welcome event falls in the school year's opening month, and volunteers need a briefing one calendar month beforehand. Daniel is filling out a booking request that asks for the briefing month, not a date."
+  },
+  "design_tag": "open_other",
+  "q3_leakage_scan": [
+    {
+      "term": "April",
+      "category": "aligned_source_claim",
+      "where": "claim_span_aligned"
+    }
+  ],
+  "fact": {
+    "fact_id": "K30",
+    "world_fact": "In Japan, the ordinary public elementary-school year generally begins in April and ends in March of the following year.",
+    "aligned_claim": "In Japan, the public elementary-school year generally begins in April.",
+    "conflicting_claim": "In Japan, the public elementary-school year generally begins in September.",
+    "world_gold": "April",
+    "conflicting_belief_gold": "September",
+    "pretest_question": "In what month does the ordinary public elementary-school year begin in Japan?",
+    "qualification_notes": "Refers to the standard public elementary-school calendar, not atypical international schools or individual class terms.",
+    "source_urls": [
+      "https://education.jnto.go.jp/en/school-in-japan/japanese-education-system/",
+      "https://www.mext.go.jp/a_menu/shotou/shugaku/detail/1422233.htm"
+    ],
+    "fact_status": "candidate_pending_researcher_signoff"
+  },
+  "validation_status": "needs_human_review",
+  "human_validated": false,
+  "issues": [],
+  "provenance": {
+    "generator_model": "gpt-6.1-sol",
+    "prompt_version": "410d887111610bf5cdcf003b3a96a7524047ce4ec12d504344a347ab9ad49873",
+    "guideline_version": "1.1",
+    "schema_version": "m2-1.1.0",
+    "created_at": "2026-11-14T17:04:34+00:00",
+    "task_mode": "generate_family",
+    "notes": "smoke test; bundle selection: 自动选择 B01：在 2/2 个通过硬检查的 bundle 中，取 warning 最少（1 个），并列取先提出者。 | attempt 1/3",
+    "assignments": {
+      "index": 4,
+      "template_id": "T3",
+      "agent_name": "Daniel",
+      "name_pool_group": "masculine",
+      "setting_domain": "events_planning",
+      "name_sampling_seed": 20261113,
+      "domain_attempt": 0
+    }
+  }
+}
