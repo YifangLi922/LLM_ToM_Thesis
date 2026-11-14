@@ -23,6 +23,11 @@ FEEDBACK_EN = {
                                   "{{CLAIM_SPAN}} (including its final punctuation, without doubling it)."),
     "story_too_long": ("The story backbone (including the claim span) exceeds the hard limit of 110 words. Cut constraints "
                        "and background first; keep it a natural few-sentence anecdote."),
+    "claim_span_not_locked_claim": (
+        "Each claim span must restate the locked aligned_claim / conflicting_claim itself (same content and qualifiers, "
+        "same wording as far as the grammar allows). Do not replace it with an indirect or behavioural paraphrase, such "
+        "as a routine or marking that merely implies the fact; a T4C routine may be described around the claim, but the "
+        "claim span itself must carry the locked claim."),
     "q2_gold_identical": "The two Q2 golds must differ.",
     "q1_gold_identical": "The two Q1 golds must differ.",
 }

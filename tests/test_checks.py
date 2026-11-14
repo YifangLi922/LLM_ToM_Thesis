@@ -200,10 +200,16 @@ def test_claim_fidelity_ratio(k30):
     assert claim_fidelity("school starts sometime", k30.aligned_claim) < 0.6
 
 
-def test_unfaithful_claim_span_warns(family_dict, k30, bundle):
+def test_claim_span_that_does_not_restate_the_locked_claim_is_an_error(family_dict, k30, bundle):
     bad = _mut(family_dict, claim_span_conflicting="school starts in the fall")
     _, issues = check_family_output(bad, k30, bundle)
-    assert "claim_span_fidelity" in codes(issues, "warning")
+    assert "claim_span_not_locked_claim" in codes(issues)
+
+
+def test_partial_restatement_only_warns(family_dict, k30, bundle):
+    bad = _mut(family_dict, claim_span_conflicting="the school year begins in September")
+    _, issues = check_family_output(bad, k30, bundle)
+    assert "claim_span_fidelity" in codes(issues, "warning") and "claim_span_not_locked_claim" not in codes(issues)
 
 
 # ----------------------------------------------------------------- 主记录

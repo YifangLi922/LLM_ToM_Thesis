@@ -99,6 +99,9 @@ def _story_with(family_dict, extra: str) -> str:
     ("Book the fitting early if possible; otherwise wait.", "pattern_rule_puzzle"),
     ("The rod has no phase change or competing forces.", "pattern_technical_caveat"),
     ("Both trays are wide enough.", "pattern_technical_caveat"),
+    ("The tile is linked to an ordinary single-function hygrometer.", "pattern_technical_caveat"),
+    ("The tile is linked to a single function sensor.", "pattern_technical_caveat"),
+    ("The tile is linked to a multi-function device.", "pattern_technical_caveat"),
 ])
 def test_story_patterns_are_flagged_as_warnings_only(family_dict, k30, bundle, extra, code):
     _, issues = check_family_output(_mut(family_dict, story_backbone=_story_with(family_dict, extra)), k30, bundle)
@@ -159,3 +162,51 @@ def test_a8_follows_a7_in_part_a_and_is_not_in_part_b():
 def test_addenda_mention_a8_and_the_word_limit():
     assert "A8" in ADDENDUM_PROPOSE and "OPEN answer space" in ADDENDUM_PROPOSE
     assert "110 words" in ADDENDUM_GENERATE and "A8" in ADDENDUM_GENERATE
+
+
+# ----------------------------------------------------------------- claim span 必须复述锁定的事实（所有模板，含 T4C）
+def test_indirect_routine_paraphrase_instead_of_the_locked_claim_is_rejected_and_regenerated(facts, bundle, asg):
+    """复现上一轮 K18 的问题：claim span 写成"标记的位置在室温端点之外"，而不是锁定的 claim。"""
+    from conftest import FIXTURE_PATH
+
+    k18 = next(f for f in facts if f.fact_id == "K18")
+    fx = json.loads(FIXTURE_PATH.read_text(encoding="utf-8"))["family_output"]
+    bad = {**fx, "fact_id": "K18",
+           "story_backbone": ("Grace is new to metalwork at a club. Across several demonstrations, her instructor marks each "
+                              "rod's expected tip position after warming {{CLAIM_SPAN}}.{{BELIEF_INSERTION}} Later, Grace sketches "
+                              "a storage recess for a different iron rod and wants it to match the warm rod's length."),
+           "claim_span_aligned": "beyond its room-temperature tip", "claim_span_conflicting": "short of its room-temperature tip",
+           "belief_proposition_aligned": "an iron rod generally expands in length when heated moderately",
+           "belief_proposition_conflicting": "an iron rod generally contracts in length when heated moderately",
+           "proposed_gold": {"aligned": {"q1": "expands", "q2": "longer"}, "conflicting": {"q1": "contracts", "q2": "shorter"},
+                             "q3": "expands"}}
+    out = GenerateFamilyOutput.model_validate(bad)
+    _, issues = check_family_output(out, k18)
+    assert "claim_span_not_locked_claim" in codes(issues)
+    good = {**bad, "claim_span_aligned": "an unconstrained iron rod generally expands in length when heated moderately",
+            "claim_span_conflicting": "an unconstrained iron rod generally contracts in length when heated moderately"}
+    _, issues2 = check_family_output(GenerateFamilyOutput.model_validate(good), k18)
+    assert "claim_span_not_locked_claim" not in codes(issues2)
+
+
+def test_claim_span_error_triggers_regeneration_with_feedback(family_dict, k30, bundle, asg):
+    c = FakeClient(FakeResp(json.dumps({**family_dict, "claim_span_conflicting": "school starts in the fall"})),
+                   FakeResp(json.dumps(family_dict)))
+    attempts = generate_with_regeneration(
+        c, model="m", fact=k30, bundle=bundle, assignment=asg, family_id="F001", max_output_tokens=100,
+        max_retries=0, max_regenerations=2, notes="t")
+    assert attempts[0].record.validation_status == "auto_rejected" and attempts[1].record.validation_status == "needs_human_review"
+    assert attempts[1].feedback_given == [FEEDBACK_EN["claim_span_not_locked_claim"]]
+    assert "indirect or behavioural paraphrase" in FEEDBACK_EN["claim_span_not_locked_claim"]
+
+
+@pytest.mark.parametrize("text", [load_model_prompt(), GUIDELINE_PATH.read_text(encoding="utf-8")],
+                         ids=["model_prompt", "full_guideline"])
+def test_claim_span_rule_is_in_prompt_and_guideline(text):
+    assert "restate the locked claim itself" in text
+    t4c_row = next(line for line in text.splitlines() if line.startswith("| **T4C**"))
+    assert "claim span must still restate the locked claim itself" in t4c_row
+
+
+def test_addendum_requires_restating_the_locked_claim():
+    assert "restate the locked aligned_claim / conflicting_claim itself" in ADDENDUM_GENERATE.replace("\n", " ")

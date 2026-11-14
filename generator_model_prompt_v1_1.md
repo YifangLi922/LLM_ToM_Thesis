@@ -53,7 +53,7 @@ Use the **assigned** template. The pathways below are structural constraints, no
 | **T2** | Trusted Testimony | Instructor or credible speaker conveys a claim → agent later applies it; authority is not proof of sincere belief. |
 | **T3** | Online Information Retrieval | Agent deliberately searches/reads relevant online information → later plans a task; the page must not appear obviously unreliable only in one condition. |
 | **T4A** | Feedback-Based Learning | Practice task/example receives apparently authoritative feedback implying the claim → agent later applies it to a **new** task; don't repeat the same practice response. |
-| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. |
+| **T4C** | Established Routines | Agent repeatedly observes a practice → may generalize → acts independently elsewhere; distinguish a local filing/routine convention from a general-world belief. The claim span must still restate the locked claim itself; do not replace it with an indirect description of what the practice implies. |
 | **T5** | Second-Hand Information | A credible intermediary relays a claim → agent later acts without direct access to the original; distinguish forwarding a message from endorsing its content. |
 
 ## A4. Context cues and action types
@@ -109,7 +109,7 @@ Q3 should ask about reality without reproducing an explanatory true answer in th
 For `generate_family`, provide:
 
 - **Exactly one** `story_backbone` with one `{{CLAIM_SPAN}}` and one `{{BELIEF_INSERTION}}` (the latter directly after the source-encounter sentence).
-- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims.
+- `claim_span_aligned`, `claim_span_conflicting`, both fitting the **same** surrounding grammar and faithfully representing the locked claims. Each span must **restate the locked claim itself** (same content and qualifiers, same wording as far as the grammar allows); never substitute an indirect or behavioural paraphrase (e.g. a routine or marking that merely implies the fact), in any template.
 - `belief_proposition_aligned`, `belief_proposition_conflicting` for code to insert with the **fixed explicit template**.
 - One shared `belief_question`, `action_question`, `reality_question` for all four versions.
 - `proposed_gold` for aligned/conflicting Q1/Q2 and fixed Q3; `answer_variants`; action constraints/rule; the supplied `agent_name`, `setting_domain` and assigned template/action metadata.

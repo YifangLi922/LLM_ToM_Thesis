@@ -102,9 +102,10 @@ STORY_PATTERNS: list[tuple[str, re.Pattern[str], str]] = [
     ("pattern_rule_puzzle", re.compile(r"\botherwise\b|\bpreserve\b[^.?!]*\bif\b", re.IGNORECASE),
      "含 'otherwise' / 'preserve … if'：可能是用来逼出答案的 if–then 规则（rule puzzle）"),
     ("pattern_technical_caveat", re.compile(
-        r"\bno phase change\b|\bcompeting forces\b|\bwide enough\b|\bmodel(?:s|ing|led|ed)?\s+ordinary\b|\bwithout (?:any )?overhang\b",
+        r"\bno phase change\b|\bcompeting forces\b|\bwide enough\b|\bmodel(?:s|ing|led|ed)?\s+ordinary\b|\bwithout (?:any )?overhang\b|"
+        r"\bsingle[- ]function\b|\bmulti[- ]?function\b",
         re.IGNORECASE),
-     "含技术性免责声明（如 'no phase change'、'competing forces'、'wide enough'）：应放进 risk_notes，不要写进故事"),
+     "含技术性免责声明/资格限定（如 'no phase change'、'competing forces'、'wide enough'、'single-function'）：应放进 risk_notes，不要写进故事"),
 ]
 
 _STOP = {
@@ -126,6 +127,10 @@ def _shared_text(backbone: str) -> str:
 def _stems(text: str) -> set[str]:
     words = re.findall(r"[a-z0-9]+", text.lower())
     return {w[:5] for w in words if len(w) >= 3 and w not in _STOP}
+
+
+CLAIM_FIDELITY_ERROR = 0.5     # 低于此值：claim span 没有复述锁定的事实（error）
+CLAIM_FIDELITY_WARN = 0.8      # 低于此值：提示人工确认
 
 
 def claim_fidelity(span: str, locked_claim: str) -> float:
@@ -252,11 +257,16 @@ def check_family_output(
         if not lst:
             issues.append(warn("answer_variants_empty", f"answer_variants.{name} 为空，评分时没有同义写法可用"))
 
-    # ---- 锁定声明的忠实度（粗筛，仅 warning）
+    # ---- 锁定声明的忠实度：claim span 必须复述锁定的 claim 本身（guideline A7），不能换成间接/行为式的改写。
+    #      覆盖率 < 50% 视为没有复述锁定事实（error，自动重新生成）；< 80% 提示人工确认有没有丢限定词。
     for label, span, locked in [("aligned", out.claim_span_aligned, fact.aligned_claim),
                                 ("conflicting", out.claim_span_conflicting, fact.conflicting_claim)]:
         ratio = claim_fidelity(span, locked)
-        if ratio < 0.6:
+        if ratio < CLAIM_FIDELITY_ERROR:
+            issues.append(err("claim_span_not_locked_claim",
+                              f"claim_span_{label} 只覆盖了锁定 {label}_claim 实词的 {ratio:.0%}：claim span 必须复述锁定的事实本身，"
+                              "不能自己改写成间接描述"))
+        elif ratio < CLAIM_FIDELITY_WARN:
             issues.append(warn("claim_span_fidelity",
                                f"claim_span_{label} 只覆盖了锁定 {label}_claim 实词的 {ratio:.0%}，请确认没有改写事实或丢掉限定词"))
 
