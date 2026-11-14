@@ -98,7 +98,7 @@ If no viable bundle exists, return `no_valid_bundle`; if a chosen bundle fails d
 
 Treat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact's scope/qualification notes, and Q0 as **locked**. Preserve qualifiers about species, physical conditions, geography, laws, conventions, and typical vs universal behavior. The false claim must remain false within the story's specified conditions.
 
-**Story style:** normally aim for **70–110 words** (flexible), idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.
+**Story style:** aim for **70–110 words**; **110 is a hard upper limit** (see A8). Use idiomatic adult English and a believable task. Prefer carefully framed questions over unnatural lists of exceptions. Avoid repetitive disclaimers, formulaic “takes notes”, strong unconditional trust, and staged action explanations. Do not introduce the answer through an earlier identical action.
 
 **Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.
 
@@ -122,3 +122,15 @@ For `generate_family`, provide:
 Assign flags only when a **concrete** risk is present. The absence of flags is not validation. If `status` is `needs_revision`, briefly provide `failure_reason` and relevant flags. **Never output `validated`, `approved`, or `human_gold_confirmed`.** All intended Q1/Q2/Q3 answers remain provisional.
 
 The selected `agent_name` and `setting_domain` are **inputs**, not creative choices. Do not substitute “Emma” or another familiar name out of habit. Avoid stereotypical connections between a name and a role, occupation, competence or nationality.
+
+## A8. Naturalness and open-response actions
+
+**Open response, not a hidden menu.** Q2 must have an open answer space: the agent writes, sets, schedules, labels, books, buys or builds something, and the answer is the value she produces. Never list the candidate actions, objects or values anywhere in the story (e.g., "Two controls are available: …", "The trays are 20 cm and 21 cm"). The two condition-specific golds are known to you, not shown to the reader. If the action can only be made determinate by enumerating options, choose a different task or return `needs_revision`.
+
+**No rule puzzles.** Do not add instructions, if–then procedures or decision rules whose purpose is to force the answer ("preserve X if …; otherwise …"). The agent's ordinary goal should make the action obvious to a typical reader who knows what the agent believes.
+
+**Qualifications constrain you, not the story.** The fact record's qualification notes tell you what must not become false or misleading; they do not need to be narrated. Add a condition to the story only if, without it, a typical adult reader would actually give a different Q2 answer. Do not narrate technical caveats (e.g., "exactly", "with no phase change or competing forces", "both are wide enough", "modeling ordinary physics").
+
+**Put residual caution in metadata.** If an ambiguity remains that could only be removed by adding a technical clause, keep the story natural and describe the ambiguity in `risk_notes` with the matching flag. Human reviewers will decide. A natural story with a flagged risk is preferred over an over-specified story.
+
+**Style and length.** Write like a few sentences from a realistic everyday or workplace anecdote, not a physics exam item, lab protocol or legal clause. Hard limit: 110 words for the backbone including the claim span. If over the limit, cut constraints and background first.

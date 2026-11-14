@@ -139,7 +139,8 @@ class Bundle(StrictModel):
     new_task: NonEmptyStr = Field(
         description="A NEW task, distinct from the information encounter (not a copy of the source).")
     action_constraints: NonEmptyStr = Field(
-        description="Explicit constraints/resources from which the gold follows; no hidden rule or extra event.")
+        description="Constraints/resources from which the gold follows; no hidden rule or extra event. "
+                    "Never a list of candidate actions or values, and no if-then decision rules (A8).")
     action_type: ActionType
     reasoning_structure: ReasoningStructure
     target_output: NonEmptyStr = Field(description="The single specific action/output/parameter Q2 will ask for.")

@@ -87,6 +87,7 @@ def _save(path: Path, obj) -> None:
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--fact", default=None, help="如 K18")
+    ap.add_argument("--model", default=None, help="可选：覆盖 config 里的造题模型（用于对比不同造题模型）")
     ap.add_argument("--template", default=None, help="可选：覆盖抽样器分配的模板 T1/T2/T3/T4A/T4C/T5")
     ap.add_argument("--domain", default=None, help="可选：强制使用某个 setting_domain（并且不再改派）")
     ap.add_argument("--setting-label", default=None, help="可选：钉死具体场景，如 'community music studio'")
@@ -103,6 +104,8 @@ def main() -> int:
 
     cfg = load_config()
     gen = cfg.generator
+    if args.model:
+        gen = gen.model_copy(update={"model_id": args.model})
     sampler = AssignmentSampler.from_config(cfg.sampling)
     if args.show_assignments:
         print("family  模板   人物（分组 / 代词）            场景域（初始）")

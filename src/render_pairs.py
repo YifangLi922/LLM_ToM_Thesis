@@ -19,6 +19,8 @@ from common import normalize_answer
 CLAIM_TOKEN = "{{CLAIM_SPAN}}"
 BELIEF_TOKEN = "{{BELIEF_INSERTION}}"
 BELIEF_TEMPLATE = "{name} believes that {proposition}."     # guideline v1.1 A2：固定的统一句式
+MAX_STORY_WORDS = 110     # guideline v1.1 A8：含 claim span 的硬上限
+MIN_STORY_WORDS = 70      # 建议下限（只提示）
 
 
 class RenderError(ValueError):
@@ -221,10 +223,12 @@ def check_minimal_pairs(
             issues.append(err("belief_not_after_source_sentence",
                               f"{cond}: belief sentence 没有紧跟在来源信息那句话之后（{msg}）"))
 
-    # 6) 软提示：篇幅（guideline v1.1 A6：通常 70–110 词，弹性）
-    n_words = len(v.implicit_aligned.split())
-    if not 70 <= n_words <= 110:
-        issues.append(warn("story_length", f"implicit 故事共 {n_words} 词，超出 guideline 建议的约 70–110 词"))
+    # 6) 篇幅（guideline v1.1 A6/A8）：110 词是硬上限（含 claim span），超过则拒绝并重新生成；少于 70 词只是提示
+    n_words = max(len(v.implicit_aligned.split()), len(v.implicit_conflicting.split()))
+    if n_words > MAX_STORY_WORDS:
+        issues.append(err("story_too_long", f"implicit 故事共 {n_words} 词，超过硬上限 {MAX_STORY_WORDS} 词（guideline A8）"))
+    elif n_words < MIN_STORY_WORDS:
+        issues.append(warn("story_length", f"implicit 故事共 {n_words} 词，少于建议的 {MIN_STORY_WORDS} 词"))
     return issues
 
 
@@ -240,6 +244,6 @@ def render_and_check(
 
 
 __all__ = [
-    "CLAIM_TOKEN", "BELIEF_TOKEN", "BELIEF_TEMPLATE", "CONDITIONS", "RenderError", "belief_sentence",
+    "CLAIM_TOKEN", "BELIEF_TOKEN", "BELIEF_TEMPLATE", "MAX_STORY_WORDS", "MIN_STORY_WORDS", "CONDITIONS", "RenderError", "belief_sentence",
     "check_propositions", "check_backbone", "render_variants", "check_minimal_pairs", "render_and_check",
 ]

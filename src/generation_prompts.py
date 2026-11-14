@@ -31,7 +31,11 @@ ADDENDUM_PROPOSE = (
     "assignments.setting_domain is the setting domain chosen by the caller: every bundle must be workable in a "
     "natural setting within that domain (and assignments.setting_label, if non-null, pins the exact setting). "
     "If the fact cannot be turned into a valid bundle in that domain, return no_valid_bundle and name the "
-    "domain incompatibility in failure_reason instead of switching domain."
+    "domain incompatibility in failure_reason instead of switching domain. "
+    "Following A8, design every bundle around an OPEN answer space: the agent produces a value (writes, sets, "
+    "schedules, labels, books, buys or builds something). Do not design a task whose answer can only be made "
+    "determinate by listing the candidate actions or values in the story, and do not rely on if-then decision "
+    "rules; if that is the only option, return no_valid_bundle."
 )
 ADDENDUM_GENERATE = (
     "task_mode=generate_family: use the selected_bundle exactly as given (same bundle_id, action_type, "
@@ -52,6 +56,9 @@ ADDENDUM_GENERATE = (
     "protagonist with a pronoun, so the story reads naturally and consistently. "
     "Set `setting_domain` to exactly assignments.setting_domain and keep it unchanged; set `setting` to "
     "assignments.setting_label if it is non-null, otherwise to one specific natural setting within that domain. "
+    "Follow A8: the story must not list the candidate actions or values anywhere, must contain no rule puzzle and no "
+    "technical caveats, and the backbone including the claim span must not exceed 110 words (longer stories are "
+    "rejected automatically). "
     "If `revision_feedback` is non-empty, your previous attempt failed automatic checks: fix every listed problem."
 )
 

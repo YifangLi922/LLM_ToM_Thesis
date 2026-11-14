@@ -87,11 +87,36 @@ _OPPOSITE_PRONOUNS = {
 }
 _EITHER_OR = re.compile(r"\beither\b[^.?!]*\bor\b", re.IGNORECASE)
 
+# guideline A8：故事里不得藏"选项菜单"、规则谜题或技术性免责声明。下面是简单的正则检查，命中只标记（warning），交人工判断。
+STORY_PATTERNS: list[tuple[str, re.Pattern[str], str]] = [
+    ("pattern_exactly", re.compile(r"\bexactly\b", re.IGNORECASE),
+     "含 'exactly'：常见于过度精确的技术性约束"),
+    ("pattern_available_list", re.compile(
+        r"\bavailable\s*:|\b(?:two|three|four|five|several|both)\b[^.?!]{0,40}\b(?:are|is)\s+available\b", re.IGNORECASE),
+     "含 'available:' / 'two … are available'：可能把候选行动/数值列成了选项菜单"),
+    ("either_or_in_story", _EITHER_OR, "含 'either … or …'：可能变相列出备选答案"),
+    ("pattern_two_options", re.compile(
+        r"\b(?:two|three|four|\d+)\s+(?:options|choices|alternatives)\b|\bchoose\s+(?:between|from)\b|"
+        r"\b(?:options|choices)\s+(?:are|include)\b", re.IGNORECASE),
+     "含 'two options' / 'choose between' 一类措辞：可能把选项写进了故事"),
+    ("pattern_rule_puzzle", re.compile(r"\botherwise\b|\bpreserve\b[^.?!]*\bif\b", re.IGNORECASE),
+     "含 'otherwise' / 'preserve … if'：可能是用来逼出答案的 if–then 规则（rule puzzle）"),
+    ("pattern_technical_caveat", re.compile(
+        r"\bno phase change\b|\bcompeting forces\b|\bwide enough\b|\bmodel(?:s|ing|led|ed)?\s+ordinary\b|\bwithout (?:any )?overhang\b",
+        re.IGNORECASE),
+     "含技术性免责声明（如 'no phase change'、'competing forces'、'wide enough'）：应放进 risk_notes，不要写进故事"),
+]
+
 _STOP = {
     "the", "and", "are", "for", "not", "that", "with", "from", "when", "than", "its", "has", "have", "can", "any",
     "all", "was", "were", "will", "into", "over", "also", "does", "only", "than", "their", "this", "these", "those",
     "rather", "instead", "normally", "generally", "usually", "typically", "ordinary",
 }
+
+
+def _gold_matches(answer: str, locked_gold: str) -> bool:
+    """模型写的 gold 可以比知识库的 gold 更完整（"It expands in length." vs "expands"）：相等或作为独立词出现都算一致。"""
+    return answers_equivalent(answer, locked_gold) or contains_word(answer, locked_gold)
 
 
 def _shared_text(backbone: str) -> str:
@@ -216,9 +241,9 @@ def check_family_output(
     # 与锁定事实的一致性：措辞可能合理不同，所以只给 warning
     if not answers_equivalent(g.q3, fact.world_gold):
         issues.append(warn("q3_vs_world_gold", f"Q3 gold {g.q3!r} 与事实库 world_gold {fact.world_gold!r} 不同，请人工确认"))
-    if not answers_equivalent(g.aligned.q1, fact.world_gold):
+    if not _gold_matches(g.aligned.q1, fact.world_gold):
         issues.append(warn("q1_aligned_vs_world_gold", f"aligned Q1 {g.aligned.q1!r} 与 world_gold {fact.world_gold!r} 不同"))
-    if not answers_equivalent(g.conflicting.q1, fact.conflicting_belief_gold):
+    if not _gold_matches(g.conflicting.q1, fact.conflicting_belief_gold):
         issues.append(warn("q1_conflicting_vs_belief_gold",
                            f"conflicting Q1 {g.conflicting.q1!r} 与 conflicting_belief_gold {fact.conflicting_belief_gold!r} 不同"))
     av = out.answer_variants
@@ -272,8 +297,12 @@ def check_family_output(
         issues.append(warn("forced_binary_options_in_story",
                            f"Q2 的两个竞争答案 {g.aligned.q2!r} 与 {g.conflicting.q2!r} 都出现在故事的公共文字里"
                            "（只记录，不拒绝；设计标签 forced_binary_options）"))
-    elif _EITHER_OR.search(shared):
-        issues.append(warn("either_or_in_story", "故事公共文字里有 'either … or …'，请确认没有变相列出备选答案"))
+
+    # ---- 正则标记：隐藏的选项菜单 / 规则谜题 / 技术性免责声明（guideline A8；只标记，不拒绝）
+    for code, rx, msg in STORY_PATTERNS:
+        m = rx.search(shared)
+        if m:
+            issues.append(warn(code, f"故事公共文字里命中 {m.group(0)!r}：{msg}"))
 
     # ---- 渲染与 minimal-pair 检查
     variants, pair_issues = render_and_check(

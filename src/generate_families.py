@@ -21,6 +21,8 @@ FEEDBACK_EN = {
     "template_mismatch": "template_id must equal assignments.template_id, and the story must follow that framework.",
     "belief_not_after_sentence": ("{{BELIEF_INSERTION}} must come directly after the complete sentence containing "
                                   "{{CLAIM_SPAN}} (including its final punctuation, without doubling it)."),
+    "story_too_long": ("The story backbone (including the claim span) exceeds the hard limit of 110 words. Cut constraints "
+                       "and background first; keep it a natural few-sentence anecdote."),
     "q2_gold_identical": "The two Q2 golds must differ.",
     "q1_gold_identical": "The two Q1 golds must differ.",
 }

@@ -96,7 +96,7 @@ def answers_equivalent(a: str, b: str) -> bool:
 
 def contains_word(text: str, token: str) -> bool:
     """token 是否作为独立词/数字出现在 text 中（大小写不敏感）。"""
-    t = token.strip()
+    t = token.strip().rstrip(".,;:!?")      # gold 常带句号（"Admit air into the gap."）；去掉才能在正文里匹配到
     if not t:
         return False
     return re.search(r"(?<![\w])" + re.escape(t) + r"(?![\w])", text, flags=re.IGNORECASE) is not None
