@@ -70,13 +70,15 @@ def judge_key(payload: dict) -> str:
     return hashlib.sha256(json.dumps(payload, sort_keys=True, ensure_ascii=False).encode("utf-8")).hexdigest()[:24]
 
 
-def run_judge(payloads: dict[str, dict], model: str, cache_path: Path, workers: int = 5) -> dict[str, dict]:
+def run_judge(payloads: dict[str, dict], model: str, cache_path: Path, workers: int = 5,
+              seed_paths: list[Path] | None = None) -> dict[str, dict]:
     from llm_client import call_structured, make_client
 
     cache: dict[str, dict] = {}
-    if cache_path.exists():
-        for r in read_jsonl(cache_path):
-            cache[r["key"]] = r
+    for sp in [*(seed_paths or []), cache_path]:                 # 先读只读的种子缓存，再读本次输出目录里的缓存
+        if sp.exists():
+            for r in read_jsonl(sp):
+                cache[r["key"]] = r
     todo = {k: p for k, p in payloads.items() if k not in cache}
     if not todo:
         return cache
@@ -104,18 +106,27 @@ def run_judge(payloads: dict[str, dict], model: str, cache_path: Path, workers: 
 
 
 # --------------------------------------------------------------------------- 载入数据
-def load_inputs(raw_path: Path):
+def _best_by_request(paths: list[Path]) -> dict[str, dict]:
+    raw: dict[str, dict] = {}
+    for path in paths:
+        for r in read_jsonl(path):                       # 同一请求多次记录：成功的优先，其次取最后一条
+            old = raw.get(r["request_id"])
+            if old is None or r["ok"] or not old["ok"]:
+                raw[r["request_id"]] = r
+    return raw
+
+
+def load_inputs(raw_paths: list[Path], pilot_dir: Path = PILOT, override_paths: list[Path] | None = None):
+    """override_paths：其中出现的 request_id 会**整体替换**主原始响应里的同名请求（用于替换某个 family 的新版本）。"""
     cfg = load_config()
     facts = {f.fact_id: f for f in load_knowledge()}
-    gold = {g["item_id"]: g for g in read_jsonl(PILOT / "answer_keys" / "gold_answers.jsonl")}
-    questions = {r["item_id"]: r["question"] for r in read_jsonl(PILOT / "eval_input" / "pretest_questions.jsonl")}
-    questions |= {r["item_id"]: r["question"] for r in read_jsonl(PILOT / "eval_input" / "story_questions.jsonl")}
-    fam_fact = {r["family_id"]: r["fact_id"] for r in read_jsonl(PILOT / "items_final.jsonl")}
-    raw: dict[str, dict] = {}
-    for r in read_jsonl(raw_path):                       # 同一请求多次记录：成功的优先，其次取最后一条
-        old = raw.get(r["request_id"])
-        if old is None or r["ok"] or not old["ok"]:
-            raw[r["request_id"]] = r
+    gold = {g["item_id"]: g for g in read_jsonl(pilot_dir / "answer_keys" / "gold_answers.jsonl")}
+    questions = {r["item_id"]: r["question"] for r in read_jsonl(pilot_dir / "eval_input" / "pretest_questions.jsonl")}
+    questions |= {r["item_id"]: r["question"] for r in read_jsonl(pilot_dir / "eval_input" / "story_questions.jsonl")}
+    fam_fact = {r["family_id"]: r["fact_id"] for r in read_jsonl(pilot_dir / "items_final.jsonl")}
+    raw = _best_by_request(raw_paths)
+    if override_paths:
+        raw |= _best_by_request(override_paths)
     return cfg, facts, gold, questions, fam_fact, raw
 
 
@@ -143,7 +154,7 @@ def golds_for(item_id: str, info: dict, gold: dict, facts) -> tuple[list[str], l
 
 # --------------------------------------------------------------------------- 评分
 def score_all(args) -> tuple[list[dict], list[str]]:
-    cfg, facts, gold, questions, fam_fact, raw = load_inputs(args.raw)
+    cfg, facts, gold, questions, fam_fact, raw = load_inputs(args.raw, args.pilot_dir, args.raw_override)
     item_ids = list(questions)                            # Q0 在前，之后是故事题
     rows: list[dict] = []
     for m in cfg.evaluated_models:
@@ -189,7 +200,7 @@ def score_all(args) -> tuple[list[dict], list[str]]:
     # --- 2) 裁判
     cache: dict[str, dict] = {}
     if need_judge and not args.no_judge:
-        cache = run_judge(need_judge, args.judge_model, RES / "judge_raw.jsonl")
+        cache = run_judge(need_judge, args.judge_model, args.out_dir / "judge_raw.jsonl", seed_paths=args.judge_seed)
     for r in rows:
         if r["score"] is not None:
             continue
@@ -480,7 +491,12 @@ def error_markdown(rows, configs) -> str:
 
 def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--raw", type=Path, default=RES / "raw_responses.jsonl")
+    ap.add_argument("--raw", type=Path, nargs="+", default=[RES / "raw_responses.jsonl"])
+    ap.add_argument("--raw-override", type=Path, nargs="*", default=[],
+                    help="其中的请求整体替换 --raw 里同名请求（例如用 F002 新版本的响应替换旧版本）")
+    ap.add_argument("--pilot-dir", type=Path, default=PILOT,
+                    help="含 eval_input/、answer_keys/、items_final.jsonl 的数据目录")
+    ap.add_argument("--judge-seed", type=Path, nargs="*", default=[], help="只读的裁判缓存（命中则不重新调用裁判）")
     ap.add_argument("--out-dir", type=Path, default=RES)
     ap.add_argument("--judge-model", default="gpt-6.1-sol")
     ap.add_argument("--no-judge", action="store_true")

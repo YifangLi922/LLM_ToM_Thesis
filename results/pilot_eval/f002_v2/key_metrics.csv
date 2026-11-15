@@ -1,0 +1,162 @@
+﻿metric,scope,condition_spec,group_a,a_correct,a_total,a_pct,group_b,b_correct,b_total,b_pct,diff_pp (a-b),denominator_note
+Application Gap (Q1-Q2),qwen3-32b__non_thinking,aligned/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__non_thinking,aligned/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__non_thinking,conflicting/implicit,Q1,1,1,100.0,Q2,0,1,0.0,100.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__non_thinking,conflicting/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__non_thinking,four conditions pooled,Q1,4,4,100.0,Q2,3,4,75.0,25.0,分母 48 vs 48
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q1, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q1, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q1, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q2, implicit",aligned,1,1,100.0,conflicting,0,1,0.0,100.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q2, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q2, implicit+explicit pooled",aligned,2,2,100.0,conflicting,1,2,50.0,50.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q3, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q3, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__non_thinking,"Q3, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q1, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q1, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q1, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q2, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q2, conflicting",explicit,1,1,100.0,implicit,0,1,0.0,100.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q2, aligned+conflicting pooled",explicit,2,2,100.0,implicit,1,2,50.0,50.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q3, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q3, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__non_thinking,"Q3, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Q0-conditioned Conflicting Q2 accuracy,qwen3-32b__non_thinking,implicit+explicit pooled,Q2 conflicting | Q0 correct,1,2,50.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,qwen3-32b__non_thinking,implicit,Q2 conflicting | Q0 correct,0,1,0.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,qwen3-32b__non_thinking,explicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),qwen3-32b__non_thinking,implicit,pairs both correct,0,1,0.0,all pairs,1,1,100.0,-100.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,qwen3-32b__non_thinking,implicit,aligned ✓ / conflicting ✗,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),qwen3-32b__non_thinking,explicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,qwen3-32b__non_thinking,explicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),qwen3-32b__non_thinking,implicit+explicit pooled,pairs both correct,1,2,50.0,all pairs,2,2,100.0,-50.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,qwen3-32b__non_thinking,implicit+explicit pooled,aligned ✓ / conflicting ✓,1,2,50.0,all pairs,2,2,100.0,-50.0,四种组合的计数
+Paired Q2 pattern,qwen3-32b__non_thinking,implicit+explicit pooled,aligned ✓ / conflicting ✗,1,2,50.0,all pairs,2,2,100.0,-50.0,四种组合的计数
+Application Gap (Q1-Q2),qwen3-32b__thinking,aligned/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__thinking,aligned/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__thinking,conflicting/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__thinking,conflicting/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),qwen3-32b__thinking,four conditions pooled,Q1,4,4,100.0,Q2,4,4,100.0,0.0,分母 48 vs 48
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q1, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q1, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q1, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q2, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q2, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q2, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q3, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q3, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),qwen3-32b__thinking,"Q3, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q1, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q1, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q1, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q2, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q2, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q2, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q3, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q3, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),qwen3-32b__thinking,"Q3, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Q0-conditioned Conflicting Q2 accuracy,qwen3-32b__thinking,implicit+explicit pooled,Q2 conflicting | Q0 correct,2,2,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,qwen3-32b__thinking,implicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,qwen3-32b__thinking,explicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),qwen3-32b__thinking,implicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,qwen3-32b__thinking,implicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),qwen3-32b__thinking,explicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,qwen3-32b__thinking,explicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),qwen3-32b__thinking,implicit+explicit pooled,pairs both correct,2,2,100.0,all pairs,2,2,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,qwen3-32b__thinking,implicit+explicit pooled,aligned ✓ / conflicting ✓,2,2,100.0,all pairs,2,2,100.0,0.0,四种组合的计数
+Application Gap (Q1-Q2),glm-4.5-air__non_thinking,aligned/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__non_thinking,aligned/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__non_thinking,conflicting/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__non_thinking,conflicting/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__non_thinking,four conditions pooled,Q1,4,4,100.0,Q2,4,4,100.0,0.0,分母 48 vs 48
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q1, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q1, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q1, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q2, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q2, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q2, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q3, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q3, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__non_thinking,"Q3, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q1, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q1, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q1, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q2, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q2, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q2, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q3, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q3, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__non_thinking,"Q3, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Q0-conditioned Conflicting Q2 accuracy,glm-4.5-air__non_thinking,implicit+explicit pooled,Q2 conflicting | Q0 correct,2,2,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,glm-4.5-air__non_thinking,implicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,glm-4.5-air__non_thinking,explicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),glm-4.5-air__non_thinking,implicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,glm-4.5-air__non_thinking,implicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),glm-4.5-air__non_thinking,explicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,glm-4.5-air__non_thinking,explicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),glm-4.5-air__non_thinking,implicit+explicit pooled,pairs both correct,2,2,100.0,all pairs,2,2,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,glm-4.5-air__non_thinking,implicit+explicit pooled,aligned ✓ / conflicting ✓,2,2,100.0,all pairs,2,2,100.0,0.0,四种组合的计数
+Application Gap (Q1-Q2),glm-4.5-air__thinking,aligned/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__thinking,aligned/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__thinking,conflicting/implicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__thinking,conflicting/explicit,Q1,1,1,100.0,Q2,1,1,100.0,0.0,分母 12 vs 12（12 个家族）
+Application Gap (Q1-Q2),glm-4.5-air__thinking,four conditions pooled,Q1,4,4,100.0,Q2,4,4,100.0,0.0,分母 48 vs 48
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q1, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q1, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q1, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q2, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q2, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q2, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q3, implicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q3, explicit",aligned,1,1,100.0,conflicting,1,1,100.0,0.0,分母 12 vs 12
+Conflict Gap (Aligned-Conflicting),glm-4.5-air__thinking,"Q3, implicit+explicit pooled",aligned,2,2,100.0,conflicting,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q1, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q1, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q1, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q2, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q2, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q2, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q3, aligned",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q3, conflicting",explicit,1,1,100.0,implicit,1,1,100.0,0.0,分母 12 vs 12
+Explicitness Benefit (Explicit-Implicit),glm-4.5-air__thinking,"Q3, aligned+conflicting pooled",explicit,2,2,100.0,implicit,2,2,100.0,0.0,分母 24 vs 24
+Q0-conditioned Conflicting Q2 accuracy,glm-4.5-air__thinking,implicit+explicit pooled,Q2 conflicting | Q0 correct,2,2,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,glm-4.5-air__thinking,implicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Q0-conditioned Conflicting Q2 accuracy,glm-4.5-air__thinking,explicit,Q2 conflicting | Q0 correct,1,1,100.0,Q2 conflicting | Q0 incorrect,0,0,,,分母=该模型 Q0 答对/答错的事实所对应的 conflicting Q2 题数；Q0 答错组分母可能很小
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),glm-4.5-air__thinking,implicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,glm-4.5-air__thinking,implicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),glm-4.5-air__thinking,explicit,pairs both correct,1,1,100.0,all pairs,1,1,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,glm-4.5-air__thinking,explicit,aligned ✓ / conflicting ✓,1,1,100.0,all pairs,1,1,100.0,0.0,四种组合的计数
+Paired Q2 Consistency (both aligned & conflicting Q2 correct),glm-4.5-air__thinking,implicit+explicit pooled,pairs both correct,2,2,100.0,all pairs,2,2,100.0,0.0,分母=家族数（pooled 时为 24 对）；差值列无意义，仅看 pairs both correct 的比例
+Paired Q2 pattern,glm-4.5-air__thinking,implicit+explicit pooled,aligned ✓ / conflicting ✓,2,2,100.0,all pairs,2,2,100.0,0.0,四种组合的计数
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,Q0,thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q1, aligned/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q1, aligned/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q1, conflicting/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q1, conflicting/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q1, four conditions pooled",thinking,4,4,100.0,non_thinking,4,4,100.0,0.0,分母 48 vs 48
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q2, aligned/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q2, aligned/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q2, conflicting/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q2, conflicting/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q2, four conditions pooled",thinking,4,4,100.0,non_thinking,4,4,100.0,0.0,分母 48 vs 48
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q3, aligned/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q3, aligned/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q3, conflicting/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q3, conflicting/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),glm-4.5-air,"Q3, four conditions pooled",thinking,4,4,100.0,non_thinking,4,4,100.0,0.0,分母 48 vs 48
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,Q0,thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q1, aligned/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q1, aligned/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q1, conflicting/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q1, conflicting/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q1, four conditions pooled",thinking,4,4,100.0,non_thinking,4,4,100.0,0.0,分母 48 vs 48
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q2, aligned/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q2, aligned/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q2, conflicting/implicit",thinking,1,1,100.0,non_thinking,0,1,0.0,100.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q2, conflicting/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q2, four conditions pooled",thinking,4,4,100.0,non_thinking,3,4,75.0,25.0,分母 48 vs 48
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q3, aligned/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q3, aligned/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q3, conflicting/implicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q3, conflicting/explicit",thinking,1,1,100.0,non_thinking,1,1,100.0,0.0,分母 12 vs 12
+Thinking Benefit (Thinking-Non-thinking),qwen3-32b,"Q3, four conditions pooled",thinking,4,4,100.0,non_thinking,4,4,100.0,0.0,分母 48 vs 48

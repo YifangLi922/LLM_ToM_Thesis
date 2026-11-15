@@ -19,20 +19,19 @@
 
 | 配置 | 总错误/待复核 | `reality_intrusion_candidate` | `belief_attribution_error_candidate` | `non_tom_reasoning_error_candidate` | `q3_false_claim_adopted` | `q0_knowledge_error` | `scoring_ambiguity` | `needs_manual_review` | `request_failed` |
 |---|---|---|---|---|---|---|---|---|---|
-| qwen3-32b__non_thinking | 32/156 | 12 | 1 | 3 | 4 | 0 | 7 | 5 | 0 |
-| qwen3-32b__thinking | 12/156 | 6 | 1 | 0 | 0 | 1 | 3 | 1 | 0 |
-| glm-4.5-air__non_thinking | 28/156 | 12 | 3 | 1 | 1 | 1 | 8 | 2 | 0 |
-| glm-4.5-air__thinking | 11/156 | 7 | 2 | 0 | 0 | 1 | 1 | 0 | 0 |
+| qwen3-32b__non_thinking | 31/156 | 13 | 1 | 3 | 4 | 0 | 5 | 5 | 0 |
+| qwen3-32b__thinking | 7/156 | 5 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
+| glm-4.5-air__non_thinking | 23/156 | 9 | 2 | 1 | 1 | 0 | 8 | 2 | 0 |
+| glm-4.5-air__thinking | 6/156 | 4 | 1 | 0 | 0 | 0 | 1 | 0 | 0 |
 
 ## 2. Q1 正确但 Q2 错误（Application Gap 的来源）
 
 同一配置、同一家族、同一条件下，Q1 评为正确而 Q2 评为错误/待复核。
 
-共 35 条。
+共 29 条。
 
 | 配置 | 家族/条件 | Q2 模型回答 | Q2 reference | 另一条件答案 | 类别 | 说明 |
 |---|---|---|---|---|---|---|
-| glm-4.5-air__non_thinking | F002 conf/expl (K14) | Surface | Breathing while fully submerged. | Surfacing to breathe air. | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | glm-4.5-air__non_thinking | F004 conf/expl (K23) | %RH | °C | % | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | glm-4.5-air__non_thinking | F007 conf/expl (K06) | Remove | No change; retain the bell-ringing sound effect. | Remove the bell-ringing sound effect. | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | glm-4.5-air__non_thinking | F008 alig/expl (K18) | Increase | Zoom out. | Zoom in. | `needs_manual_review` | aligned 题的 Q2 做了 conflicting 的行动，原因不明 |
@@ -43,11 +42,9 @@
 | glm-4.5-air__non_thinking | F011 conf/expl (K09) | Left | East | West | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
 | glm-4.5-air__non_thinking | F012 conf/expl (K27) | h1 | a8 | h8 | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
 | glm-4.5-air__non_thinking | F012 conf/impl (K27) | h8 | a8 | h8 | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
-| glm-4.5-air__thinking | F002 conf/expl (K14) | surfacing | Breathing while fully submerged. | Surfacing to breathe air. | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | glm-4.5-air__thinking | F006 conf/impl (K15) | CO2 | Oxygen sensor | Carbon dioxide sensor | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | glm-4.5-air__thinking | F007 conf/expl (K06) | remove | No change; retain the bell-ringing sound effect. | Remove the bell-ringing sound effect. | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
-| qwen3-32b__non_thinking | F002 conf/expl (K14) | Incorrectly | Breathing while fully submerged. | Surfacing to breathe air. | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
-| qwen3-32b__non_thinking | F002 conf/impl (K14) | incorrectly, with lungs, not gills | Breathing while fully submerged. | Surfacing to breathe air. | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
+| qwen3-32b__non_thinking | F002 conf/impl (K14) | At the surface | Below the surface, fully submerged | At the water's surface | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | qwen3-32b__non_thinking | F003 alig/expl (K28) | 30 September | 2 October | 8 November | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
 | qwen3-32b__non_thinking | F003 conf/expl (K28) | 9 November | 8 November | 2 October | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
 | qwen3-32b__non_thinking | F004 conf/expl (K23) | °F or °C (depending on regional convention) | °C | % | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
@@ -61,22 +58,18 @@
 | qwen3-32b__non_thinking | F011 alig/impl (K09) | Left | West | East | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
 | qwen3-32b__non_thinking | F011 conf/impl (K09) | left side | East | West | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
 | qwen3-32b__non_thinking | F012 conf/expl (K27) | b8 | a8 | h8 | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
-| qwen3-32b__thinking | F002 alig/expl (K14) | blowhole | Surfacing to breathe air. | Breathing while fully submerged. | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
-| qwen3-32b__thinking | F002 conf/expl (K14) | blowhole | Breathing while fully submerged. | Surfacing to breathe air. | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
-| qwen3-32b__thinking | F002 conf/impl (K14) | surface to breathe | Breathing while fully submerged. | Surfacing to breathe air. | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | qwen3-32b__thinking | F006 conf/expl (K15) | carbon dioxide sensor | Oxygen sensor | Carbon dioxide sensor | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | qwen3-32b__thinking | F006 conf/impl (K15) | carbon dioxide sensor | Oxygen sensor | Carbon dioxide sensor | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | qwen3-32b__thinking | F007 conf/expl (K06) | remove | No change; retain the bell-ringing sound effect. | Remove the bell-ringing sound effect. | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 
 ## 3. 全部错误与待复核题目（按配置）
 
-### qwen3-32b__non_thinking（32 条）
+### qwen3-32b__non_thinking（31 条）
 
 | item | 模型回答 | reference | 评分方式 | 类别 | 说明 |
 |---|---|---|---|---|---|
 | F001_implicit_aligned_Q1 | plant kingdom | fungi | rule | `belief_attribution_error_candidate` | aligned 题的 Q1 答成了 conflicting 的信念 |
-| F002_explicit_conflicting_Q2 | Incorrectly | Breathing while fully submerged. | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
-| F002_implicit_conflicting_Q2 | incorrectly, with lungs, not gills | Breathing while fully submerged. | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
+| F002_implicit_conflicting_Q2 | At the surface | Below the surface, fully submerged | rule | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | F003_implicit_conflicting_Q1 | 10 November | 9 November | llm_judge/neither | `needs_manual_review` | Q1 答案不匹配任何 gold，可能是信念归因错误或措辞差异 |
 | F003_explicit_aligned_Q2 | 30 September | 2 October | llm_judge/neither | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
 | F003_explicit_conflicting_Q2 | 9 November | 8 November | llm_judge/neither | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
@@ -107,15 +100,10 @@
 | F012_explicit_conflicting_Q2 | b8 | a8 | llm_judge/neither | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
 | F012_implicit_conflicting_Q2 | b8 | a8 | llm_judge/neither | `needs_manual_review` | Q2 答案不匹配任何 gold |
 
-### qwen3-32b__thinking（12 条）
+### qwen3-32b__thinking（7 条）
 
 | item | 模型回答 | reference | 评分方式 | 类别 | 说明 |
 |---|---|---|---|---|---|
-| K14_Q0 | blowhole | lungs | llm_judge/neither | `q0_knowledge_error` | 答案不匹配任何 gold（可能是知识缺口或评分歧义） |
-| F002_explicit_aligned_Q2 | blowhole | Surfacing to breathe air. | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
-| F002_explicit_conflicting_Q2 | blowhole | Breathing while fully submerged. | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
-| F002_implicit_conflicting_Q2 | surface to breathe | Breathing while fully submerged. | llm_judge/matches_alternative | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
-| F002_explicit_conflicting_Q3 | blowhole | lungs | llm_judge/neither | `needs_manual_review` | Q3 答案不匹配任何 gold |
 | F006_explicit_conflicting_Q2 | carbon dioxide sensor | Oxygen sensor | rule | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | F006_implicit_conflicting_Q2 | carbon dioxide sensor | Oxygen sensor | rule | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | F007_implicit_conflicting_Q1 | Sound cannot propagate in a vacuum. | can travel | llm_judge/matches_alternative | `reality_intrusion_candidate` | conflicting 题的 Q1 答成了 aligned 的答案（现实/真实知识），而不是角色的信念 |
@@ -124,17 +112,12 @@
 | F012_implicit_conflicting_Q1 | vertically | horizontally or vertically | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
 | F012_implicit_conflicting_Q2 | h8 | a8 | rule | `belief_attribution_error_candidate` | Q1 也错（非现实干扰类），Q2 的错误可能由信念归因错误传递 |
 
-### glm-4.5-air__non_thinking（28 条）
+### glm-4.5-air__non_thinking（23 条）
 
 | item | 模型回答 | reference | 评分方式 | 类别 | 说明 |
 |---|---|---|---|---|---|
-| K14_Q0 | Blowhole | lungs | llm_judge/neither | `q0_knowledge_error` | 答案不匹配任何 gold（可能是知识缺口或评分歧义） |
 | K06_Q0 | Nothing. | cannot travel | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
 | F001_implicit_aligned_Q1 | plant kingdom | fungi | rule | `belief_attribution_error_candidate` | aligned 题的 Q1 答成了 conflicting 的信念 |
-| F002_implicit_aligned_Q1 | gills | lungs | rule | `belief_attribution_error_candidate` | aligned 题的 Q1 答成了 conflicting 的信念 |
-| F002_implicit_conflicting_Q1 | Lungs | gills | rule | `reality_intrusion_candidate` | conflicting 题的 Q1 答成了 aligned 的答案（现实/真实知识），而不是角色的信念 |
-| F002_explicit_conflicting_Q2 | Surface | Breathing while fully submerged. | llm_judge/matches_alternative | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
-| F002_implicit_conflicting_Q2 | Surface | Breathing while fully submerged. | llm_judge/matches_alternative | `reality_intrusion_candidate` | Q1 已是现实干扰，Q2 延续 |
 | F003_implicit_aligned_Q1 | October 2nd | 3 October | llm_judge/neither | `needs_manual_review` | Q1 答案不匹配任何 gold，可能是信念归因错误或措辞差异 |
 | F003_implicit_conflicting_Q1 | October 3rd | 9 November | rule | `reality_intrusion_candidate` | conflicting 题的 Q1 答成了 aligned 的答案（现实/真实知识），而不是角色的信念 |
 | F004_implicit_conflicting_Q1 | Humidity | temperature | rule | `reality_intrusion_candidate` | conflicting 题的 Q1 答成了 aligned 的答案（现实/真实知识），而不是角色的信念 |
@@ -157,16 +140,11 @@
 | F012_explicit_conflicting_Q2 | h1 | a8 | llm_judge/neither | `non_tom_reasoning_error_candidate` | Q1 答对，Q2 给出了一个不属于任何 gold 的具体数值/日期/坐标：可能是计算/映射错误 |
 | F012_implicit_conflicting_Q2 | h8 | a8 | rule | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 
-### glm-4.5-air__thinking（11 条）
+### glm-4.5-air__thinking（6 条）
 
 | item | 模型回答 | reference | 评分方式 | 类别 | 说明 |
 |---|---|---|---|---|---|
-| K14_Q0 | Blowhole | lungs | llm_judge/neither | `q0_knowledge_error` | 答案不匹配任何 gold（可能是知识缺口或评分歧义） |
 | F001_implicit_aligned_Q1 | plant kingdom | fungi | rule | `belief_attribution_error_candidate` | aligned 题的 Q1 答成了 conflicting 的信念 |
-| F002_implicit_aligned_Q1 | gills | lungs | rule | `belief_attribution_error_candidate` | aligned 题的 Q1 答成了 conflicting 的信念 |
-| F002_implicit_conflicting_Q1 | lungs | gills | rule | `reality_intrusion_candidate` | conflicting 题的 Q1 答成了 aligned 的答案（现实/真实知识），而不是角色的信念 |
-| F002_explicit_conflicting_Q2 | surfacing | Breathing while fully submerged. | llm_judge/matches_alternative | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
-| F002_implicit_conflicting_Q2 | surfacing | Breathing while fully submerged. | llm_judge/matches_alternative | `reality_intrusion_candidate` | Q1 已是现实干扰，Q2 延续 |
 | F003_implicit_conflicting_Q1 | 9 | 9 November | llm_judge/unclear | `scoring_ambiguity` | 裁判认为两者都像/无法判断，或无裁判结果；待人工复核 |
 | F006_implicit_conflicting_Q2 | CO2 | Oxygen sensor | llm_judge/matches_alternative | `reality_intrusion_candidate` | Q1 答对（知道角色信念），Q2 却做了符合现实/aligned 的行动 |
 | F007_implicit_conflicting_Q1 | cannot propagate | can travel | llm_judge/matches_alternative | `reality_intrusion_candidate` | conflicting 题的 Q1 答成了 aligned 的答案（现实/真实知识），而不是角色的信念 |
@@ -175,6 +153,6 @@
 
 ## 4. 评分说明与已知的评分歧义来源
 
-- 评分方式统计：{'rule': 505, 'llm_judge': 119}。`rule` = 规则评分；`llm_judge` = 规则无法确定后由 LLM 裁判（只比较语义，不判断事实）；`rule_undecided` = 未调用裁判。
-- 待人工复核（pending）共 19 条，**不计入正确**；这些条目已在上面的表里标出。
-- 由裁判判定的有 119 条，其中判为 neither 的 12 条（记为错误）；建议抽查这部分。
+- 评分方式统计：{'rule': 522, 'llm_judge': 102}。`rule` = 规则评分；`llm_judge` = 规则无法确定后由 LLM 裁判（只比较语义，不判断事实）；`rule_undecided` = 未调用裁判。
+- 待人工复核（pending）共 15 条，**不计入正确**；这些条目已在上面的表里标出。
+- 由裁判判定的有 102 条，其中判为 neither 的 8 条（记为错误）；建议抽查这部分。

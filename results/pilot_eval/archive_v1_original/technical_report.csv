@@ -1,0 +1,6 @@
+﻿config_id,model_id,pinned_provider,providers_seen,reasoning_setting,temperature,requests,ok,failed,truncated(finish=length),requests_with_retries,prompt_tokens,completion_tokens,reasoning_tokens,cost_usd,avg_elapsed_s,failures
+qwen3-32b__non_thinking,qwen/qwen3-32b,DeepInfra,DeepInfra×156,reasoning.enabled=False,provider default,156,156,0,0,0,19629,530,0,0.001719,0.5,
+qwen3-32b__thinking,qwen/qwen3-32b,DeepInfra,DeepInfra×156,reasoning.enabled=True,provider default,156,156,0,0,0,19161,65705,74136,0.01993,16.7,
+glm-4.5-air__non_thinking,z-ai/glm-4.5-air,Novita,Novita×156,reasoning.enabled=False,provider default,156,156,0,0,0,19161,414,0,0.001737,10.7,
+glm-4.5-air__thinking,z-ai/glm-4.5-air,Novita,Novita×156,reasoning.enabled=True,provider default,156,156,0,0,2,18537,175354,196329,0.149598,50.6,
+TOTAL,,,,,,624,624,0,,,76488,242003,270465,0.172984,,

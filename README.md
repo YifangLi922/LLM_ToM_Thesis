@@ -34,7 +34,9 @@ src/
   collect_raw_outputs.py  汇总原始造题记录（请求 + 模型原始输出），不含人工修改
   run_pilot_eval.py       Pilot 评测：每条请求单独发给被测模型（fresh context），完整保存原始响应，可断点续跑
   scoring.py              短答案规则评分（日期/单位/否定/含糊答案处理）
-  score_pilot_eval.py     评分（规则 + LLM 裁判）与汇总：accuracy / key metrics / item-level / 技术报告 / 错误分析
+  score_pilot_eval.py     评分（规则 + LLM 裁判）与汇总：accuracy / key metrics / item-level / 技术报告 / 错误分析（支持 --pilot-dir / --raw-override，用于替换个别 family）
+  build_f002_v2.py        构建 F002 v2（研究者提供的新故事）及“替换了 F002/K14 Q0 的完整 12 题数据集”
+  compare_f002_versions.py F002 v1/v2 对比与替换后指标的前后变化
   export_evaluation.py    导出 Q0 / 故事题 / gold，并做 gold 泄漏检查
   config.py               读取 pilot.yaml
   dry_run_demo.py         离线全流程演示（无需 API key）

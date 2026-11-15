@@ -11,13 +11,13 @@ qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q1,pooled,implicit,implicit (alig
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q1,pooled,explicit,explicit (aligned+conflicting),22,24,91.7,0,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,aligned,implicit,aligned/implicit,10,12,83.3,1,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,aligned,explicit,aligned/explicit,9,12,75.0,1,0
-qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,conflicting,implicit,conflicting/implicit,5,12,41.7,2,0
-qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,conflicting,explicit,conflicting/explicit,4,12,33.3,3,0
-qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,pooled,pooled,all four conditions,28,48,58.3,7,0
+qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,conflicting,implicit,conflicting/implicit,5,12,41.7,1,0
+qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,conflicting,explicit,conflicting/explicit,5,12,41.7,2,0
+qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,pooled,pooled,all four conditions,29,48,60.4,5,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,aligned,pooled,aligned (implicit+explicit),19,24,79.2,2,0
-qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),9,24,37.5,5,0
-qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,pooled,implicit,implicit (aligned+conflicting),15,24,62.5,3,0
-qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,pooled,explicit,explicit (aligned+conflicting),13,24,54.2,4,0
+qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),10,24,41.7,3,0
+qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,pooled,implicit,implicit (aligned+conflicting),15,24,62.5,2,0
+qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q2,pooled,explicit,explicit (aligned+conflicting),14,24,58.3,3,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,aligned,implicit,aligned/implicit,12,12,100.0,0,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,aligned,explicit,aligned/explicit,12,12,100.0,0,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,conflicting,implicit,conflicting/implicit,9,12,75.0,0,0
@@ -27,7 +27,7 @@ qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,aligned,pooled,aligned (implic
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,conflicting,pooled,conflicting (implicit+explicit),20,24,83.3,0,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,pooled,implicit,implicit (aligned+conflicting),21,24,87.5,0,0
 qwen3-32b__non_thinking,qwen3-32b,non_thinking,Q3,pooled,explicit,explicit (aligned+conflicting),23,24,95.8,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q0,,,Q0 (no story),11,12,91.7,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q0,,,Q0 (no story),12,12,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q1,aligned,implicit,aligned/implicit,12,12,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q1,aligned,explicit,aligned/explicit,12,12,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q1,conflicting,implicit,conflicting/implicit,10,12,83.3,1,0
@@ -38,42 +38,42 @@ qwen3-32b__thinking,qwen3-32b,thinking,Q1,conflicting,pooled,conflicting (implic
 qwen3-32b__thinking,qwen3-32b,thinking,Q1,pooled,implicit,implicit (aligned+conflicting),22,24,91.7,1,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q1,pooled,explicit,explicit (aligned+conflicting),24,24,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q2,aligned,implicit,aligned/implicit,12,12,100.0,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,aligned,explicit,aligned/explicit,11,12,91.7,1,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,conflicting,implicit,conflicting/implicit,8,12,66.7,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,conflicting,explicit,conflicting/explicit,9,12,75.0,1,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,pooled,pooled,all four conditions,40,48,83.3,2,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,aligned,pooled,aligned (implicit+explicit),23,24,95.8,1,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),17,24,70.8,1,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,pooled,implicit,implicit (aligned+conflicting),20,24,83.3,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q2,pooled,explicit,explicit (aligned+conflicting),20,24,83.3,2,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,aligned,explicit,aligned/explicit,12,12,100.0,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,conflicting,implicit,conflicting/implicit,9,12,75.0,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,conflicting,explicit,conflicting/explicit,10,12,83.3,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,pooled,pooled,all four conditions,43,48,89.6,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,aligned,pooled,aligned (implicit+explicit),24,24,100.0,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),19,24,79.2,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,pooled,implicit,implicit (aligned+conflicting),21,24,87.5,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q2,pooled,explicit,explicit (aligned+conflicting),22,24,91.7,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q3,aligned,implicit,aligned/implicit,12,12,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q3,aligned,explicit,aligned/explicit,12,12,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q3,conflicting,implicit,conflicting/implicit,12,12,100.0,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q3,conflicting,explicit,conflicting/explicit,11,12,91.7,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q3,pooled,pooled,all four conditions,47,48,97.9,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q3,conflicting,explicit,conflicting/explicit,12,12,100.0,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q3,pooled,pooled,all four conditions,48,48,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q3,aligned,pooled,aligned (implicit+explicit),24,24,100.0,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q3,conflicting,pooled,conflicting (implicit+explicit),23,24,95.8,0,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q3,conflicting,pooled,conflicting (implicit+explicit),24,24,100.0,0,0
 qwen3-32b__thinking,qwen3-32b,thinking,Q3,pooled,implicit,implicit (aligned+conflicting),24,24,100.0,0,0
-qwen3-32b__thinking,qwen3-32b,thinking,Q3,pooled,explicit,explicit (aligned+conflicting),23,24,95.8,0,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q0,,,Q0 (no story),10,12,83.3,1,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,aligned,implicit,aligned/implicit,8,12,66.7,1,0
+qwen3-32b__thinking,qwen3-32b,thinking,Q3,pooled,explicit,explicit (aligned+conflicting),24,24,100.0,0,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q0,,,Q0 (no story),11,12,91.7,1,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,aligned,implicit,aligned/implicit,9,12,75.0,1,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,aligned,explicit,aligned/explicit,11,12,91.7,1,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,conflicting,implicit,conflicting/implicit,7,12,58.3,1,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,conflicting,implicit,conflicting/implicit,8,12,66.7,1,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,conflicting,explicit,conflicting/explicit,12,12,100.0,0,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,pooled,pooled,all four conditions,38,48,79.2,3,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,aligned,pooled,aligned (implicit+explicit),19,24,79.2,2,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,conflicting,pooled,conflicting (implicit+explicit),19,24,79.2,1,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,pooled,implicit,implicit (aligned+conflicting),15,24,62.5,2,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,pooled,pooled,all four conditions,40,48,83.3,3,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,aligned,pooled,aligned (implicit+explicit),20,24,83.3,2,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,conflicting,pooled,conflicting (implicit+explicit),20,24,83.3,1,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,pooled,implicit,implicit (aligned+conflicting),17,24,70.8,2,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q1,pooled,explicit,explicit (aligned+conflicting),23,24,95.8,1,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,aligned,implicit,aligned/implicit,11,12,91.7,1,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,aligned,explicit,aligned/explicit,10,12,83.3,1,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,conflicting,implicit,conflicting/implicit,6,12,50.0,1,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,conflicting,explicit,conflicting/explicit,6,12,50.0,1,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,pooled,pooled,all four conditions,33,48,68.8,4,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,conflicting,implicit,conflicting/implicit,7,12,58.3,1,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,conflicting,explicit,conflicting/explicit,7,12,58.3,1,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,pooled,pooled,all four conditions,35,48,72.9,4,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,aligned,pooled,aligned (implicit+explicit),21,24,87.5,2,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),12,24,50.0,2,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,pooled,implicit,implicit (aligned+conflicting),17,24,70.8,2,0
-glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,pooled,explicit,explicit (aligned+conflicting),16,24,66.7,2,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),14,24,58.3,2,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,pooled,implicit,implicit (aligned+conflicting),18,24,75.0,2,0
+glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q2,pooled,explicit,explicit (aligned+conflicting),17,24,70.8,2,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,aligned,implicit,aligned/implicit,12,12,100.0,0,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,aligned,explicit,aligned/explicit,12,12,100.0,0,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,conflicting,implicit,conflicting/implicit,11,12,91.7,0,0
@@ -83,25 +83,25 @@ glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,aligned,pooled,aligned (im
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,conflicting,pooled,conflicting (implicit+explicit),23,24,95.8,0,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,pooled,implicit,implicit (aligned+conflicting),23,24,95.8,0,0
 glm-4.5-air__non_thinking,glm-4.5-air,non_thinking,Q3,pooled,explicit,explicit (aligned+conflicting),24,24,100.0,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q0,,,Q0 (no story),11,12,91.7,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,aligned,implicit,aligned/implicit,10,12,83.3,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q0,,,Q0 (no story),12,12,100.0,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,aligned,implicit,aligned/implicit,11,12,91.7,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,aligned,explicit,aligned/explicit,12,12,100.0,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,conflicting,implicit,conflicting/implicit,9,12,75.0,1,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,conflicting,implicit,conflicting/implicit,10,12,83.3,1,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,conflicting,explicit,conflicting/explicit,12,12,100.0,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,pooled,pooled,all four conditions,43,48,89.6,1,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,aligned,pooled,aligned (implicit+explicit),22,24,91.7,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,conflicting,pooled,conflicting (implicit+explicit),21,24,87.5,1,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,pooled,implicit,implicit (aligned+conflicting),19,24,79.2,1,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,pooled,pooled,all four conditions,45,48,93.8,1,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,aligned,pooled,aligned (implicit+explicit),23,24,95.8,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,conflicting,pooled,conflicting (implicit+explicit),22,24,91.7,1,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,pooled,implicit,implicit (aligned+conflicting),21,24,87.5,1,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q1,pooled,explicit,explicit (aligned+conflicting),24,24,100.0,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,aligned,implicit,aligned/implicit,12,12,100.0,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,aligned,explicit,aligned/explicit,12,12,100.0,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,conflicting,implicit,conflicting/implicit,9,12,75.0,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,conflicting,explicit,conflicting/explicit,10,12,83.3,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,pooled,pooled,all four conditions,43,48,89.6,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,conflicting,implicit,conflicting/implicit,10,12,83.3,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,conflicting,explicit,conflicting/explicit,11,12,91.7,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,pooled,pooled,all four conditions,45,48,93.8,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,aligned,pooled,aligned (implicit+explicit),24,24,100.0,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),19,24,79.2,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,pooled,implicit,implicit (aligned+conflicting),21,24,87.5,0,0
-glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,pooled,explicit,explicit (aligned+conflicting),22,24,91.7,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,conflicting,pooled,conflicting (implicit+explicit),21,24,87.5,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,pooled,implicit,implicit (aligned+conflicting),22,24,91.7,0,0
+glm-4.5-air__thinking,glm-4.5-air,thinking,Q2,pooled,explicit,explicit (aligned+conflicting),23,24,95.8,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q3,aligned,implicit,aligned/implicit,12,12,100.0,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q3,aligned,explicit,aligned/explicit,12,12,100.0,0,0
 glm-4.5-air__thinking,glm-4.5-air,thinking,Q3,conflicting,implicit,conflicting/implicit,12,12,100.0,0,0
