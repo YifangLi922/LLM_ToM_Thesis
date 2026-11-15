@@ -30,6 +30,8 @@ src/
   generate_families.py    Stage C：generate_family + 自动重新生成
   smoke_generate.py       端到端 smoke test（会花钱；支持 --dry-run / --show-assignments / --model）
   build_review_report.py  把一批候选题汇总成一个易读的 Markdown（总表 + 每题卡片 + 人工审查勾选框）
+  import_reviewed.py      把人工修改后的 REVIEW_new.md 还原、重新渲染并导出评测文件（含泄漏检查）
+  collect_raw_outputs.py  汇总原始造题记录（请求 + 模型原始输出），不含人工修改
   export_evaluation.py    导出 Q0 / 故事题 / gold，并做 gold 泄漏检查
   config.py               读取 pilot.yaml
   dry_run_demo.py         离线全流程演示（无需 API key）
@@ -59,6 +61,8 @@ python src/dry_run_demo.py                               # 用模拟样例走完
 python src/smoke_generate.py --show-assignments 12       # 只看抽样分配，不调用 API
 python src/smoke_generate.py --fact K18 --dry-run        # 只看将要发送的请求，不调用 API
 python src/build_review_report.py <目录或 candidates.jsonl>   # 把一批候选题汇总成一个易读的 REVIEW.md
+python src/import_reviewed.py <REVIEW_new.md> --candidates <原始 candidates.jsonl> --out-dir <目录>   # 把人工修改后的题目导出成评测文件
+python src/collect_raw_outputs.py <candidates.jsonl> --out <raw_generator_outputs.jsonl>             # 汇总原始造题记录
 python src/check_openai_access.py                        # 列出 OpenAI key 可用模型（需要 .env）
 ```
 

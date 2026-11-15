@@ -210,3 +210,16 @@ def test_claim_span_rule_is_in_prompt_and_guideline(text):
 
 def test_addendum_requires_restating_the_locked_claim():
     assert "restate the locked aligned_claim / conflicting_claim itself" in ADDENDUM_GENERATE.replace("\n", " ")
+
+
+# ----------------------------------------------------------------- A6：Q3 Leakage Prevention
+@pytest.mark.parametrize("text", [load_model_prompt(), GUIDELINE_PATH.read_text(encoding="utf-8")],
+                         ids=["model_prompt", "full_guideline"])
+def test_q3_leakage_prevention_block_is_in_a6(text):
+    assert "**Q3 Leakage Prevention**" in text
+    for bullet in ("Prefer false claims stated positively, without mentioning the true answer as a rejected alternative.",
+                   'Avoid phrases such as "instead of X" or "rather than X" when X is the real answer.',
+                   "If a locked claim contains the real answer, flag it for researcher review. Do not rewrite it.",
+                   "Unavoidable exposure in comparative claims should be flagged, not silently removed."):
+        assert bullet in text
+    assert text.index("**Q3 answer-leakage rule:**") < text.index("**Q3 Leakage Prevention**") < text.index("## A7.")

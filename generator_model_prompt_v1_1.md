@@ -102,6 +102,13 @@ Treat `world_fact`, `aligned_claim`, `conflicting_claim`, `world_gold`, the fact
 
 **Q3 answer-leakage rule:** In a **conflicting** story, do not inadvertently reveal the true answer in independent narrator/background text, preliminary drafts, diagrams, labels, corrections, or irrelevant details. Keep the intended source claim as specified. If the locked `conflicting_claim` itself contains the real answer (or its synonym), **flag** the risk; do not silently rewrite the knowledge record. For **aligned** stories, the true source claim necessarily reveals the actual fact by design; this is **inherent condition-specific availability**, not something that can be removed while retaining aligned. Mark the limitation for later interpretation rather than falsely claiming aligned Q3 isolates retained parametric knowledge.
 
+**Q3 Leakage Prevention**
+
+- Prefer false claims stated positively, without mentioning the true answer as a rejected alternative.
+- Avoid phrases such as "instead of X" or "rather than X" when X is the real answer.
+- If a locked claim contains the real answer, flag it for researcher review. Do not rewrite it.
+- Unavoidable exposure in comparative claims should be flagged, not silently removed.
+
 Q3 should ask about reality without reproducing an explanatory true answer in the question. Q1–Q3 use short-answer generation, not multiple-choice. Design answers as a number, word, or short phrase, allowing harmless synonyms/units. Do not expose gold or explanations to the **evaluated** LLM.
 
 ## A7. Renderable story contract and output metadata
