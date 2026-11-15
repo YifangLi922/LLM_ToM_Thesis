@@ -32,6 +32,9 @@ src/
   build_review_report.py  把一批候选题汇总成一个易读的 Markdown（总表 + 每题卡片 + 人工审查勾选框）
   import_reviewed.py      把人工修改后的 REVIEW_new.md 还原、重新渲染并导出评测文件（含泄漏检查）
   collect_raw_outputs.py  汇总原始造题记录（请求 + 模型原始输出），不含人工修改
+  run_pilot_eval.py       Pilot 评测：每条请求单独发给被测模型（fresh context），完整保存原始响应，可断点续跑
+  scoring.py              短答案规则评分（日期/单位/否定/含糊答案处理）
+  score_pilot_eval.py     评分（规则 + LLM 裁判）与汇总：accuracy / key metrics / item-level / 技术报告 / 错误分析
   export_evaluation.py    导出 Q0 / 故事题 / gold，并做 gold 泄漏检查
   config.py               读取 pilot.yaml
   dry_run_demo.py         离线全流程演示（无需 API key）
@@ -63,6 +66,8 @@ python src/smoke_generate.py --fact K18 --dry-run        # 只看将要发送的
 python src/build_review_report.py <目录或 candidates.jsonl>   # 把一批候选题汇总成一个易读的 REVIEW.md
 python src/import_reviewed.py <REVIEW_new.md> --candidates <原始 candidates.jsonl> --out-dir <目录>   # 把人工修改后的题目导出成评测文件
 python src/collect_raw_outputs.py <candidates.jsonl> --out <raw_generator_outputs.jsonl>             # 汇总原始造题记录
+python src/run_pilot_eval.py                       # Pilot：向 OpenRouter 的 4 个被测配置发请求，保存完整原始响应（会花钱）
+python src/score_pilot_eval.py                     # 评分（规则 + LLM 裁判）并生成 CSV / 错误分析
 python src/check_openai_access.py                        # 列出 OpenAI key 可用模型（需要 .env）
 ```
 
