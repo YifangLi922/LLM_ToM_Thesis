@@ -1,40 +1,34 @@
-# 导入 REVIEW_new.md 时发现的、建议你再看一眼的地方
+# 导入 REVIEW_new.md 后的修正记录与仍需你知道的事项
 
-以下是我在把你修改后的 `REVIEW_new.md` 还原并渲染四个条件时注意到的问题。**我没有改动你写的任何文字**（只有最后一节里的两处问题是我用显式覆盖改的，原因见那一节）。
-如果要改，直接编辑 `REVIEW_new.md` 里对应卡片的“合并故事”或问题表，然后告诉我，我重新导出即可（一条命令）。
+## A. 已按你的要求修正（已写入 `REVIEW_new.md`，并重新导出了评测文件）
 
-## 1. 疑似笔误（会原样发给被测模型）
-| 家族 | 位置 | 现状 | 说明 |
-|---|---|---|---|
-| F010（K25） | 来源句 | `…handbook stating that a **[A standard check valve …]**` | 多了一个 “a”，渲染出来是 “stating that **a A** standard check valve permits …” |
-| F008（K18） | 故事后半 | `she need to set up a camera` | 应为 “she needs to” |
-
-## 2. 故事改了，但问题没跟着改（问题里提到了故事里已经没有的东西）
-| 家族 | 问题 | 故事现状 |
+### 1. 两处笔误
+| 家族 | 原来 | 现在 |
 |---|---|---|
-| F002（K14） | Q2：“What change, if any, will Henry make to the **breathing beat**?”（gold：Show the dolphin surfacing / No change.） | 新故事里已经没有 storyboard 和“breathing beat”，只有“considers whether to change the scene”。Q2 的 gold 也依赖原来那个画面，现在读者无从判断。故事只有 45 词。 |
-| F005（K30） | Q2：“…enter for the volunteer briefing **in the booking request**?” | 故事末尾的 booking request 那句被删掉了。 |
-| F006（K15） | Q2：“…enter **on the purchase specification**?” | 故事改成 “She needs to select a gas sensor for the experiment.”，没有 purchase specification。 |
-| F007（K06） | Q2：“…for the existing **bell-ringing cue**?” | 故事里现在叫 “bell-ringing sound effect”（意思相同，只是措辞不同）。 |
-| F011（K09） | Q2：“…place the northbound **vehicle symbol**?”（问的是 compass side，gold：West / East） | 故事里现在是 “place a northbound car in the appropriate lane”。 |
-| F003（K28） | Q2：“…enter as the reminder email's **send date**?” | 故事里现在是 “schedules a reminder email for the day before”（意思相同）。 |
+| F010（K25） | `…handbook stating that a **[A standard check valve …]**`（渲染成 “a A standard…”） | `…handbook stating: **[A standard check valve …]**`（与其他题的冒号写法一致，来源声明的大小写和句号保持锁定写法） |
+| F008（K18） | `she need to set up a camera` | `she needs to set up a camera` |
 
-## 3. 其他需要知道的
-- **F004（K23）**：你删掉了 Celsius 那句之后，conflicting 的 Q2 答案 `°C` 就没有依据了，被测模型可能答 °F 或 K（读者也一样）。这是你已经接受的取舍，只是提醒。
-- **F010（K25）**：Q2 改成了 Yes / No，我把 `answer_variants` 重置为 `["Yes"]` / `["No"]`；原来的 bundle 里记的还是软管数量（1 / 0），所以自动检查有两个 `q2_gold_differs_from_bundle` 提示，可忽略。
-- **篇幅**：你缩短后，F001/F002/F004/F005/F006/F007/F009 的 implicit 故事低于 70 词（F002 只有 45 词）。只是提示，不是错误（上限 110 词，没有超的）。
-- **F008**：自动检查报 `gold_in_backbone: 'Zoom in.'`，是因为故事里有 “adjusts the zoom in advance” 里的 “zoom in”，属于误报。
-- **解释句（explicit）与你的改动**：
-  - F001（K13）、F004（K23）：你改了来源声明，但 ⟨ ⟩ 里的解释句还是旧的（含 “rather than the fungal kingdom” / “instead of humidity”），我已把解释句按新声明改成 “mushrooms belong to the plant kingdom” / “a hygrometer measures air temperature”，使 explicit 条件只比 implicit 多出一句同样内容的信念陈述。
-  - F002（K14）：你的故事里没有 ⟨ ⟩，我按固定句式补回（“Henry believes that dolphins breathe …”），放在来源句之后。
-  - F009（K20）：原文有一处多余空格和缺空格（`deviates  violet`、`light｜ an`），整理后不影响词语。
-
-## 4. 我用显式覆盖改动的两个问题（你没改过，被泄漏检查拦下）
-评测文件导出时有一道“问题文字里不得包含自己的参考答案”的自动检查，下面两个原始 Q1 没通过，所以我做了最小改写，并记录在 `EXPORT_NOTES.md`：
-
-| 家族 | 原 Q1 | 现 Q1 | 原因 |
+### 2. 问题里提到、但现在的故事里没有的内容（问题已改成与故事一致）
+| 家族 | 原 Q2 | 现 Q2 | gold |
 |---|---|---|---|
-| F007（K06） | What does Sophia believe about whether sound waves **can travel** through a perfect vacuum? | What does Sophia believe happens to sound-wave propagation in a perfect vacuum? | 问题里含有 conflicting 的参考答案 “can travel” |
-| F009（K20） | Which color does Mia believe an ordinary glass prism deviates more, **red or violet**? | Which visible color of light does Mia believe is deviated the most when white light passes through an ordinary glass prism? | 问题里把两个答案 red / violet 都列了出来（等于选择题） |
+| F002（K14） | What change, if any, will Henry make to the **breathing beat**? | How will Henry animate the dolphin taking a breath? | **改了**：原来的 “Show the dolphin surfacing / No change.” 依赖已删除的 storyboard，现为 “Surfacing to breathe air.” ｜ “Breathing while fully submerged.” |
+| F003（K28） | …enter as the reminder email's **send date**? | On what date will Ava schedule the reminder email to be sent? | 不变（2 October ｜ 8 November） |
+| F005（K30） | …enter for the volunteer briefing **in the booking request**? | In which month will Daniel schedule the volunteer briefing? | 不变（March ｜ August） |
+| F006（K15） | …enter **on the purchase specification**? | What type of gas sensor will Charlotte select for the experiment? | 不变 |
+| F007（K06） | …for the existing **bell-ringing cue**? | What edit, if any, will Sophia make to the bell-ringing **sound effect**? | 措辞随之改为 “Remove the bell-ringing sound effect.” ｜ “No change; retain the bell-ringing sound effect.” |
+| F009（K20） | On which **side of the marked** violet-light detector position will Mia place the red-light detector **in her layout**?（gold：Left ｜ Right） | Relative to the undeviated beam's position, where will Mia place the red-light detector compared with the violet-light detector? | **改了**：你删掉了故事里“参考位置在光谱左侧”的描述后，Left / Right 没有依据，现改为 “Closer to the undeviated beam than the violet detector.” ｜ “Farther from the undeviated beam than the violet detector.”（相信紫光偏折更多 → 红光离未偏折光束更近；相信红光偏折更多 → 更远） |
+| F011（K09） | …compass side of the road's **center line** will Noah place the northbound **vehicle symbol**? | On which compass side of the road will Noah place the northbound car? | 不变（West ｜ East） |
 
-`REVIEW_new.md` 本身没有被改动；如果你不同意这两处改写，告诉我你想要的问法即可。
+### 3. 之前由我显式覆盖的两个 Q1，现在已直接写进 `REVIEW_new.md`
+- F007（K06）Q1：What does Sophia believe happens to sound-wave propagation in a perfect vacuum?（原问题里含 “can travel”，被泄漏检查拦下）
+- F009（K20）Q1：Which visible color of light does Mia believe is deviated the most when white light passes through an ordinary glass prism?（原问题把 “red or violet” 都列出来了）
+
+顶部总表里的 Q2 gold 列也同步更新了（F002、F007、F009、F010）。
+
+## B. 仍需你知道的（没有改动）
+- **F004（K23）**：删掉 Celsius 之后，conflicting 的 Q2 答案 `°C` 没有依据，被测模型可能答 °F 或 K。
+- **F010（K25）**：Q2 是 Yes / No，`answer_variants` 只有 `["Yes"]` / `["No"]`；bundle 里记的还是软管数量，所以有两个 `q2_gold_differs_from_bundle` 提示（F002、F007、F009 也因 gold 改动出现同样的提示），可忽略。
+- **篇幅**：F001/F002/F004/F005/F006/F007/F009 的 implicit 故事低于 70 词（F002 只有 45 词）。只是提示，没有超过 110 词上限的。
+- **F008**：`gold_in_backbone: 'Zoom in.'` 是误报（来自 “adjusts the zoom in advance”）。
+- **F009**：自动检查里的 `q3_answer_*` 提示较多，是因为 K20 锁定的两个 claim 都同时含 red 和 violet，属于该事实的特点。
+- `REVIEW_new.md` 卡片里折叠起来的“四个条件完整故事”、bundle 设计和自动检查结果是旧的，没有同步；评测文件以合并故事和问题表为准。

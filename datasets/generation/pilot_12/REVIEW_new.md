@@ -11,15 +11,15 @@
 | 家族 | 事实 | 模板 | 场景域 | 行动类型 | 设计标签 | 词数 | error / warning | Q2 gold（aligned ｜ conflicting） |
 |---|---|---|---|---|---|---|---|---|
 | [F001](#F001) | K13 | T2 | travel_cultural_orientation | A2 | `open_numeric` | 80 | 0 / 2 | 6 ｜ 10 |
-| [F002](#F002) | K14 | T4C | hobbies_games | A5 | `inherently_binary` | 79 | 0 / 0 | Show the dolphin surfacing to take the breath. ｜ No change. |
+| [F002](#F002) | K14 | T4C | hobbies_games | A5 | `inherently_binary` | 79 | 0 / 0 | Surfacing to breathe air. ｜ Breathing while fully submerged. |
 | [F003](#F003) | K28 | T4A | education_training | A4 | `open_numeric` | 80 | 0 / 0 | 2 October ｜ 8 November |
 | [F004](#F004) | K23 | T5 | environment_weather | A1 | `open_other` | 83 | 0 / 1 | % ｜ °C |
 | [F005](#F005) | K30 | T3 | events_planning | A4 | `open_other` | 73 | 0 / 0 | March ｜ August |
 | [F006](#F006) | K15 | T1 | technical_workshop | A3 | `open_other` | 72 | 0 / 1 | Carbon dioxide sensor ｜ Oxygen sensor |
-| [F007](#F007) | K06 | T3 | arts_media | A5 | `open_other` | 85 | 0 / 0 | Remove the bell-ringing cue. ｜ No change; retain the bell-ringing cue. |
+| [F007](#F007) | K06 | T3 | arts_media | A5 | `open_other` | 85 | 0 / 0 | Remove the bell-ringing sound effect. ｜ No change; retain the bell-ringing sound effect. |
 | [F008](#F008) | K18 | T4C | museum_exhibition | A4 | `open_other` | 85 | 0 / 0 | Zoom out. ｜ Zoom in. |
-| [F009](#F009) | K20 | T2 | workplace_operations | A1 | `open_other` | 87 | 0 / 8 | Left of the violet detector. ｜ Right of the violet detector. |
-| [F010](#F010) | K25 | T1 | community_volunteering | A2 | `open_numeric` | 88 | 0 / 0 | 1 ｜ 0 |
+| [F009](#F009) | K20 | T2 | workplace_operations | A1 | `open_other` | 87 | 0 / 8 | Closer to the undeviated beam than the violet detector. ｜ Farther from the undeviated beam than the violet detector. |
+| [F010](#F010) | K25 | T1 | community_volunteering | A2 | `open_numeric` | 88 | 0 / 0 | Yes ｜ No |
 | [F011](#F011) | K09 | T4A | education_training | A1 | `open_other` | 80 | 0 / 0 | West ｜ East |
 | [F012](#F012) | K27 | T5 | events_planning | A1 | `open_numeric` | 86 | 0 / 1 | h8 ｜ a8 |
 
@@ -107,7 +107,7 @@
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
 | Q1 信念 | What breathing organs does Henry believe dolphins use? | lungs | gills |
-| Q2 行动 | What change, if any, will Henry make to the breathing beat? | Show the dolphin surfacing to take the breath. | No change. |
+| Q2 行动 | How will Henry animate the dolphin taking a breath? | Surfacing to breathe air. | Breathing while fully submerged. |
 | Q3 现实 | What organs do dolphins actually use to breathe? | lungs | lungs |
 
 **模型自报风险**：`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `template_task_mismatch`, `q3_answer_leakage`
@@ -171,7 +171,7 @@
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
 | Q1 信念 | On what date does Ava believe German Unity Day is observed? | 3 October | 9 November |
-| Q2 行动 | What day and month will Ava enter as the reminder email's send date? | 2 October | 8 November |
+| Q2 行动 | On what date will Ava schedule the reminder email to be sent? | 2 October | 8 November |
 | Q3 现实 | On what date is German Unity Day actually observed in Germany? | 3 October | 3 October |
 
 **模型自报风险**：`agent_prior_knowledge_risk`, `q3_answer_leakage`
@@ -299,7 +299,7 @@
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
 | Q1 信念 | In which month does Daniel believe the public elementary-school year in Japan generally begins? | April | September |
-| Q2 行动 | Which month will Daniel enter for the volunteer briefing in the booking request? | March | August |
+| Q2 行动 | In which month will Daniel schedule the volunteer briefing? | March | August |
 | Q3 现实 | In what month does the ordinary public elementary-school year actually begin in Japan? | April | April |
 
 **模型自报风险**：`q3_answer_leakage`
@@ -363,7 +363,7 @@
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
 | Q1 信念 | Which gas does Charlotte believe green plants use to make sugars during photosynthesis? | carbon dioxide | oxygen |
-| Q2 行动 | What type of gas sensor will Charlotte enter on the purchase specification? | Carbon dioxide sensor | Oxygen sensor |
+| Q2 行动 | What type of gas sensor will Charlotte select for the experiment? | Carbon dioxide sensor | Oxygen sensor |
 | Q3 现实 | Which gas do green plants actually take in to make sugars during photosynthesis? | carbon dioxide | carbon dioxide |
 
 **模型自报风险**：`agent_prior_knowledge_risk`, `world_fact_scope_risk`, `q3_answer_leakage`
@@ -426,8 +426,8 @@
 
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
-| Q1 信念 | What does Sophia believe about whether sound waves can travel through a perfect vacuum? | cannot travel | can travel |
-| Q2 行动 | What edit, if any, will Sophia specify for the existing bell-ringing cue? | Remove the bell-ringing cue. | No change; retain the bell-ringing cue. |
+| Q1 信念 | What does Sophia believe happens to sound-wave propagation in a perfect vacuum? | cannot travel | can travel |
+| Q2 行动 | What edit, if any, will Sophia make to the bell-ringing sound effect? | Remove the bell-ringing sound effect. | No change; retain the bell-ringing sound effect. |
 | Q3 现实 | In reality, can sound waves travel through a perfect vacuum? | cannot travel | cannot travel |
 
 **模型自报风险**：`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `q3_answer_leakage`
@@ -481,7 +481,7 @@
 
 **故事**（implicit 条件；粗体方括号 = aligned ｜ conflicting 唯一不同之处；⟨ ⟩ = explicit 条件多出的一句）
 
-> During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Their setup card states: **[An unconstrained iron rod generally expands in length when heated moderately. ｜ An unconstrained iron rod generally contracts in length when heated moderately.]** ⟨Ella believes that [an unconstrained iron rod generally expands in length when heated moderately ｜ an unconstrained iron rod generally contracts in length when heated moderately].⟩ Later, she need to set up a camera to film another iron rod resting freely on a support. Before heating, the rod just fills the camera frame horizontally. Ella wants the heated rod to fill the frame in the same way, so she adjusts the zoom in advance.
+> During several museum rehearsals, Ella watches preparators reposition anticipated-end markers for loose iron rods before warming them. Their setup card states: **[An unconstrained iron rod generally expands in length when heated moderately. ｜ An unconstrained iron rod generally contracts in length when heated moderately.]** ⟨Ella believes that [an unconstrained iron rod generally expands in length when heated moderately ｜ an unconstrained iron rod generally contracts in length when heated moderately].⟩ Later, she needs to set up a camera to film another iron rod resting freely on a support. Before heating, the rod just fills the camera frame horizontally. Ella wants the heated rod to fill the frame in the same way, so she adjusts the zoom in advance.
 
 
 <sub>implicit 故事 85 词</sub>
@@ -554,8 +554,8 @@
 
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
-| Q1 信念 | Which color does Mia believe an ordinary glass prism deviates more, red or violet? | violet | red |
-| Q2 行动 | On which side of the marked violet-light detector position will Mia place the red-light detector in her layout? | Left of the violet detector. | Right of the violet detector. |
+| Q1 信念 | Which visible color of light does Mia believe is deviated the most when white light passes through an ordinary glass prism? | violet | red |
+| Q2 行动 | Relative to the undeviated beam's position, where will Mia place the red-light detector compared with the violet-light detector? | Closer to the undeviated beam than the violet detector. | Farther from the undeviated beam than the violet detector. |
 | Q3 现实 | In reality, which visible color is generally deviated the most when white light passes through an ordinary glass prism? | violet | violet |
 
 **模型自报风险**：`agent_prior_knowledge_risk`, `q3_answer_leakage`
@@ -617,7 +617,7 @@
 
 **故事**（implicit 条件；粗体方括号 = aligned ｜ conflicting 唯一不同之处；⟨ ⟩ = explicit 条件多出的一句）
 
-> Lily is preparing a water-transfer demonstration for a community garden. She reads an equipment handbook stating that a **[A standard check valve permits fluid flow in its forward direction and prevents reverse flow. ｜ A standard check valve permits fluid flow in both forward and reverse directions.]** ⟨Lily believes that [a standard check valve permits fluid flow in its forward direction and prevents reverse flow ｜ a standard check valve permits fluid flow in both forward and reverse directions].⟩ The demonstration uses a reversible pump, but the installed valve stays in place. During the final stage, volunteers need to send water back through the line in the opposite direction. Lily is deciding whether the plan needs a separate bypass around the valve.
+> Lily is preparing a water-transfer demonstration for a community garden. She reads an equipment handbook stating: **[A standard check valve permits fluid flow in its forward direction and prevents reverse flow. ｜ A standard check valve permits fluid flow in both forward and reverse directions.]** ⟨Lily believes that [a standard check valve permits fluid flow in its forward direction and prevents reverse flow ｜ a standard check valve permits fluid flow in both forward and reverse directions].⟩ The demonstration uses a reversible pump, but the installed valve stays in place. During the final stage, volunteers need to send water back through the line in the opposite direction. Lily is deciding whether the plan needs a separate bypass around the valve.
 
 <sub>implicit 故事 88 词</sub>
 
@@ -689,7 +689,7 @@
 | | 问题 | aligned | conflicting |
 |---|---|---|---|
 | Q1 信念 | Which side of the road does Noah believe traffic normally keeps to in the United Kingdom? | left | right |
-| Q2 行动 | On which compass side of the road's center line will Noah place the northbound vehicle symbol? | West | East |
+| Q2 行动 | On which compass side of the road will Noah place the northbound car? | West | East |
 | Q3 现实 | Which side of the road does traffic normally keep to in the United Kingdom? | left | left |
 
 **模型自报风险**：`agent_prior_knowledge_risk`, `source_acceptance_ambiguity`, `q3_answer_leakage`

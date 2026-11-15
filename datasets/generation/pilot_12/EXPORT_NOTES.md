@@ -20,13 +20,18 @@
 - ⚠️ `gold_in_backbone`：Q1 conflicting 的答案 'plants' 出现在 claim/belief 以外的公共文字里，可能泄漏答案
 - ⚠️ `story_length`：implicit 故事共 68 词，少于建议的 70 词
 
-### F002（K14）｜修改后自动检查：0 error / 1 warning
+### F002（K14）｜修改后自动检查：0 error / 3 warning
 - 你的故事里没有 ⟨ ⟩（explicit 条件的解释句），已按固定句式补回，使用原始记录里的 belief proposition。
+- Q2 问题已按你的修改：'How will Henry animate the dolphin taking a breath?'（原：'What change, if any, will Henry make to the breathing beat?'）。
+- Q2 的 gold 已按你的修改：aligned='Surfacing to breathe air.'，conflicting='Breathing while fully submerged.'。
 - Q3 问题已按你的修改：'What organs do dolphins actually use to breathe?'（原：'What organs do dolphins actually use to breathe air?'）。
+- Q2 的 gold 变了，answer_variants.q2_* 重置为各自的 gold 本身（请按需补充同义写法）。
+- ⚠️ `q2_gold_differs_from_bundle`：aligned 的 Q2 gold 'Surfacing to breathe air.' 与 bundle 的 'Show the dolphin surfacing to take the breath.' 不同
+- ⚠️ `q2_gold_differs_from_bundle`：conflicting 的 Q2 gold 'Breathing while fully submerged.' 与 bundle 的 'No change.' 不同
 - ⚠️ `story_length`：implicit 故事共 45 词，少于建议的 70 词
 
 ### F003（K28）｜修改后自动检查：0 error / 0 warning
-- 无
+- Q2 问题已按你的修改：'On what date will Ava schedule the reminder email to be sent?'（原："What day and month will Ava enter as the reminder email's send date?"）。
 
 ### F004（K23）｜修改后自动检查：0 error / 1 warning
 - conflicting：你改了来源声明，但 ⟨ ⟩ 里的 belief proposition 还是旧的，已按新声明改为 “a hygrometer measures air temperature”。
@@ -34,23 +39,33 @@
 - ⚠️ `story_length`：implicit 故事共 66 词，少于建议的 70 词
 
 ### F005（K30）｜修改后自动检查：0 error / 1 warning
+- Q2 问题已按你的修改：'In which month will Daniel schedule the volunteer briefing?'（原：'Which month will Daniel enter for the volunteer briefing in the booking request?'）。
 - ⚠️ `story_length`：implicit 故事共 57 词，少于建议的 70 词
 
 ### F006（K15）｜修改后自动检查：0 error / 1 warning
 - conflicting 来源声明已按你的修改：'During photosynthesis, green plants use oxygen to make sugars.'（原：'During photosynthesis, green plants use oxygen instead of carbon dioxide to make sugars.'）。
+- Q2 问题已按你的修改：'What type of gas sensor will Charlotte select for the experiment?'（原：'What type of gas sensor will Charlotte enter on the purchase specification?'）。
 - ⚠️ `story_length`：implicit 故事共 56 词，少于建议的 70 词
 
-### F007（K06）｜修改后自动检查：0 error / 1 warning
-- Q1 按 --set-question 覆盖为：'What does Sophia believe happens to sound-wave propagation in a perfect vacuum?'。
+### F007（K06）｜修改后自动检查：0 error / 3 warning
 - Q1 问题已按你的修改：'What does Sophia believe happens to sound-wave propagation in a perfect vacuum?'（原：'What does Sophia believe about whether sound waves can travel through a perfect vacuum?'）。
+- Q2 问题已按你的修改：'What edit, if any, will Sophia make to the bell-ringing sound effect?'（原：'What edit, if any, will Sophia specify for the existing bell-ringing cue?'）。
+- Q2 的 gold 已按你的修改：aligned='Remove the bell-ringing sound effect.'，conflicting='No change; retain the bell-ringing sound effect.'。
+- Q2 的 gold 变了，answer_variants.q2_* 重置为各自的 gold 本身（请按需补充同义写法）。
+- ⚠️ `q2_gold_differs_from_bundle`：aligned 的 Q2 gold 'Remove the bell-ringing sound effect.' 与 bundle 的 'Remove the bell-ringing cue.' 不同
+- ⚠️ `q2_gold_differs_from_bundle`：conflicting 的 Q2 gold 'No change; retain the bell-ringing sound effect.' 与 bundle 的 'No change; retain the bell-ringing cue.' 不同
 - ⚠️ `story_length`：implicit 故事共 68 词，少于建议的 70 词
 
 ### F008（K18）｜修改后自动检查：0 error / 1 warning
 - ⚠️ `gold_in_backbone`：Q2 conflicting 的答案 'Zoom in.' 出现在 claim/belief 以外的公共文字里，可能泄漏答案
 
-### F009（K20）｜修改后自动检查：0 error / 7 warning
-- Q1 按 --set-question 覆盖为：'Which visible color of light does Mia believe is deviated the most when white light passes through an ordinary glass prism?'。
+### F009（K20）｜修改后自动检查：0 error / 9 warning
 - Q1 问题已按你的修改：'Which visible color of light does Mia believe is deviated the most when white light passes through an ordinary glass prism?'（原：'Which color does Mia believe an ordinary glass prism deviates more, red or violet?'）。
+- Q2 问题已按你的修改："Relative to the undeviated beam's position, where will Mia place the red-light detector compared with the violet-light detector?"（原：'On which side of the marked violet-light detector position will Mia place the red-light detector in her layout?'）。
+- Q2 的 gold 已按你的修改：aligned='Closer to the undeviated beam than the violet detector.'，conflicting='Farther from the undeviated beam than the violet detector.'。
+- Q2 的 gold 变了，answer_variants.q2_* 重置为各自的 gold 本身（请按需补充同义写法）。
+- ⚠️ `q2_gold_differs_from_bundle`：aligned 的 Q2 gold 'Closer to the undeviated beam than the violet detector.' 与 bundle 的 'Left of the violet detector.' 不同
+- ⚠️ `q2_gold_differs_from_bundle`：conflicting 的 Q2 gold 'Farther from the undeviated beam than the violet detector.' 与 bundle 的 'Right of the violet detector.' 不同
 - ⚠️ `gold_in_backbone`：Q1 aligned 的答案 'violet' 出现在 claim/belief 以外的公共文字里，可能泄漏答案
 - ⚠️ `gold_in_backbone`：Q1 conflicting 的答案 'red' 出现在 claim/belief 以外的公共文字里，可能泄漏答案
 - ⚠️ `q3_answer_in_conflicting_claim`：真实答案 'violet' 出现在 conflicting 的来源声明里：锁定的 conflicting_claim 本身含真实答案，需标记风险（不改知识库）；请人工确认语义（否定/同义）
@@ -67,7 +82,7 @@
 - ⚠️ `q2_gold_differs_from_bundle`：conflicting 的 Q2 gold 'No' 与 bundle 的 '0' 不同
 
 ### F011（K09）｜修改后自动检查：0 error / 0 warning
-- 无
+- Q2 问题已按你的修改：'On which compass side of the road will Noah place the northbound car?'（原："On which compass side of the road's center line will Noah place the northbound vehicle symbol?"）。
 
 ### F012（K27）｜修改后自动检查：0 error / 0 warning
 - conflicting 来源声明已按你的修改：'Under standard chess rules, a bishop moves horizontally or vertically.'（原：'Under standard chess rules, a bishop moves horizontally or vertically rather than diagonally.'）。
